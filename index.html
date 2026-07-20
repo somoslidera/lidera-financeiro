@@ -872,6 +872,7 @@ function renderDash(){
       <div class="h-delta">
         ${recAnt!==null&&recAnt>0.01?`<span class="delta ${recR>=recAnt?'up':'down'}">${recR>=recAnt?'↑':'↓'} receita ${Math.abs((recR-recAnt)/recAnt*100).toFixed(0)}% vs período anterior</span>`:''}
         ${atrasRn+atrasDn>0?`<span class="delta down">⚠ ${atrasRn+atrasDn} lançamento(s) em atraso</span>`:`<span class="delta up">✓ nada em atraso no período</span>`}
+        ${(()=>{if(!periodo.fim)return'';const apos=S.lancs.filter(l=>l.status==='P'&&l.tipo==='R'&&l.venc>periodo.fim).reduce((a,l)=>a+l.valor,0);return apos>0?`<span class="delta flat">📅 +${fmtK(apos)} a receber após este período</span>`:''})()}
       </div>
     </div>
     <div class="hero-grid">
