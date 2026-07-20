@@ -329,6 +329,9 @@ body.dark .bn-item.on{color:var(--gold-soft)}
   <button class="nav-item" data-v="lanc">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1.2" fill="currentColor"/><circle cx="4" cy="12" r="1.2" fill="currentColor"/><circle cx="4" cy="18" r="1.2" fill="currentColor"/></svg>
     <span>Lançamentos</span></button>
+  <button class="nav-item" data-v="fixas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>
+    <span>Despesas fixas</span></button>
   <button class="nav-item" data-v="vendas">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 2-1.6L22 7H6"/><circle cx="10" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/></svg>
     <span>Vendas</span></button>
@@ -440,6 +443,25 @@ body.dark .bn-item.on{color:var(--gold-soft)}
       <div class="totbar" id="lancTotais"></div>
     </section>
 
+    <!-- ══════════ DESPESAS FIXAS ══════════ -->
+    <section class="view" id="view-fixas">
+      <div class="card panel">
+        <h3>Despesas fixas
+          <span class="fat-nav">
+            <button class="icon-btn" onclick="mudaFixMes(-1)" aria-label="Mês anterior">‹</button>
+            <b id="fixMesLabel"></b>
+            <button class="icon-btn" onclick="mudaFixMes(1)" aria-label="Próximo mês">›</button>
+          </span>
+        </h3>
+        <div class="totbar" id="fixResumo" style="margin:0 0 14px"></div>
+        <div style="display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="abrirFixaModal()">+ Nova despesa fixa</button>
+          <button class="btn btn-primary btn-sm" onclick="lancarTodasFixas()">Lançar todas no mês</button>
+        </div>
+      </div>
+      <div class="card" style="overflow:hidden"><div class="list" id="listFixas"></div></div>
+    </section>
+
     <!-- ══════════ VENDAS ══════════ -->
     <section class="view" id="view-vendas">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
@@ -504,6 +526,9 @@ body.dark .bn-item.on{color:var(--gold-soft)}
   <button class="bn-item" data-v="lanc">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1.2" fill="currentColor"/><circle cx="4" cy="12" r="1.2" fill="currentColor"/><circle cx="4" cy="18" r="1.2" fill="currentColor"/></svg>
     Extrato</button>
+  <button class="bn-item" data-v="fixas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>
+    Fixas</button>
   <button class="bn-item" data-v="vendas">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 2-1.6L22 7H6"/><circle cx="10" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/></svg>
     Vendas</button>
@@ -630,6 +655,49 @@ body.dark .bn-item.on{color:var(--gold-soft)}
     <div class="modal-foot">
       <button class="btn btn-ghost" data-close="ovCad">Cancelar</button>
       <button class="btn btn-primary" id="cadSalvar">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL DESPESA FIXA ══════════ -->
+<div class="overlay" id="ovFixa">
+  <div class="modal" style="max-width:440px">
+    <div class="sheet-handle"></div>
+    <div class="modal-head"><h3 id="fxTitle">Nova despesa fixa</h3><button class="icon-btn" data-close="ovFixa">✕</button></div>
+    <div class="modal-body">
+      <div class="fld"><label>Descrição</label><input id="fxDesc" placeholder="Ex.: Pró-labore, Internet…"></div>
+      <div class="frow">
+        <div class="fld"><label>Valor mensal (R$)</label><input id="fxValor" type="number" inputmode="decimal" step="0.01" min="0"></div>
+        <div class="fld"><label>Dia do vencimento</label><input id="fxDia" type="number" inputmode="numeric" min="1" max="28" value="10"></div>
+      </div>
+      <div class="frow">
+        <div class="fld"><label>Categoria</label><select id="fxCat"></select></div>
+        <div class="fld"><label>Centro de custo</label><select id="fxCC"></select></div>
+      </div>
+      <div class="frow">
+        <div class="fld"><label>Meio de pagamento</label><select id="fxMeio"></select></div>
+        <div class="fld" id="fxAtivaWrap" style="display:none"><label>Situação</label>
+          <select id="fxAtiva"><option value="1">Ativa</option><option value="0">Inativa (pausada)</option></select></div>
+      </div>
+      <div class="resumo-box">Alterações aqui valem para os <b>próximos lançamentos</b>. Para mudar meses já lançados, edite o lançamento no Extrato e escolha "esta e as próximas".</div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" data-close="ovFixa">Cancelar</button>
+      <button class="btn btn-primary" id="fxSalvar">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL ESCOPO (só esta / próximas) ══════════ -->
+<div class="overlay" id="ovEscopo">
+  <div class="modal" style="max-width:390px">
+    <div class="sheet-handle"></div>
+    <div class="modal-head"><h3>Despesa fixa</h3><button class="icon-btn" data-close="ovEscopo">✕</button></div>
+    <div class="modal-body">
+      <div class="resumo-box" id="escMsg"></div>
+      <button class="btn btn-primary" id="escUma" style="width:100%">Só esta</button>
+      <button class="btn btn-gold" id="escTodas" style="width:100%">Esta e as próximas</button>
+      <button class="btn btn-ghost" data-close="ovEscopo" style="width:100%">Cancelar</button>
     </div>
   </div>
 </div>
@@ -776,7 +844,7 @@ function periodoAnterior(){
 const labelPeriodo=()=>$('#periodSel').selectedOptions[0].textContent.replace('…','');
 
 /* ═══════════════ NAVEGAÇÃO ═══════════════ */
-const TITULOS={dash:'Dashboard',lanc:'Lançamentos',vendas:'Vendas',cartoes:'Cartões de crédito',cad:'Cadastros'};
+const TITULOS={dash:'Dashboard',lanc:'Lançamentos',fixas:'Despesas fixas',vendas:'Vendas',cartoes:'Cartões de crédito',cad:'Cadastros'};
 let viewAtual='dash';
 function goView(v){
   viewAtual=v;
@@ -1103,6 +1171,19 @@ window.toggleStatus=id=>{
   save();render();toast(l.status==='R'?'Marcado como realizado':'Voltou para previsto');
 };
 window.delLanc=id=>{
+  const l=S.lancs.find(x=>x.id===id);
+  if(l?.fixaId&&S.fixas?.some(f=>f.id===l.fixaId)){
+    escolherEscopo('Este lançamento vem de uma despesa fixa. Excluir só este mês, ou este e todos os próximos (a fixa também é pausada)?',
+      ()=>{S.lancs=S.lancs.filter(x=>x.id!==id);save();render();toast('Lançamento excluído')},
+      ()=>{
+        const fid=l.fixaId, v=l.venc;
+        S.lancs=S.lancs.filter(x=>x.id!==id&&!(x.fixaId===fid&&x.venc>v&&x.status==='P'));
+        const fx=S.fixas.find(f=>f.id===fid);
+        if(fx)fx.ativa=false;
+        save();render();toast('Excluído deste mês em diante · fixa pausada');
+      });
+    return;
+  }
   confirmar('Excluir este lançamento? Essa ação não pode ser desfeita.',()=>{
     S.lancs=S.lancs.filter(x=>x.id!==id);save();render();toast('Lançamento excluído');
   });
@@ -1154,8 +1235,25 @@ $('#lSalvar').onclick=()=>{
     prodId:$('#lProd').value||null,meioId:$('#lMeio').value||null,status:$('#lStatus').value};
   if(lancEditId){
     const l=S.lancs.find(x=>x.id===lancEditId);
-    Object.assign(l,base,{valor,venc,dataReal:base.status==='R'?(l.dataReal||hoje()):null});
-    toast('Lançamento atualizado');
+    const fim=msg=>{save();fechar('ovLanc');render();toast(msg)};
+    const aplicarEsta=()=>{
+      Object.assign(l,base,{valor,venc,dataReal:base.status==='R'?(l.dataReal||hoje()):null});
+      fim('Lançamento atualizado');
+    };
+    if(l.fixaId&&S.fixas?.some(f=>f.id===l.fixaId)){
+      escolherEscopo('Este lançamento vem de uma despesa fixa. Onde aplicar a alteração?',aplicarEsta,()=>{
+        const fid=l.fixaId, vAnt=l.venc;
+        Object.assign(l,base,{valor,venc,dataReal:base.status==='R'?(l.dataReal||hoje()):null});
+        S.lancs.filter(x=>x.fixaId===fid&&x.id!==l.id&&x.venc>vAnt&&x.status==='P')
+          .forEach(x=>Object.assign(x,{desc,valor,catId:base.catId,ccId:base.ccId,meioId:base.meioId}));
+        const fx=S.fixas.find(f=>f.id===fid);
+        if(fx)Object.assign(fx,{desc,valor,catId:base.catId,ccId:base.ccId,meioId:base.meioId});
+        fim('Aplicado nesta e nas próximas');
+      });
+      return;
+    }
+    aplicarEsta();
+    return;
   }else{
     const rep=$('#lRep').value, n=Math.max(1,parseInt($('#lRepN').value)||1);
     if(rep==='unica'){
@@ -1745,10 +1843,142 @@ $('#filePlan').onchange=e=>{
   }
 };
 
+/* ═══════════════ DESPESAS FIXAS ═══════════════ */
+const catByNome=n=>S.categorias.find(c=>norm(c.nome)===norm(n))?.id||null;
+if(!S.fixas){
+  const mk=(desc,valor,dia,cat,meioNome)=>({id:uid(),desc,valor,dia,
+    catId:catByNome(cat),ccId:S.centros.find(c=>norm(c.nome)===norm('Administrativo'))?.id||null,
+    meioId:S.meios.find(m=>norm(m.nome)===norm(meioNome))?.id||null,ativa:true});
+  S.fixas=[
+    mk('Retirada · Charles',10000,6,'Retiradas dos Sócios','Pix'),
+    mk('Retirada · Guilherme',10000,6,'Retiradas dos Sócios','Pix'),
+    mk('DAS Simples Nacional',2140,20,'Impostos e Taxas Federais','Boleto'),
+    mk('Rafaella Peixoto · consultoria (cartão dela)',1706.90,14,'Educação e Consultorias','Pix'),
+    mk('José Antonio Montauri · equipe',1350,10,'Equipe e Prestadores (PF)','Pix'),
+    mk('Internet · Netcomet (link 1)',67.40,14,'Internet e Telefonia','Boleto'),
+    mk('Internet · Netcomet (link 2)',111.21,14,'Internet e Telefonia','Boleto'),
+  ];
+  save();
+}
+let fixMes=mesKey(hoje());
+const jaLancada=fid=>S.lancs.some(l=>l.fixaId===fid&&mesKey(l.venc)===fixMes);
+const icoRepeat='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>';
+function renderFixas(){
+  const ativas=S.fixas.filter(f=>f.ativa);
+  const total=ativas.reduce((a,f)=>a+f.valor,0);
+  const nLanc=ativas.filter(f=>jaLancada(f.id)).length;
+  $('#fixMesLabel').textContent=mesLabelLong(fixMes);
+  $('#fixResumo').innerHTML=`
+    <div class="tot">Total mensal (ativas)<b class="neg">${fmt(total)}</b></div>
+    <div class="tot">Fixas ativas<b>${ativas.length}</b></div>
+    <div class="tot">Lançadas no mês<b class="${nLanc===ativas.length&&ativas.length?'pos':'amb'}">${nLanc}/${ativas.length}</b></div>`;
+  if(!S.fixas.length){
+    $('#listFixas').innerHTML=`<div class="empty"><b>Nenhuma despesa fixa</b>Cadastre custos recorrentes e lance-os a cada mês com um clique.<br><button class="btn btn-primary btn-sm" onclick="abrirFixaModal()">+ Nova despesa fixa</button></div>`;return;
+  }
+  $('#listFixas').innerHTML=[...S.fixas].sort((a,b)=>(b.ativa?1:0)-(a.ativa?1:0)||a.dia-b.dia).map(f=>{
+    const cat=S.categorias.find(c=>c.id===f.catId), meio=S.meios.find(m=>m.id===f.meioId);
+    const lanc=f.ativa&&jaLancada(f.id);
+    return `<div class="lrow" style="${f.ativa?'':'opacity:.45'}">
+      <div class="l-ico ${lanc?'rec':'des'}">${icoRepeat}</div>
+      <div class="l-info">
+        <div class="l-desc">${esc(f.desc)}</div>
+        <div class="l-sub">todo dia ${f.dia}
+          ${cat?`<span class="sep">·</span><span class="sdot" style="background:${cat.cor}"></span>${esc(cat.nome)}`:''}
+          ${meio?`<span class="sep">·</span>${esc(meio.nome)}`:''}
+          ${f.ativa?'':'<span class="sep">·</span><b>INATIVA</b>'}</div>
+      </div>
+      <div class="l-right">
+        <div class="l-val neg">− ${fmt(f.valor)}</div>
+        ${f.ativa?(lanc
+          ?`<span class="pill real">✓ Lançada · ${mesLabel(fixMes)}</span>`
+          :`<button class="pill prev" onclick="lancarFixa('${f.id}')" title="Lançar nos lançamentos deste mês">⚡ Lançar · ${mesLabel(fixMes)}</button>`):''}
+      </div>
+      <div class="l-act">
+        <button class="icon-btn" onclick="abrirFixaModal('${f.id}')" title="Editar cadastro">${icoEdit}</button>
+        <button class="icon-btn del" onclick="delFixa('${f.id}')" title="Excluir do cadastro">${icoTrash}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+window.mudaFixMes=n=>{
+  const[y,m]=fixMes.split('-').map(Number);
+  const d=new Date(y,m-1+n,1);
+  fixMes=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+  renderFixas();
+};
+function vencFixa(f){
+  const[y,m]=fixMes.split('-').map(Number);
+  const last=new Date(y,m,0).getDate();
+  return `${y}-${String(m).padStart(2,'0')}-${String(Math.min(f.dia,last)).padStart(2,'0')}`;
+}
+function pushFixa(f){
+  S.lancs.push({id:uid(),tipo:'D',desc:f.desc,valor:f.valor,venc:vencFixa(f),status:'P',dataReal:null,
+    catId:f.catId,ccId:f.ccId,prodId:null,meioId:f.meioId,cartaoId:null,parcela:null,fixaId:f.id});
+}
+window.lancarFixa=id=>{
+  const f=S.fixas.find(x=>x.id===id);if(!f)return;
+  if(jaLancada(id)){toast('Já lançada neste mês');return}
+  pushFixa(f);save();render();
+  toast(`Lançada em ${mesLabelLong(fixMes)}`);
+};
+window.lancarTodasFixas=()=>{
+  const pend=S.fixas.filter(f=>f.ativa&&!jaLancada(f.id));
+  if(!pend.length){toast('Todas as fixas já estão lançadas neste mês');return}
+  pend.forEach(pushFixa);save();render();
+  toast(`${pend.length} despesa(s) lançada(s) em ${mesLabelLong(fixMes)}`);
+};
+let fxEditId=null;
+window.abrirFixaModal=function(editId){
+  fxEditId=editId||null;
+  const f=editId?S.fixas.find(x=>x.id===editId):null;
+  $('#fxTitle').textContent=f?'Editar despesa fixa':'Nova despesa fixa';
+  fillSel($('#fxCat'),catsTipo('D'),{vazio:'—'});
+  fillSel($('#fxCC'),S.centros,{vazio:'—'});
+  fillSel($('#fxMeio'),S.meios,{vazio:'—'});
+  $('#fxDesc').value=f?f.desc:'';
+  $('#fxValor').value=f?f.valor:'';
+  $('#fxDia').value=f?f.dia:10;
+  $('#fxCat').value=f?.catId||'';
+  $('#fxCC').value=f?.ccId||'';
+  $('#fxMeio').value=f?.meioId||'';
+  $('#fxAtivaWrap').style.display=f?'':'none';
+  $('#fxAtiva').value=f&&!f.ativa?'0':'1';
+  abrir('ovFixa');
+  if(window.innerWidth>820)$('#fxDesc').focus();
+};
+$('#fxSalvar').onclick=()=>{
+  const desc=$('#fxDesc').value.trim(), valor=parseFloat($('#fxValor').value);
+  const dia=Math.min(28,Math.max(1,parseInt($('#fxDia').value)||10));
+  if(!desc||!valor||valor<=0){toast('Preencha descrição e valor');return}
+  const dados={desc,valor:Math.round(valor*100)/100,dia,catId:$('#fxCat').value||null,
+    ccId:$('#fxCC').value||null,meioId:$('#fxMeio').value||null};
+  if(fxEditId){
+    Object.assign(S.fixas.find(x=>x.id===fxEditId),dados,{ativa:$('#fxAtiva').value==='1'});
+    toast('Despesa fixa atualizada');
+  }else{
+    S.fixas.push({id:uid(),...dados,ativa:true});
+    toast('Despesa fixa cadastrada');
+  }
+  save();fechar('ovFixa');render();
+};
+window.delFixa=id=>{
+  confirmar('Excluir esta despesa fixa do cadastro? Os lançamentos já gerados no Extrato permanecem.',()=>{
+    S.fixas=S.fixas.filter(x=>x.id!==id);
+    save();render();toast('Despesa fixa excluída do cadastro');
+  });
+};
+let escUmaCb=null,escTodasCb=null;
+function escolherEscopo(msg,uma,todas){
+  $('#escMsg').textContent=msg;escUmaCb=uma;escTodasCb=todas;abrir('ovEscopo');
+}
+$('#escUma').onclick=()=>{fechar('ovEscopo');escUmaCb&&escUmaCb();escUmaCb=escTodasCb=null};
+$('#escTodas').onclick=()=>{fechar('ovEscopo');escTodasCb&&escTodasCb();escUmaCb=escTodasCb=null};
+
 /* ═══════════════ RENDER GERAL ═══════════════ */
 function render(){
   if(viewAtual==='dash')renderDash();
   else if(viewAtual==='lanc')renderLanc();
+  else if(viewAtual==='fixas')renderFixas();
   else if(viewAtual==='vendas')renderVendas();
   else if(viewAtual==='cartoes')renderCartoes();
   else if(viewAtual==='cad')renderCad();
