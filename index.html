@@ -109,7 +109,7 @@ body.dark #sidebar{background:linear-gradient(180deg,#0A1224 0%,#070E1C 100%)}
 .h-tile .t-sub{font-size:10.5px;color:rgba(255,255,255,.5);margin-top:3px}
 
 /* ═══════════ KPI SECUNDÁRIOS ═══════════ */
-.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin-bottom:16px}
 @media(max-width:900px){.kpi-row{grid-template-columns:1fr 1fr}}
 .kpi{padding:16px 19px;position:relative;overflow:hidden}
 .kpi .k-lab{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
@@ -634,6 +634,22 @@ body.dark .bn-item.on{color:var(--gold-soft)}
   </div>
 </div>
 
+<!-- ══════════ MODAL AJUSTAR SALDO ══════════ -->
+<div class="overlay" id="ovSaldo">
+  <div class="modal" style="max-width:400px">
+    <div class="sheet-handle"></div>
+    <div class="modal-head"><h3>Ajustar saldo em conta</h3><button class="icon-btn" data-close="ovSaldo">✕</button></div>
+    <div class="modal-body">
+      <div class="fld"><label>Saldo atual da conta (R$)</label><input id="sldValor" type="number" inputmode="decimal" step="0.01"></div>
+      <div class="resumo-box">Informe o saldo que aparece <b>hoje</b> no app do banco. A partir daí, o saldo evolui automaticamente conforme você confirma recebimentos e pagamentos. Use este ajuste sempre que quiser conciliar com o banco (ex.: após transferências entre contas próprias ou aportes, que não entram como receita/despesa).</div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" data-close="ovSaldo">Cancelar</button>
+      <button class="btn btn-primary" id="sldSalvar">Salvar</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════ MODAL IMPORTAR PLANILHA ══════════ -->
 <div class="overlay" id="ovPlan">
   <div class="modal" style="max-width:560px">
@@ -850,7 +866,7 @@ function renderDash(){
   $('#dashHero').innerHTML=vazio?'':`
   <div class="hero">
     <div class="hero-main">
-      <div class="h-lab">Saldo projetado · <b>${esc(labelPeriodo())}</b></div>
+      <div class="h-lab">Resultado projetado · <b>${esc(labelPeriodo())}</b></div>
       <div class="h-val cup" data-v="${proj}">${fmt(proj)}</div>
       <div class="h-sub">recebido + a receber − pago − a pagar, se tudo se confirmar</div>
       <div class="h-delta">
@@ -867,7 +883,12 @@ function renderDash(){
   </div>`;
 
   /* KPIs secundários */
+  const anc=getAncora(), sc=saldoConta();
   $('#kpiRow').innerHTML=vazio?'':`
+    <div class="card kpi" onclick="ajustarSaldo()" style="cursor:pointer" title="Clique para ajustar/conciliar com o banco"><span class="k-bar" style="background:var(--navy)"></span>
+      <div><div class="k-lab">Saldo em conta</div>
+      <div class="k-sub">Nubank PJ · ajustado ${fmtData(anc.data)} · clique p/ corrigir</div></div>
+      <div class="k-val cup" data-v="${sc}" style="color:var(--navy)">${fmt(sc)}</div></div>
     <div class="card kpi"><span class="k-bar" style="background:${result>=0?'var(--green)':'var(--red)'}"></span>
       <div><div class="k-lab">Resultado realizado</div>
       <div class="k-sub">${deltaBadge(result,resultAnt)||'recebido − pago'}</div></div>
@@ -1509,6 +1530,28 @@ $('#fileImport').onchange=e=>{
     }catch(_){toast('Arquivo inválido')}
   };
   r.readAsText(f);e.target.value='';
+};
+
+/* ═══════════════ SALDO EM CONTA ═══════════════ */
+function getAncora(){
+  if(!S.cfg.saldoAncora){S.cfg.saldoAncora={valor:18724.02,data:'2026-07-20'};save()}
+  return S.cfg.saldoAncora;
+}
+function saldoConta(){
+  const a=getAncora();
+  return a.valor+S.lancs.filter(l=>l.status==='R'&&(l.dataReal||l.venc)>a.data)
+    .reduce((s,l)=>s+(l.tipo==='R'?l.valor:-l.valor),0);
+}
+window.ajustarSaldo=function(){
+  $('#sldValor').value=saldoConta().toFixed(2);
+  abrir('ovSaldo');
+  if(window.innerWidth>820)$('#sldValor').focus();
+};
+$('#sldSalvar').onclick=()=>{
+  const v=parseFloat($('#sldValor').value);
+  if(isNaN(v)){toast('Informe o saldo');return}
+  S.cfg.saldoAncora={valor:Math.round(v*100)/100,data:hoje()};
+  save();fechar('ovSaldo');render();toast('Saldo ajustado');
 };
 
 /* ═══════════════ IMPORTAÇÃO DE PLANILHA ═══════════════ */
