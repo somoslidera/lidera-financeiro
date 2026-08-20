@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#10203F">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="googlebot" content="noindex, nofollow">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -616,7 +618,7 @@ body.dark .bn-item.on{color:var(--gold-soft)}
           <div id="cadCartoes"></div>
         </div>
         <div class="card panel">
-          <h3>Acesso &amp; usuários <button class="add-mini" onclick="abrirNovoUsuario()">+ adicionar</button></h3>
+          <h3>Acesso</h3>
           <div id="cadUsuarios"></div>
         </div>
         <div class="card panel">
@@ -870,35 +872,17 @@ body.dark .bn-item.on{color:var(--gold-soft)}
     </div>
     <div class="lock-field">
       <label>Senha</label>
-      <input id="lockPin" type="password" autocomplete="current-password" placeholder="••••••••••">
+      <div style="position:relative">
+        <input id="lockPin" type="password" autocomplete="off" placeholder="••••••••••" style="padding-right:46px">
+        <button type="button" id="lockEye" title="Mostrar senha" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:10px;color:rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:17px;height:17px"><path d="M1.5 12S5 5.5 12 5.5 22.5 12 22.5 12 19 18.5 12 18.5 1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
     </div>
     <button id="lockBtn">Entrar</button>
     <div id="lockErr"></div>
     <button id="lockSkip">começar do zero, sem carregar os dados</button>
     <div class="lock-foot">Dados criptografados · acesso restrito</div>
-  </div>
-</div>
-
-<!-- ══════════ MODAL NOVO USUÁRIO ══════════ -->
-<div class="overlay" id="ovUser">
-  <div class="modal" style="max-width:460px">
-    <div class="sheet-handle"></div>
-    <div class="modal-head"><h3>Novo acesso</h3><button class="icon-btn" data-close="ovUser">✕</button></div>
-    <div class="modal-body">
-      <div class="fld"><label>Nome</label><input id="usNome" placeholder="Ex.: Charles Simon"></div>
-      <div class="fld"><label>E-mail</label><input id="usEmail" type="email" inputmode="email" placeholder="charles@somoslidera.com.br"></div>
-      <div class="fld"><label>Senha desta pessoa</label><input id="usSenha" type="password" placeholder="mínimo 8 caracteres"></div>
-      <div class="fld"><label>Sua senha (para autorizar)</label><input id="usMinha" type="password" autocomplete="current-password"></div>
-      <div class="resumo-box">O novo acesso vale <b>neste aparelho</b> imediatamente. Para valer em todos os dispositivos, copie o bloco gerado e envie para publicação.</div>
-      <div id="usSaida" style="display:none">
-        <div class="fld"><label>Bloco para publicação</label><textarea id="usBloco" rows="4" style="width:100%;background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:11px 13px;color:var(--ink);font-size:11px;font-family:ui-monospace,monospace" readonly></textarea></div>
-        <button class="btn btn-ghost btn-sm" onclick="copiarBloco()" style="width:100%">Copiar bloco</button>
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn btn-ghost" data-close="ovUser">Fechar</button>
-      <button class="btn btn-primary" id="usSalvar">Criar acesso</button>
-    </div>
   </div>
 </div>
 
@@ -2376,7 +2360,7 @@ function usuariosExtra(){try{return JSON.parse(localStorage.getItem(UEX_KEY))||[
 function todosUsuarios(){return [...((typeof AUTH_DATA!=='undefined'&&AUTH_DATA.users)||[]),...usuariosExtra()]}
 async function autenticar(email,senha){
   const u=todosUsuarios().find(x=>nEmail(x.email)===nEmail(email));
-  if(!u)throw new Error('user');
+  if(!u){const e=new Error('user');e.tipo='email';throw e}
   const kek=await deriveKEK(senha,u.salt);
   const raw=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(u.iv)},kek,b64d(u.wrapped));
   return {user:u,masterRaw:raw};
@@ -2401,50 +2385,18 @@ function renderSideUser(){
 }
 function renderUsuarios(){
   const el=$('#cadUsuarios');if(!el)return;
-  const s=sessao(), lista=todosUsuarios(), extras=usuariosExtra().map(u=>nEmail(u.email));
-  el.innerHTML=lista.map(u=>{
-    const eu=s&&nEmail(s.email)===nEmail(u.email);
-    const local=extras.includes(nEmail(u.email));
-    return `<div class="cad-item">
-      <span class="cdot" style="background:var(--grad-gold)"></span>
-      <span class="nm">${esc(u.nome||u.email)}${eu?' <b style="color:var(--gold);font-size:10.5px">· você</b>':''}
-        <span style="display:block;font-size:11px;color:var(--soft);font-weight:500">${esc(u.email)}</span></span>
-      <span class="meta">${local?'só neste aparelho':'publicado'}</span>
-    </div>`;
-  }).join('')+`<div style="font-size:11.5px;color:var(--soft);line-height:1.6;margin-top:12px;font-weight:500">
-    Acessos marcados como <b>“só neste aparelho”</b> ainda não foram publicados — envie o bloco gerado para valerem em todos os dispositivos.</div>
-    <button class="btn btn-ghost btn-sm" onclick="sairApp()" style="width:100%;margin-top:12px">Sair da conta</button>`;
-}
-window.abrirNovoUsuario=function(){
-  ['usNome','usEmail','usSenha','usMinha'].forEach(id=>$('#'+id).value='');
-  $('#usSaida').style.display='none';$('#usSalvar').style.display='';
-  abrir('ovUser');
-};
-window.copiarBloco=function(){
-  const t=$('#usBloco');t.select();
-  navigator.clipboard?.writeText(t.value).then(()=>toast('Bloco copiado')).catch(()=>toast('Selecione e copie manualmente'));
-};
-$('#usSalvar').onclick=async()=>{
-  const nome=$('#usNome').value.trim(), email=$('#usEmail').value.trim();
-  const senha=$('#usSenha').value, minha=$('#usMinha').value;
-  if(!nome||!email||!senha||!minha){toast('Preencha todos os campos');return}
-  if(senha.length<8){toast('A senha deve ter ao menos 8 caracteres');return}
-  if(todosUsuarios().some(u=>nEmail(u.email)===nEmail(email))){toast('Já existe acesso com esse e-mail');return}
   const s=sessao();
-  if(!s||s.email==='local'){toast('Entre com e-mail e senha para gerenciar acessos');return}
-  try{
-    const {masterRaw}=await autenticar(s.email,minha);
-    const salt=crypto.getRandomValues(new Uint8Array(16));
-    const iv=crypto.getRandomValues(new Uint8Array(12));
-    const kek=await deriveKEK(senha,b64e(salt));
-    const wrapped=await crypto.subtle.encrypt({name:'AES-GCM',iv},kek,masterRaw);
-    const novo={email,nome,salt:b64e(salt),iv:b64e(iv),wrapped:b64e(wrapped)};
-    const ex=usuariosExtra();ex.push(novo);localStorage.setItem(UEX_KEY,JSON.stringify(ex));
-    $('#usBloco').value=JSON.stringify(novo);
-    $('#usSaida').style.display='';$('#usSalvar').style.display='none';
-    render();toast('Acesso criado para '+nome.split(' ')[0]);
-  }catch(e){toast('Sua senha está incorreta')}
-};
+  if(!s){el.innerHTML='';return}
+  const base=s.nome||s.email||'?';
+  const ini=base.split(/[\s@.]+/).filter(Boolean).map(p=>p[0]).slice(0,2).join('').toUpperCase();
+  el.innerHTML=`<div style="display:flex;align-items:center;gap:13px;padding:6px 0 16px">
+      <div style="width:44px;height:44px;border-radius:14px;background:var(--grad-gold);color:#15234A;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex:0 0 auto;box-shadow:var(--sh-gold)">${esc(ini)}</div>
+      <div style="min-width:0"><div style="font-weight:700;font-size:14px;letter-spacing:-.02em">${esc(s.nome||'Usuário')}</div>
+      <div style="font-size:12px;color:var(--soft);font-weight:500">${esc(s.email||'')}</div></div>
+    </div>
+    <div style="font-size:11.5px;color:var(--soft);line-height:1.6;font-weight:500">Acesso pessoal e exclusivo. Os dados ficam criptografados e só são abertos com sua senha.</div>
+    <button class="btn btn-ghost btn-sm" onclick="sairApp()" style="width:100%;margin-top:14px">Sair da conta</button>`;
+}
 function initApp(){
   if(S.cfg?.tema==='dark')document.body.classList.add('dark');
   renderSideUser();
@@ -2474,10 +2426,16 @@ function initApp(){
       lock.style.display='none';
       initApp();
       toast('Bem-vindo, '+String(user.nome||'').split(' ')[0]);
-    }catch(e){
+    }catch(err){
       $('#lockBtn').textContent='Entrar';$('#lockBtn').disabled=false;
-      $('#lockErr').textContent='E-mail ou senha incorretos.';
+      $('#lockErr').textContent=err&&err.tipo==='email'
+        ?'E-mail não cadastrado neste app.'
+        :'Senha incorreta. Confira com o olho ao lado do campo.';
     }
+  };
+  $('#lockEye').onclick=()=>{
+    const i=$('#lockPin');i.type=i.type==='password'?'text':'password';
+    $('#lockEye').style.color=i.type==='text'?'#DCC79A':'rgba(255,255,255,.5)';
   };
   $('#lockBtn').onclick=entrar;
   ['#lockEmail','#lockPin'].forEach(sel=>$(sel).addEventListener('keydown',e=>{if(e.key==='Enter')entrar()}));
