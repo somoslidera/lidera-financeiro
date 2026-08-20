@@ -569,6 +569,7 @@ body.dark .bn-item.on{color:var(--gold-soft)}
           </span>
         </h3>
         <div class="totbar" id="fixResumo" style="margin:0 0 14px"></div>
+        <div class="resumo-box" style="margin-bottom:12px">⚡ <b>Projeção automática ligada:</b> os próximos 12 meses destas fixas já entram nos <b>valores a pagar</b> do dashboard e do fluxo de caixa — sem precisar lançar mês a mês. Use “Lançar todas no mês” só para o mês corrente.</div>
         <div style="display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap">
           <button class="btn btn-ghost btn-sm" onclick="abrirFixaModal()">+ Nova despesa fixa</button>
           <button class="btn btn-primary btn-sm" onclick="lancarTodasFixas()">Lançar todas no mês</button>
@@ -2333,6 +2334,44 @@ function pushFixa(f){
     cartaoId:f.cartaoId||null,faturaKey:f.cartaoId?mesKey(venc):undefined,
     parcela:null,fixaId:f.id});
 }
+/* ── projeção automática das fixas nos próximos meses ── */
+const PROJ_MESES=12;
+function sincronizarFixas(){
+  if(!S.fixas||!S.fixas.length)return 0;
+  const hj=new Date();let n=0;
+  for(let i=1;i<=PROJ_MESES;i++){
+    const d=new Date(hj.getFullYear(),hj.getMonth()+i,1);
+    const mk=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+    const ultimo=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
+    S.fixas.filter(f=>f.ativa).forEach(f=>{
+      if(S.lancs.some(l=>l.fixaId===f.id&&mesKey(l.venc)===mk))return;
+      const venc=mk+'-'+String(Math.min(f.dia,ultimo)).padStart(2,'0');
+      S.lancs.push({id:uid(),tipo:'D',desc:f.desc,valor:f.valor,venc,status:'P',dataReal:null,
+        catId:f.catId,ccId:f.ccId,prodId:null,meioId:f.meioId,
+        cartaoId:f.cartaoId||null,faturaKey:f.cartaoId?mk:undefined,
+        parcela:null,fixaId:f.id,auto:true});
+      n++;
+    });
+  }
+  if(n)save();
+  return n;
+}
+function limparProjecao(fixaId){
+  const hj=hoje();
+  const antes=S.lancs.length;
+  S.lancs=S.lancs.filter(l=>!(l.fixaId===fixaId&&l.auto&&l.status==='P'&&l.venc>hj));
+  return antes-S.lancs.length;
+}
+function atualizarProjecao(f){
+  const hj=hoje();
+  S.lancs.filter(l=>l.fixaId===f.id&&l.auto&&l.status==='P'&&l.venc>hj).forEach(l=>{
+    l.desc=f.desc;l.valor=f.valor;l.catId=f.catId;l.ccId=f.ccId;l.meioId=f.meioId;
+    l.cartaoId=f.cartaoId||null;
+    const mk=mesKey(l.venc), ultimo=new Date(+mk.slice(0,4),+mk.slice(5,7),0).getDate();
+    l.venc=mk+'-'+String(Math.min(f.dia,ultimo)).padStart(2,'0');
+    l.faturaKey=f.cartaoId?mk:undefined;
+  });
+}
 window.lancarFixa=id=>{
   const f=S.fixas.find(x=>x.id===id);if(!f)return;
   if(jaLancada(id)){toast('Já lançada neste mês');return}
@@ -2373,18 +2412,22 @@ $('#fxSalvar').onclick=()=>{
   const dados={desc,valor:Math.round(valor*100)/100,dia,catId:$('#fxCat').value||null,
     ccId:$('#fxCC').value||null,meioId:$('#fxMeio').value||null,cartaoId:$('#fxCartao').value||null};
   if(fxEditId){
-    Object.assign(S.fixas.find(x=>x.id===fxEditId),dados,{ativa:$('#fxAtiva').value==='1'});
-    toast('Despesa fixa atualizada');
+    const f=S.fixas.find(x=>x.id===fxEditId);
+    Object.assign(f,dados,{ativa:$('#fxAtiva').value==='1'});
+    if(f.ativa){atualizarProjecao(f);sincronizarFixas();toast('Despesa fixa atualizada · projeção ajustada')}
+    else{const r=limparProjecao(f.id);toast(`Fixa pausada · ${r} previsão(ões) removida(s)`)}
   }else{
     S.fixas.push({id:uid(),...dados,ativa:true});
-    toast('Despesa fixa cadastrada');
+    const n=sincronizarFixas();
+    toast(`Despesa fixa cadastrada · ${n} mês(es) projetado(s)`);
   }
   save();fechar('ovFixa');render();
 };
 window.delFixa=id=>{
-  confirmar('Excluir esta despesa fixa do cadastro? Os lançamentos já gerados no Extrato permanecem.',()=>{
+  confirmar('Excluir esta despesa fixa? As previsões futuras dela saem dos valores a pagar; lançamentos já realizados permanecem.',()=>{
+    const r=limparProjecao(id);
     S.fixas=S.fixas.filter(x=>x.id!==id);
-    save();render();toast('Despesa fixa excluída do cadastro');
+    save();render();toast(`Fixa excluída · ${r} previsão(ões) removida(s)`);
   });
 };
 let escUmaCb=null,escTodasCb=null;
@@ -2460,6 +2503,7 @@ function renderUsuarios(){
 function initApp(){
   if(S.cfg?.tema==='dark')document.body.classList.add('dark');
   renderSideUser();
+  if(S.lancs&&S.lancs.length)sincronizarFixas();
   calcPeriodo();render();
 }
 /* ═══════════════ BOOT ═══════════════ */
