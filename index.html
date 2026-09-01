@@ -616,6 +616,10 @@ body.dark .bn-item.on{color:var(--gold-soft)}
           <div id="cadUsuarios"></div>
         </div>
         <div class="card panel">
+          <h3>Integração Asaas <span class="hint" id="asaasHint"></span></h3>
+          <div id="asaasBox"></div>
+        </div>
+        <div class="card panel">
           <h3>Preferências</h3>
           <div style="display:flex;flex-direction:column;gap:9px">
             <button class="btn btn-ghost" onclick="importPlanilha()">📄 Importar lançamentos de planilha (Excel/CSV)</button>
@@ -812,6 +816,23 @@ body.dark .bn-item.on{color:var(--gold-soft)}
       <button class="btn btn-primary" id="escUma" style="width:100%">Só esta</button>
       <button class="btn btn-gold" id="escTodas" style="width:100%">Esta e as próximas</button>
       <button class="btn btn-ghost" data-close="ovEscopo" style="width:100%">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL ASAAS ══════════ -->
+<div class="overlay" id="ovAsaas">
+  <div class="modal" style="max-width:470px">
+    <div class="sheet-handle"></div>
+    <div class="modal-head"><h3>Conexão com o Asaas</h3><button class="icon-btn" data-close="ovAsaas">✕</button></div>
+    <div class="modal-body">
+      <div class="fld"><label>Endereço da ponte (n8n)</label><input id="asUrl" placeholder="https://…/webhook/financeiro-asaas"></div>
+      <div class="fld"><label>Chave de acesso da ponte</label><input id="asToken" type="password" placeholder="token"></div>
+      <div class="resumo-box">A chave do Asaas <b>nunca fica neste app</b> — ela mora no n8n. O app só conversa com a ponte, que devolve a lista de cobranças.</div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" data-close="ovAsaas">Cancelar</button>
+      <button class="btn btn-primary" id="asSalvar">Salvar</button>
     </div>
   </div>
 </div>
@@ -1667,6 +1688,7 @@ function renderCad(){
   $('#cadMeios').innerHTML=S.meios.map(m=>item('meios',m)).join('')||'<div class="empty">Nenhum meio.</div>';
   $('#cadCartoes').innerHTML=S.cartoes.map(c=>item('cartoes',c,`fecha ${c.fech} · vence ${c.venc}${c.limite?' · '+fmtK(c.limite):''}`)).join('')||'<div class="empty">Nenhum cartão.</div>';
   renderUsuarios();
+  renderAsaas();
 }
 let cadTipo=null,cadEditId=null;
 window.abrirCad=function(tipo,editId){
@@ -1775,6 +1797,92 @@ $('#sldSalvar').onclick=()=>{
   if(isNaN(v)){toast('Informe o saldo');return}
   S.cfg.saldoAncora={valor:Math.round(v*100)/100,data:hoje()};
   save();fechar('ovSaldo');render();toast('Saldo ajustado');
+};
+
+/* ═══════════════ INTEGRAÇÃO ASAAS ═══════════════ */
+const ASAAS_PAGOS=['RECEIVED','CONFIRMED','RECEIVED_IN_CASH'];
+const ASAAS_IGNORAR=['REFUNDED','REFUND_REQUESTED','REFUND_IN_PROGRESS','CHARGEBACK_REQUESTED','CHARGEBACK_DISPUTE','AWAITING_CHARGEBACK_REVERSAL','DELETED'];
+const chaveBoleto=(nome,venc,valor)=>norm(String(nome).split('·')[0]).replace(/[^a-z0-9]/g,'').slice(0,14)+'|'+venc+'|'+Number(valor).toFixed(2);
+function produtoDaCobranca(desc){
+  const d=norm(desc);
+  if(d.includes('gestao de pessoas')||d.includes('lidera -'))return {prod:'Programa Lidera (Gestão de Pessoas)',cc:'Lidera Consultoria'};
+  if(d.includes('self')||d.includes('segredos'))return {prod:'Segredos do Self-Service',cc:'Produtos Digitais'};
+  return {prod:'Programa Lucro e Liberdade',cc:'PLL — Lucro e Liberdade'};
+}
+function renderAsaas(){
+  const el=$('#asaasBox');if(!el)return;
+  const c=S.cfg.asaas||{};
+  $('#asaasHint').textContent=c.ultima?('última sincronização '+fmtData(c.ultima.slice(0,10))):'';
+  if(!c.url){
+    el.innerHTML=`<div style="font-size:12.5px;color:var(--muted);line-height:1.6;font-weight:500">
+      Conecte o app ao Asaas para que os boletos <b>gerados e pagos</b> entrem sozinhos, sem digitação.</div>
+      <button class="btn btn-primary btn-sm" onclick="abrirAsaas()" style="width:100%;margin-top:14px">Conectar Asaas</button>`;
+    return;
+  }
+  el.innerHTML=`<div style="font-size:12.5px;color:var(--muted);line-height:1.6;font-weight:500">
+      Ponte configurada. A sincronização atualiza os boletos pagos e traz os novos.
+      ${c.ultima?`<br><span style="color:var(--soft)">Última: ${fmtData(c.ultima.slice(0,10))} · ${esc(c.resumo||'')}</span>`:''}</div>
+    <button class="btn btn-primary btn-sm" id="btnSync" onclick="sincronizarAsaas()" style="width:100%;margin-top:14px">⟳ Sincronizar agora</button>
+    <button class="btn btn-ghost btn-sm" onclick="abrirAsaas()" style="width:100%;margin-top:8px">Ajustar conexão</button>`;
+}
+window.abrirAsaas=function(){
+  const c=S.cfg.asaas||{};
+  $('#asUrl').value=c.url||'https://lidera-asaas-ponte.vercel.app/api/asaas';
+  $('#asToken').value=c.token||'wwAOG_Uy5bQcHci3CMOhZl9so1bz_OzL';
+  abrir('ovAsaas');
+};
+$('#asSalvar').onclick=()=>{
+  const url=$('#asUrl').value.trim(), token=$('#asToken').value.trim();
+  if(!url){toast('Informe o endereço da ponte');return}
+  S.cfg.asaas=Object.assign({},S.cfg.asaas,{url,token});
+  save();fechar('ovAsaas');render();toast('Conexão salva');
+};
+window.sincronizarAsaas=async function(){
+  const c=S.cfg.asaas||{};
+  if(!c.url){toast('Configure a conexão primeiro');return}
+  const btn=$('#btnSync');if(btn){btn.textContent='Sincronizando…';btn.disabled=true}
+  try{
+    const sep=c.url.includes('?')?'&':'?';
+    const r=await fetch(c.url+sep+'t='+encodeURIComponent(c.token||''),{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const d=await r.json();
+    const lista=d.cobrancas||[];
+    if(!lista.length)throw new Error('vazio');
+    const catRec=S.categorias.find(x=>x.tipo==='R'&&norm(x.nome).includes('recebimentos'))?.id||null;
+    const mBol=S.meios.find(m=>norm(m.nome)==='boleto')?.id||null;
+    const idx={};
+    S.lancs.forEach(l=>{if(l.origemAsaas||l.asaasId)idx[chaveBoleto(l.desc,l.venc,l.valor)]=l});
+    let novos=0,atualizados=0,pagos=0,ignorados=0;
+    lista.forEach(p=>{
+      if(ASAAS_IGNORAR.includes(p.status)){ignorados++;return}
+      const pago=ASAAS_PAGOS.includes(p.status);
+      let l=S.lancs.find(x=>x.asaasId===p.id)||idx[chaveBoleto(p.cliente,p.vencimento,p.valor)];
+      if(l){
+        const eraP=l.status==='P';
+        l.asaasId=p.id;l.origemAsaas=true;l.valor=p.valor;l.venc=p.vencimento;
+        l.status=pago?'R':'P';l.dataReal=pago?(p.pagamento||p.vencimento):null;
+        if(p.parcela)l.parcela=p.parcela;
+        atualizados++;if(pago&&eraP)pagos++;
+      }else{
+        const m=produtoDaCobranca(p.descricao);
+        S.lancs.push({id:uid(),tipo:'R',desc:String(p.cliente||'Cliente Asaas').trim(),valor:p.valor,
+          venc:p.vencimento,status:pago?'R':'P',dataReal:pago?(p.pagamento||p.vencimento):null,
+          catId:catRec,ccId:S.centros.find(x=>norm(x.nome)===norm(m.cc))?.id||null,
+          prodId:S.produtos.find(x=>norm(x.nome)===norm(m.prod))?.id||null,
+          meioId:mBol,cartaoId:null,parcela:p.parcela||null,origemAsaas:true,asaasId:p.id});
+        novos++;if(pago)pagos++;
+      }
+    });
+    S.cfg.asaas.ultima=new Date().toISOString();
+    S.cfg.asaas.resumo=`${lista.length} cobranças · ${novos} novas · ${pagos} baixadas`;
+    save();render();
+    toast(`Asaas: ${novos} nova(s) · ${atualizados} atualizada(s) · ${pagos} baixa(s)`);
+  }catch(e){
+    if(btn){btn.textContent='⟳ Sincronizar agora';btn.disabled=false}
+    const msg=String(e&&e.message||e);
+    toast(msg.includes('vazio')?'A ponte respondeu sem cobranças — confira a chave do Asaas no n8n'
+      :'Não consegui falar com a ponte. Confira o endereço, a chave e se o fluxo está ativo no n8n.');
+  }
 };
 
 /* ═══════════════ IMPORTAÇÃO DE PLANILHA ═══════════════ */
