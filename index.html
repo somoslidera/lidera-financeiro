@@ -222,7 +222,7 @@ body.dark #sidebar{background:linear-gradient(178deg,#0C1424 0%,#090F1C 55%,#070
 .l-ico.des{background:var(--grad-red);color:#fff;box-shadow:0 4px 12px rgba(216,69,59,.24)}
 .l-info{flex:1;min-width:0}
 .l-desc{font-weight:700;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.02em}
-.l-sub{font-size:11.5px;color:var(--soft);margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-weight:500}
+.l-sub{font-size:11.5px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-weight:500}
 .l-sub .sdot{width:6px;height:6px;border-radius:50%;flex:0 0 auto}
 .l-sub .sep{color:var(--line)}
 .l-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:0 0 auto}
@@ -292,7 +292,7 @@ body.dark #sidebar{background:linear-gradient(178deg,#0C1424 0%,#090F1C 55%,#070
 .cad-item:last-child{border-bottom:none}
 .cad-item .cdot{width:11px;height:11px;border-radius:5px;flex:0 0 auto;box-shadow:var(--sh-xs)}
 .cad-item .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.015em}
-.cad-item .meta{font-size:11px;color:var(--soft);white-space:nowrap;font-weight:500}
+.cad-item .meta{font-size:11px;color:var(--muted);white-space:nowrap;font-weight:500}
 .add-mini{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--navy);padding:6px 12px;border-radius:10px;border:1px dashed var(--line);transition:.2s var(--ease)}
 .add-mini:hover{background:var(--blue-bg);border-color:var(--navy)}
 body.dark .add-mini{color:var(--gold-soft)}
@@ -335,7 +335,7 @@ body.dark .fat-total{background:linear-gradient(135deg,#8FB0EE,#5D85D6);-webkit-
 .leg .li .cdot{width:9px;height:9px;border-radius:4px;flex:0 0 auto}
 .leg .li .ln{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .leg .li .lv{margin-left:auto;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
-.leg .li .lp{color:var(--soft);font-size:11px;width:38px;text-align:right;flex:0 0 auto;font-weight:600}
+.leg .li .lp{color:var(--muted);font-size:11px;width:38px;text-align:right;flex:0 0 auto;font-weight:600}
 .donut-flex{display:flex;gap:26px;align-items:center}
 @media(max-width:640px){.donut-flex{flex-direction:column;gap:16px}.leg{width:100%}}
 .hbar{display:flex;flex-direction:column;gap:11px}
@@ -391,7 +391,21 @@ body.dark .bn-item.on{color:var(--gold-soft)}
   .kpi{padding:16px 18px}
   .kpi>div:first-of-type{min-width:0;flex:1}
   .panel{padding:18px 16px}
-  .lrow{padding:13px 44px 13px 14px;flex-wrap:wrap}
+  .lrow{padding:12px 42px 12px 12px;flex-wrap:nowrap;gap:10px}
+  .l-extra,.tag-fixa{display:none}
+  .l-info{min-width:0;flex:1 1 auto}
+  .l-sub{flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;display:block}
+  .l-sub .sdot{display:inline-block;vertical-align:middle;margin-right:3px}
+  .l-sub .sep{margin:0 2px}
+  .l-ico{width:36px;height:36px;border-radius:11px}
+  .l-desc{font-size:13px}
+  .l-right{flex:0 0 auto;max-width:128px;align-items:flex-end}
+  .l-val{font-size:13px}
+  .pill{padding:7px 11px;font-size:11px}
+  .icon-btn{width:40px;height:40px}
+  .pill{padding:8px 13px;font-size:11.5px}
+  .seg button{padding:11px 15px}
+  .add-mini{padding:10px 14px}
   .l-act{position:absolute;top:50%;transform:translateY(-50%);right:5px;opacity:.85;flex-direction:column;gap:4px}
   .fbar{overflow-x:auto;flex-wrap:nowrap;padding-bottom:5px;-webkit-overflow-scrolling:touch}
   .fbar .search{min-width:152px}
@@ -461,7 +475,7 @@ body.dark .bn-item.on{color:var(--gold-soft)}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
     </button>
     <div class="period-wrap">
-      <select id="periodSel">
+      <select id="periodSel" aria-label="Período exibido no painel" title="Período exibido">
         <option value="mes">Este mês</option>
         <option value="mesAnt">Mês passado</option>
         <option value="mesProx">Próximo mês</option>
@@ -562,7 +576,7 @@ body.dark .bn-item.on{color:var(--gold-soft)}
           </span>
         </h3>
         <div class="totbar" id="fixResumo" style="margin:0 0 14px"></div>
-        <div class="resumo-box" style="margin-bottom:12px">📌 Estas despesas entram como <b>previsão</b> nos valores a pagar e no fluxo de caixa dos próximos 12 meses — <b>sem virar lançamento</b>. Quando uma for paga, confirme no Extrato (ou aqui em “Lançar”) para virar despesa realizada.</div>
+        <div class="resumo-box" style="margin-bottom:12px">📌 Estas despesas entram como <b>previsão</b> nos valores a pagar e no fluxo de caixa dos próximos 12 meses, <b>sem virar lançamento</b>. Quando uma for paga, confirme no Extrato (ou aqui em “Lançar”) para virar despesa realizada.</div>
         <div style="display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap">
           <button class="btn btn-ghost btn-sm" onclick="abrirFixaModal()">+ Nova despesa fixa</button>
           <button class="btn btn-primary btn-sm" onclick="lancarTodasFixas()">Lançar todas no mês</button>
@@ -963,7 +977,11 @@ function calcPeriodo(){
   else if(m==='u90'){const a=new Date(h);a.setDate(a.getDate()-90);periodo={ini:iso(a),fim:hoje()}}
   else if(m==='p90'){const a=new Date(h);a.setDate(a.getDate()+90);periodo={ini:hoje(),fim:iso(a)}}
   else if(m==='tudo'){periodo={ini:null,fim:null}}
-  else{periodo={ini:$('#periodIni').value||null,fim:$('#periodFim').value||null}}
+  else{
+    let a=$('#periodIni').value||null, b=$('#periodFim').value||null;
+    if(a&&b&&a>b){const t=a;a=b;b=t;$('#periodIni').value=a;$('#periodFim').value=b;toast('Datas invertidas, ajustei a ordem')}
+    periodo={ini:a,fim:b};
+  }
 }
 const noPeriodo=l=>(!periodo.ini||l.venc>=periodo.ini)&&(!periodo.fim||l.venc<=periodo.fim);
 function periodoAnterior(){
@@ -1025,6 +1043,7 @@ const icoTrash='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 function deltaBadge(atual,anterior,invert){
   if(anterior===null||anterior===undefined)return'';
   if(Math.abs(anterior)<0.01)return'';
+  if(Math.abs(atual)<0.01)return'';   /* período sem movimento ainda: comparar seria enganoso */
   const p=(atual-anterior)/Math.abs(anterior)*100;
   if(!isFinite(p))return'';
   const bom=invert?p<0:p>=0;
@@ -1059,6 +1078,7 @@ function renderDash(){
   const result=recR-desR, proj=(recR+recP)-(desR+desP);
   const margem=recR>0?result/recR*100:null;
 
+  const futuro=!!(periodo.ini&&periodo.ini>hoje());
   const pa=periodoAnterior();
   const resultAnt=pa?somaPeriodo(pa,l=>l.tipo==='R'&&l.status==='R')-somaPeriodo(pa,l=>l.tipo==='D'&&l.status==='R'):null;
   const recAnt=pa?somaPeriodo(pa,l=>l.tipo==='R'&&l.status==='R'):null;
@@ -1071,15 +1091,15 @@ function renderDash(){
       <div class="h-val cup" data-v="${proj}">${fmt(proj)}</div>
       <div class="h-sub">recebido + a receber − pago − a pagar, se tudo se confirmar</div>
       <div class="h-delta">
-        ${recAnt!==null&&recAnt>0.01?`<span class="delta ${recR>=recAnt?'up':'down'}">${recR>=recAnt?'↑':'↓'} receita ${Math.abs((recR-recAnt)/recAnt*100).toFixed(0)}% vs período anterior</span>`:''}
+        ${recAnt!==null&&recAnt>0.01&&recR>0.01?`<span class="delta ${recR>=recAnt?'up':'down'}">${recR>=recAnt?'↑':'↓'} receita ${Math.abs((recR-recAnt)/recAnt*100).toFixed(0)}% vs período anterior</span>`:''}
         ${atrasRn+atrasDn>0?`<span class="delta down">⚠ ${atrasRn+atrasDn} lançamento(s) em atraso</span>`:`<span class="delta up">✓ nada em atraso no período</span>`}
         ${(()=>{if(!periodo.fim)return'';const apos=S.lancs.filter(l=>l.status==='P'&&l.tipo==='R'&&l.venc>periodo.fim).reduce((a,l)=>a+l.valor,0);return apos>0?`<span class="delta flat">📅 +${fmtK(apos)} a receber após este período</span>`:''})()}
       </div>
     </div>
     <div class="hero-grid">
-      <div class="h-tile"><div class="t-lab"><i style="background:#7FE0B4"></i>Recebido</div><div class="t-val cup" data-v="${recR}">${fmt(recR)}</div><div class="t-sub">receitas realizadas</div></div>
+      <div class="h-tile"><div class="t-lab"><i style="background:#7FE0B4"></i>Recebido</div><div class="t-val cup" data-v="${recR}">${fmt(recR)}</div><div class="t-sub">${futuro&&!recR?'período ainda não começou':'receitas realizadas'}</div></div>
       <div class="h-tile"><div class="t-lab"><i style="background:#E9D5A8"></i>A receber</div><div class="t-val cup" data-v="${recP}">${fmt(recP)}</div><div class="t-sub">${atrasRv>0?fmtK(atrasRv)+' em atraso':'entradas previstas'}</div></div>
-      <div class="h-tile"><div class="t-lab"><i style="background:#FFA69C"></i>Pago</div><div class="t-val cup" data-v="${desR}">${fmt(desR)}</div><div class="t-sub">despesas realizadas</div></div>
+      <div class="h-tile"><div class="t-lab"><i style="background:#FFA69C"></i>Pago</div><div class="t-val cup" data-v="${desR}">${fmt(desR)}</div><div class="t-sub">${futuro&&!desR?'período ainda não começou':'despesas realizadas'}</div></div>
       <div class="h-tile"><div class="t-lab"><i style="background:#F3C77B"></i>A pagar</div><div class="t-val cup" data-v="${desP}">${fmt(desP)}</div><div class="t-sub">${atrasDv>0?fmtK(atrasDv)+' em atraso':'saídas previstas'}</div></div>
     </div>
   </div>`;
@@ -1089,7 +1109,7 @@ function renderDash(){
   $('#kpiRow').innerHTML=vazio?'':`
     <div class="card kpi" onclick="ajustarSaldo()" style="cursor:pointer" title="Clique para ajustar/conciliar com o banco"><span class="k-bar" style="background:var(--navy)"></span>
       <div><div class="k-lab">Saldo em conta</div>
-      <div class="k-sub">Nubank PJ · ajustado ${fmtData(anc.data)}</div></div>
+      <div class="k-sub">Nubank PJ · ajustado ${fmtData(anc.data)} <span style="color:var(--navy);font-weight:700">· ajustar</span></div></div>
       <div class="k-val cup" data-v="${sc}" style="color:var(--navy)">${fmt(sc)}</div></div>
     <div class="card kpi"><span class="k-bar" style="background:${result>=0?'var(--green)':'var(--red)'}"></span>
       <div><div class="k-lab">Resultado realizado</div>
@@ -1098,7 +1118,7 @@ function renderDash(){
     <div class="card kpi"><span class="k-bar" style="background:var(--gold)"></span>
       <div><div class="k-lab">Margem realizada</div>
       <div class="k-sub">resultado ÷ receita recebida</div></div>
-      <div class="k-val" style="color:var(--gold)">${margem===null?'—':margem.toFixed(0)+'%'}</div></div>
+      <div class="k-val" style="color:var(--gold)">${margem===null?'<span style="font-size:14px;color:var(--soft);font-weight:600">sem receita ainda</span>':margem.toFixed(0)+'%'}</div></div>
     <div class="card kpi"><span class="k-bar" style="background:${atrasRv+atrasDv>0?'var(--red)':'var(--green)'}"></span>
       <div><div class="k-lab">Em atraso</div>
       <div class="k-sub">${atrasRn+atrasDn>0?`${atrasRn} a receber · ${atrasDn} a pagar`:'tudo em dia'}</div></div>
@@ -1224,7 +1244,7 @@ function renderAcum(){
     ${pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.4" fill="var(--card)" stroke="${vals[i]>=0?'var(--green)':'var(--red)'}" stroke-width="2"><title>${mesLabel(dados[i].k)} · acumulado ${fmt(vals[i])}</title></circle>`).join('')}
     ${dados.map((d,i)=>i%2===0?`<text x="${px(i)}" y="${H-8}" text-anchor="middle" font-size="9.5" fill="var(--soft)" font-family="Montserrat">${mesLabel(d.k)}</text>`:'').join('')}
   </svg>
-  <div style="font-size:12px;color:var(--muted);margin-top:8px">Terminando a janela em <b class="${fim>=0?'pos':'neg'}" style="font-family:'Montserrat',sans-serif">${fmt(fim)}</b> ${fim>=0?'de resultado acumulado.':'— atenção: projeção acumulada negativa.'}</div>`;
+  <div style="font-size:12px;color:var(--muted);margin-top:8px">Terminando a janela em <b class="${fim>=0?'pos':'neg'}" style="font-family:'Montserrat',sans-serif">${fmt(fim)}</b> ${fim>=0?'de resultado acumulado.':'Atenção: a projeção acumulada está negativa.'}</div>`;
 }
 function renderProxVenc(){
   const prox=S.lancs.concat(fixasVirtuais()).filter(l=>l.status==='P'&&l.venc>=hoje()).sort((a,b)=>a.venc.localeCompare(b.venc)).slice(0,7);
@@ -1287,11 +1307,11 @@ function renderLanc(){
     return `<div class="lrow">
       <div class="l-ico ${l.tipo==='R'?'rec':'des'}">${l.tipo==='R'?icoUp:icoDown}</div>
       <div class="l-info">
-        <div class="l-desc">${esc(l.desc)}${l.parcela?`<span class="parc-tag">${l.parcela}</span>`:''}${l.revisar?`<span class="parc-tag" style="background:var(--amber-bg);color:var(--amber);border-color:transparent">⚠ revisar</span>`:''}${l.virtual?`<span class="parc-tag" style="background:var(--blue-bg);color:var(--navy);border-color:transparent">previsão fixa</span>`:''}</div>
+        <div class="l-desc">${esc(l.desc)}${l.parcela?`<span class="parc-tag">${l.parcela}</span>`:''}${l.revisar?`<span class="parc-tag" style="background:var(--amber-bg);color:var(--amber);border-color:transparent">⚠ revisar</span>`:''}${l.virtual?`<span class="parc-tag tag-fixa" style="background:var(--blue-bg);color:var(--navy);border-color:transparent">previsão fixa</span>`:''}</div>
         <div class="l-sub">${fmtData(l.venc)}
           ${cat?`<span class="sep">·</span><span class="sdot" style="background:${cat.cor}"></span>${esc(cat.nome)}`:'<span class="sep">·</span><b style="color:var(--amber)">sem categoria</b>'}
-          ${cc?`<span class="sep">·</span>${esc(cc.nome)}`:''}
-          ${origem?`<span class="sep">·</span>${esc(origem)}`:''}</div>
+          ${cc?`<span class="l-extra"><span class="sep">·</span>${esc(cc.nome)}</span>`:''}
+          ${origem?`<span class="l-extra"><span class="sep">·</span>${esc(origem)}</span>`:''}</div>
       </div>
       <div class="l-right">
         <div class="l-val ${l.tipo==='R'?'pos':'neg'}">${l.tipo==='R'?'+':'−'} ${fmt(l.valor)}</div>
@@ -1346,9 +1366,9 @@ window.abrirLanc=function(edit){
   lancTipo=l?l.tipo:'R';
   $('#lancTitle').textContent=l?'Editar lançamento':'Novo lançamento';
   atualizaSegTipo();
-  fillSel($('#lCC'),S.centros,{vazio:'—'});
-  fillSel($('#lProd'),S.produtos,{vazio:'—'});
-  fillSel($('#lMeio'),S.meios,{vazio:'—'});
+  fillSel($('#lCC'),S.centros,{vazio:'Sem centro de custo'});
+  fillSel($('#lProd'),S.produtos,{vazio:'Sem produto'});
+  fillSel($('#lMeio'),S.meios,{vazio:'Não informado'});
   $('#lDesc').value=l?l.desc:'';
   $('#lValor').value=l?l.valor:'';
   $('#lData').value=l?l.venc:hoje();
@@ -1368,7 +1388,7 @@ function atualizaSegTipo(){
   atualizaCatSel();
 }
 function atualizaCatSel(sel){
-  fillSel($('#lCat'),catsTipo(lancTipo),{vazio:'—'});
+  fillSel($('#lCat'),catsTipo(lancTipo),{vazio:'Sem categoria'});
   if(sel)$('#lCat').value=sel;
 }
 $('#segRec').onclick=()=>{lancTipo='R';atualizaSegTipo()};
@@ -1457,10 +1477,10 @@ window.delVenda=id=>{
   });
 };
 window.abrirVenda=function(){
-  fillSel($('#vProd'),S.produtos,{vazio:'—'});
-  fillSel($('#vCat'),catsTipo('R'),{vazio:'—'});
-  fillSel($('#vCC'),S.centros,{vazio:'—'});
-  fillSel($('#vMeio'),S.meios,{vazio:'—'});
+  fillSel($('#vProd'),S.produtos,{vazio:'Sem produto'});
+  fillSel($('#vCat'),catsTipo('R'),{vazio:'Sem categoria'});
+  fillSel($('#vCC'),S.centros,{vazio:'Sem centro de custo'});
+  fillSel($('#vMeio'),S.meios,{vazio:'Não informado'});
   $('#vCliente').value='';$('#vValor').value='';$('#vEntrada').value='';
   $('#vData').value=hoje();$('#vParc').value=1;$('#vPrimeira').value=addMeses(hoje(),1);
   resumoVenda();abrir('ovVenda');
@@ -1471,7 +1491,7 @@ function resumoVenda(){
   const n=Math.max(1,parseInt($('#vParc').value)||1);
   const rest=Math.max(0,total-ent), vp=rest/n;
   $('#vResumo').innerHTML=total>0
-    ?`${ent>0?`Entrada de <b>${fmt(ent)}</b> na data da venda + `:''}<b>${n}×</b> de <b>${fmt(vp)}</b> a partir de ${$('#vPrimeira').value?fmtData($('#vPrimeira').value):'—'}.`
+    ?`${ent>0?`Entrada de <b>${fmt(ent)}</b> na data da venda + `:''}<b>${n}×</b> de <b>${fmt(vp)}</b> a partir de ${$('#vPrimeira').value?fmtData($('#vPrimeira').value):'(defina a data)'}.`
     :'Informe o valor para ver o resumo das parcelas.';
 }
 ['vValor','vEntrada','vParc','vPrimeira'].forEach(id=>$('#'+id).oninput=resumoVenda);
@@ -1507,13 +1527,17 @@ function renderCartoes(){
   }
   if(!ccSel||!S.cartoes.find(c=>c.id===ccSel))ccSel=S.cartoes[0].id;
   $('#ccRow').innerHTML=S.cartoes.map(c=>{
-    const aberto=S.lancs.filter(l=>l.cartaoId===c.id&&l.status==='P').reduce((a,l)=>a+l.valor,0);
+    /* comprometido = faturas ainda não pagas; assinaturas contam só até a próxima fatura */
+    const previstos=S.lancs.filter(l=>l.cartaoId===c.id&&l.status==='P').reduce((a,l)=>a+l.valor,0);
+    const prevFixas=fixasVirtuais(hoje(),addMeses(hoje(),1)).filter(v=>v.cartaoId===c.id).reduce((a,v)=>a+v.valor,0);
+    const aberto=previstos+prevFixas;
     const pct=c.limite?Math.min(100,aberto/c.limite*100):0;
+    const estourou=c.limite&&aberto>c.limite;
     return `<div class="cc-card ${c.id===ccSel?'sel':''}" onclick="selCartao('${c.id}')">
       <div class="cc-nm">${esc(c.nome)}</div>
       <div class="cc-bd">${esc(c.bandeira||'')}${c.bandeira?' · ':''}fecha ${c.fech} · vence ${c.venc}</div>
-      <div class="cc-lim">${c.limite?`Comprometido: ${fmt(aberto)} de ${fmt(c.limite)}`:`Em aberto: ${fmt(aberto)}`}</div>
-      ${c.limite?`<div class="cc-bar"><i style="width:${pct}%"></i></div>`:''}
+      <div class="cc-lim">${c.limite?`Comprometido: ${fmt(aberto)} de ${fmt(c.limite)}${estourou?' ⚠':''}`:`Em aberto: ${fmt(aberto)}`}</div>
+      ${c.limite?`<div class="cc-bar"><i style="width:${pct}%;background:${estourou?'linear-gradient(135deg,#F0736A,#C0362D)':'var(--grad-gold)'}"></i></div>`:''}
     </div>`;
   }).join('');
   renderFatura();
@@ -1521,13 +1545,15 @@ function renderCartoes(){
 window.selCartao=id=>{ccSel=id;renderCartoes()};
 function renderFatura(){
   const c=S.cartoes.find(x=>x.id===ccSel);if(!c)return;
-  const itens=S.lancs.filter(l=>l.cartaoId===ccSel&&l.faturaKey===fatMes);
+  const itens=S.lancs.filter(l=>l.cartaoId===ccSel&&l.faturaKey===fatMes)
+    .concat(fixasVirtuais().filter(v=>v.cartaoId===ccSel&&v.faturaKey===fatMes));
   const total=itens.reduce((a,l)=>a+l.valor,0);
   const pagos=itens.filter(l=>l.status==='R').length;
+  const temVirtual=itens.some(l=>l.virtual);
   const [fy,fm]=fatMes.split('-').map(Number);
   const fechData=new Date(fy,fm-1,c.fech);
   let badge,txt;
-  if(itens.length&&pagos===itens.length){badge='paga';txt='Paga'}
+  if(itens.length&&pagos===itens.length&&!temVirtual){badge='paga';txt='Paga'}
   else if(new Date()>fechData){badge='fechada';txt='Fechada'}
   else{badge='aberta';txt='Aberta'}
   $('#fatPanel').innerHTML=`
@@ -1555,15 +1581,17 @@ function renderFatura(){
         return `<div class="lrow">
           <div class="l-ico des">${icoDown}</div>
           <div class="l-info">
-            <div class="l-desc">${esc(l.desc)}${l.parcela?`<span class="parc-tag">${l.parcela}</span>`:''}</div>
-            <div class="l-sub">${l.dataCompra?'compra em '+fmtData(l.dataCompra):''}
+            <div class="l-desc">${esc(l.desc)}${l.parcela?`<span class="parc-tag">${l.parcela}</span>`:''}${l.virtual?`<span class="parc-tag" style="background:var(--blue-bg);color:var(--navy);border-color:transparent">assinatura fixa</span>`:''}</div>
+            <div class="l-sub">${l.virtual?'todo mês · vence '+fmtData(l.venc):(l.dataCompra?'compra em '+fmtData(l.dataCompra):'')}
               ${cat?`<span class="sep">·</span><span class="sdot" style="background:${cat.cor}"></span>${esc(cat.nome)}`:''}</div>
           </div>
           <div class="l-right">
             <div class="l-val">${fmt(l.valor)}</div>
-            <button class="pill ${st}" onclick="toggleStatus('${l.id}')">${statusTxt[st]}</button>
+            <button class="pill ${st}" onclick="${l.virtual?`confirmarVirtual('${l.fixaId}','${l.venc}')`:`toggleStatus('${l.id}')`}">${l.virtual?'Confirmar':statusTxt[st]}</button>
           </div>
-          <div class="l-act"><button class="icon-btn del" onclick="delCompraItem('${l.id}')">${icoTrash}</button></div>
+          <div class="l-act">${l.virtual
+            ? `<button class="icon-btn" onclick="goView('fixas')" title="Assinatura fixa · editar no cadastro" aria-label="Editar despesa fixa">${icoRepeat}</button>`
+            : `<button class="icon-btn del" onclick="delCompraItem('${l.id}')" title="Excluir item da fatura" aria-label="Excluir item da fatura">${icoTrash}</button>`}</div>
         </div>`;
       }).join('')+'</div>'
     :`<div class="empty">Nenhum item nesta fatura.</div>`}`;
@@ -1575,9 +1603,19 @@ window.mudaFatMes=n=>{
   renderFatura();
 };
 window.pagarFatura=()=>{
-  S.lancs.filter(l=>l.cartaoId===ccSel&&l.faturaKey===fatMes&&l.status==='P')
-    .forEach(l=>{l.status='R';l.dataReal=hoje()});
-  save();render();toast('Fatura marcada como paga');
+  const virt=fixasVirtuais().filter(v=>v.cartaoId===ccSel&&v.faturaKey===fatMes);
+  const reais=S.lancs.filter(l=>l.cartaoId===ccSel&&l.faturaKey===fatMes&&l.status==='P');
+  const total=reais.reduce((a,l)=>a+l.valor,0)+virt.reduce((a,v)=>a+v.valor,0);
+  confirmar(`Marcar a fatura de ${mesLabelLong(fatMes)} como paga? Serão baixados ${reais.length+virt.length} item(ns), somando ${fmt(total)}.`,()=>{
+    reais.forEach(l=>{l.status='R';l.dataReal=hoje()});
+    virt.forEach(v=>{
+      const f=S.fixas.find(x=>x.id===v.fixaId);if(!f)return;
+      S.lancs.push({id:uid(),tipo:'D',desc:f.desc,valor:f.valor,venc:v.venc,status:'R',dataReal:hoje(),
+        catId:f.catId,ccId:f.ccId,prodId:null,meioId:f.meioId,cartaoId:f.cartaoId,
+        faturaKey:v.faturaKey,parcela:null,fixaId:f.id});
+    });
+    save();render();toast('Fatura paga · '+(reais.length+virt.length)+' item(ns) baixado(s)');
+  });
 };
 window.delCompraItem=id=>{
   const l=S.lancs.find(x=>x.id===id);
@@ -1592,8 +1630,8 @@ window.delCompraItem=id=>{
 window.abrirCompra=()=>{
   if(!S.cartoes.length){toast('Cadastre um cartão primeiro');return}
   fillSel($('#cpCartao'),S.cartoes);$('#cpCartao').value=ccSel||S.cartoes[0].id;
-  fillSel($('#cpCat'),catsTipo('D'),{vazio:'—'});
-  fillSel($('#cpCC'),S.centros,{vazio:'—'});
+  fillSel($('#cpCat'),catsTipo('D'),{vazio:'Sem categoria'});
+  fillSel($('#cpCC'),S.centros,{vazio:'Sem centro de custo'});
   $('#cpDesc').value='';$('#cpValor').value='';$('#cpData').value=hoje();$('#cpParc').value=1;
   resumoCompra();abrir('ovCompra');
   if(window.innerWidth>820)$('#cpDesc').focus();
@@ -1853,7 +1891,7 @@ window.sincronizarAsaas=async function(silencioso){
   }catch(e){
     if(btn){btn.textContent='⟳ Sincronizar agora';btn.disabled=false}
     const m=String(e&&e.message||e);
-    if(!silencioso)toast(m==='sem-arquivo'?'Ainda não há dados do Asaas publicados — cadastre as chaves no GitHub e rode a automação.'
+    if(!silencioso)toast(m==='sem-arquivo'?'Ainda não há dados do Asaas publicados. Cadastre as chaves no GitHub e rode a automação.'
       :m==='sem-chave'?'Chave de leitura não configurada neste app.'
       :'Não consegui ler os dados do Asaas.');
     return null;
@@ -1958,10 +1996,10 @@ window.processarPlanilha=function(matrix){
     const venc=parseDataBR(g('venc'));
     const stRaw=norm(g('status'));
     const status=(stRaw.startsWith('real')||stRaw==='pago'||stRaw==='recebido')?'R':'P';
-    if(!tipo){erros.push(`Linha ${linha}: Tipo inválido — use Receita ou Despesa`);return}
+    if(!tipo){erros.push(`Linha ${linha}: Tipo inválido. Use Receita ou Despesa`);return}
     if(!desc){erros.push(`Linha ${linha}: Descrição vazia`);return}
     if(valor===null||valor<=0){erros.push(`Linha ${linha}: Valor inválido ("${esc(String(g('valor')))}")`);return}
-    if(!venc){erros.push(`Linha ${linha}: Vencimento inválido ("${esc(String(g('venc')))}") — use DD/MM/AAAA`);return}
+    if(!venc){erros.push(`Linha ${linha}: Vencimento inválido ("${esc(String(g('venc')))}"). Use DD/MM/AAAA`);return}
     const parc=String(g('parcela')??'').trim();
     rows.push({tipo,desc,valor,venc,status,
       dataReal:status==='R'?(parseDataBR(g('dataReal'))||venc):null,
@@ -1981,7 +2019,7 @@ window.processarPlanilha=function(matrix){
     </div>
     ${erros.length?`<div style="background:var(--red-bg);border-radius:10px;padding:11px 14px;font-size:12px;color:var(--red);line-height:1.6;max-height:150px;overflow-y:auto">
       <b>${erros.length} linha(s) com problema serão ignoradas:</b><br>${erros.slice(0,10).map(esc).join('<br>')}${erros.length>10?'<br>…e mais '+(erros.length-10):''}</div>`:''}
-    ${rows.length?`<div style="font-size:12.5px;color:var(--muted);line-height:1.55">Categorias, centros, produtos, meios e cartões que não existirem serão <b>criados automaticamente</b>. A importação adiciona lançamentos — nada é apagado.</div>`
+    ${rows.length?`<div style="font-size:12.5px;color:var(--muted);line-height:1.55">Categorias, centros, produtos, meios e cartões que não existirem serão <b>criados automaticamente</b>. A importação adiciona lançamentos, nada é apagado.</div>`
       :`<div style="font-size:13px;color:var(--muted)">Nenhuma linha válida para importar.</div>`}`;
   $('#planFoot').innerHTML=`<button class="btn btn-ghost" onclick="fechar('ovPlan')">Cancelar</button>
     ${rows.length?`<button class="btn btn-primary" onclick="confirmarPlanilha()">Importar ${rows.length} lançamento(s)</button>`:''}`;
@@ -2033,7 +2071,7 @@ function carregaXLSX(cb){
   const s=document.createElement('script');
   s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
   s.onload=cb;
-  s.onerror=()=>toast('Sem conexão para ler Excel — salve como CSV e tente de novo');
+  s.onerror=()=>toast('Sem conexão para ler Excel. Salve como CSV e tente de novo');
   document.head.appendChild(s);
 }
 window.importPlanilha=function(){$('#filePlan').click()};
@@ -2060,7 +2098,7 @@ $('#filePlan').onchange=e=>{
           const wb=XLSX.read(r.result,{type:'array',cellDates:true});
           const ws=wb.Sheets[wb.SheetNames.includes('Lançamentos')?'Lançamentos':wb.SheetNames[0]];
           processarPlanilha(XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:''}));
-        }catch(_){toast('Não consegui ler o arquivo — confira o formato')}
+        }catch(_){toast('Não consegui ler o arquivo. Confira o formato')}
       };
       r.readAsArrayBuffer(f);
     });
@@ -2373,7 +2411,7 @@ function renderFixas(){
   $('#fixResumo').innerHTML=`
     <div class="tot">Total mensal (ativas)<b class="neg">${fmt(total)}</b></div>
     <div class="tot">Fixas ativas<b>${ativas.length}</b></div>
-    <div class="tot">Lançadas no mês<b class="${nLanc===ativas.length&&ativas.length?'pos':'amb'}">${nLanc}/${ativas.length}</b></div>`;
+    <div class="tot">Confirmadas no mês<b class="${nLanc===ativas.length&&ativas.length?'pos':'amb'}">${nLanc}/${ativas.length}</b></div>`;
   if(!S.fixas.length){
     $('#listFixas').innerHTML=`<div class="empty"><b>Nenhuma despesa fixa</b>Cadastre custos recorrentes e lance-os a cada mês com um clique.<br><button class="btn btn-primary btn-sm" onclick="abrirFixaModal()">+ Nova despesa fixa</button></div>`;return;
   }
@@ -2393,8 +2431,8 @@ function renderFixas(){
       <div class="l-right">
         <div class="l-val neg">− ${fmt(f.valor)}</div>
         ${f.ativa?(lanc
-          ?`<span class="pill real">✓ Lançada · ${mesLabel(fixMes)}</span>`
-          :`<button class="pill prev" onclick="lancarFixa('${f.id}')" title="Lançar nos lançamentos deste mês">⚡ Lançar · ${mesLabel(fixMes)}</button>`):''}
+          ?`<span class="pill real">✓ Paga · ${mesLabel(fixMes)}</span>`
+          :`<button class="pill prev" onclick="lancarFixa('${f.id}')" title="Registrar como paga neste mês">Confirmar · ${mesLabel(fixMes)}</button>`):''}
       </div>
       <div class="l-act">
         <button class="icon-btn" onclick="abrirFixaModal('${f.id}')" title="Editar cadastro">${icoEdit}</button>
@@ -2472,9 +2510,9 @@ window.abrirFixaModal=function(editId){
   fxEditId=editId||null;
   const f=editId?S.fixas.find(x=>x.id===editId):null;
   $('#fxTitle').textContent=f?'Editar despesa fixa':'Nova despesa fixa';
-  fillSel($('#fxCat'),catsTipo('D'),{vazio:'—'});
-  fillSel($('#fxCC'),S.centros,{vazio:'—'});
-  fillSel($('#fxMeio'),S.meios,{vazio:'—'});
+  fillSel($('#fxCat'),catsTipo('D'),{vazio:'Sem categoria'});
+  fillSel($('#fxCC'),S.centros,{vazio:'Sem centro de custo'});
+  fillSel($('#fxMeio'),S.meios,{vazio:'Não informado'});
   fillSel($('#fxCartao'),S.cartoes,{vazio:'Não · débito/pix/boleto'});
   $('#fxDesc').value=f?f.desc:'';
   $('#fxValor').value=f?f.valor:'';
