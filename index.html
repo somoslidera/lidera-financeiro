@@ -1846,7 +1846,7 @@ window.sincronizarAsaas=async function(silencioso){
     const d=await baixarCobrancas();
     const r=mesclarCobrancas(d.cobrancas||[]);
     S.cfg.asaas=Object.assign({},S.cfg.asaas,{ultima:new Date().toISOString(),
-      geradoEm:d.geradoEm||null,resumo:`${r.total} cobranças · ${r.novos} nova(s) · ${r.pagos} baixada(s)`});
+      geradoEm:d.geradoEm||null,resumo:`${r.total} cobranças · ${r.novos} nova(s) · ${r.pagos} baixada(s)`+(r.sumiram?` · ${r.sumiram} fora do Asaas`:'')});
     save();render();
     if(!silencioso)toast(`Asaas: ${r.novos} nova(s) · ${r.atualizados} atualizada(s) · ${r.pagos} baixa(s)`);
     return r;
