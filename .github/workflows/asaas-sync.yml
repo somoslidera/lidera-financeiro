@@ -1,0 +1,38 @@
+name: Sincronizar Asaas
+
+on:
+  schedule:
+    - cron: '0 11 * * *'   # todo dia às 08:00 (Brasília)
+  workflow_dispatch:        # permite rodar na hora, pelo botão
+
+permissions:
+  contents: write
+
+concurrency:
+  group: asaas-sync
+  cancel-in-progress: false
+
+jobs:
+  sincronizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Buscar cobranças no Asaas
+        env:
+          ASAAS_API_KEY: ${{ secrets.ASAAS_API_KEY }}
+          ASAAS_ENC_KEY: ${{ secrets.ASAAS_ENC_KEY }}
+        run: node scripts/asaas-sync.mjs
+      - name: Publicar se mudou
+        run: |
+          if [ -n "$(git status --porcelain asaas.enc.json)" ]; then
+            git config user.name "Financeiro Lidera"
+            git config user.email "contato@somoslidera.com.br"
+            git add asaas.enc.json
+            git commit -m "Asaas: atualiza cobranças ($(date +'%d/%m %H:%M'))"
+            git push
+          else
+            echo "Nada mudou."
+          fi
