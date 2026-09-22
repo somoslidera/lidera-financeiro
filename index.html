@@ -369,6 +369,86 @@ body.dark .bn-item.on{color:var(--gold-soft)}
 
 #lfMore{display:none}
 .fx-short{display:none}
+
+/* ═══════════ COBRANÇA ═══════════ */
+.cb-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.cb-tabs{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:11px;overflow:hidden;box-shadow:var(--sh-xs)}
+.cb-tabs button{padding:9px 14px;font-size:12.5px;font-weight:700;color:var(--muted);transition:.18s var(--ease);white-space:nowrap}
+.cb-tabs button.on{background:var(--grad-brand);color:#fff}
+.cb-tabs button b{font-weight:800;margin-left:5px;opacity:.8}
+.cb-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cb-tools .search{min-width:180px}
+.tot .mini{display:block;font-size:10.5px;color:var(--soft);text-transform:none;letter-spacing:0;margin-top:2px;font-weight:500}
+.cb-row{display:flex;align-items:center;gap:13px;padding:13px 18px;border-bottom:1px solid var(--line-2);cursor:pointer;transition:background .18s var(--ease);user-select:none}
+.cb-row:last-child{border-bottom:none}
+.cb-row:hover{background:linear-gradient(90deg,var(--bg-2),transparent 70%)}
+.cb-row.sel{background:linear-gradient(90deg,var(--blue-bg),transparent 80%)}
+.cb-chk{width:22px;height:22px;border-radius:7px;border:2px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;flex:0 0 auto;transition:.18s var(--ease);color:#fff}
+.cb-chk svg{width:13px;height:13px;opacity:0}
+.cb-row.sel .cb-chk{background:var(--grad-brand);border-color:transparent}
+.cb-row.sel .cb-chk svg{opacity:1}
+.cb-row.off .cb-chk{opacity:.3;border-style:dashed}
+.cb-av{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-weight:800;font-size:13px;letter-spacing:-.02em;color:#fff;background:var(--grad-brand);box-shadow:var(--sh-xs)}
+.cb-av.cron{background:var(--grad-red)}.cb-av.aten{background:var(--grad-amber)}.cb-av.rec{background:linear-gradient(135deg,#5F7FCB,#2A4A96)}.cb-av.ok{background:var(--grad-green)}
+.cb-info{flex:1;min-width:0}
+.cb-nm{font-weight:700;font-size:13.5px;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cb-sub{font-size:11.5px;color:var(--muted);margin-top:3px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-weight:500}
+.cb-sub .sep{color:var(--line)}
+.cb-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:0 0 auto}
+.cb-val{font-weight:800;font-size:14px;letter-spacing:-.035em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sev{font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.sev.cron{background:var(--red-bg);color:var(--red)}.sev.aten{background:var(--amber-bg);color:var(--amber)}.sev.rec{background:var(--blue-bg);color:var(--navy)}.sev.ok{background:var(--green-bg);color:var(--green)}.sev.mudo{background:var(--bg-2);color:var(--soft)}
+.cb-det{display:none;padding:2px 18px 16px 73px;border-bottom:1px solid var(--line-2);background:linear-gradient(180deg,var(--bg-2),transparent 90%)}
+.cb-det.on{display:block}
+.cb-det .dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:8px 0 12px}
+.cb-det .dg div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.cb-det .dg b{display:block;font-size:14.5px;color:var(--ink);letter-spacing:-.03em;margin-top:3px;text-transform:none;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.cb-bol{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:12.5px;border-top:1px dashed var(--line)}
+.cb-bol:first-child{border-top:none}
+.cb-bol .v{font-weight:700;font-variant-numeric:tabular-nums;min-width:92px}
+.cb-bol .d{color:var(--muted);flex:1;min-width:0}
+.cb-bol a{color:var(--navy);font-weight:700;text-decoration:none;white-space:nowrap}
+.cb-bol a:hover{text-decoration:underline}
+.cb-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.cb-ult{font-size:11.5px;color:var(--soft);margin-top:10px;font-weight:500}
+.cb-msg textarea{min-height:200px;resize:vertical;line-height:1.55;font-size:13.5px}
+.cb-vars{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 6px}
+.cb-vars button{font-size:11px;font-weight:700;padding:4px 9px;border-radius:8px;background:var(--bg-2);border:1px solid var(--line);color:var(--navy);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;transition:.15s}
+.cb-vars button:hover{background:var(--blue-bg);border-color:var(--navy)}
+.wa-wrap{background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:14px}
+.wa-prev{background:#E4F5DF;border-radius:14px 14px 14px 3px;padding:11px 13px;font-size:13px;line-height:1.5;color:#17251A;white-space:pre-wrap;word-break:break-word;box-shadow:var(--sh-xs);max-width:420px}
+body.dark .wa-prev{background:#1E3A2B;color:#DCEBDF}
+.wa-prev .hora{display:block;text-align:right;font-size:10.5px;color:rgba(0,0,0,.42);margin-top:6px}
+body.dark .wa-prev .hora{color:rgba(255,255,255,.42)}
+.wa-prev a{color:#0B5CD5;word-break:break-all}
+.cb-bar{position:sticky;bottom:12px;z-index:5;display:none;align-items:center;justify-content:space-between;gap:12px;background:var(--grad-brand);color:#fff;border-radius:16px;padding:12px 16px;box-shadow:var(--sh-brand);margin-top:14px;border:1px solid rgba(255,255,255,.12)}
+.cb-bar.on{display:flex}
+.cb-bar .n{font-weight:800;letter-spacing:-.02em;font-size:14px}.cb-bar .s{font-size:12px;opacity:.78;margin-top:2px}
+.cb-bar .btn-ghost{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.22)}
+.cb-prog{display:flex;flex-direction:column;gap:7px}
+.cb-prog .it{display:flex;align-items:center;gap:10px;font-size:13px;padding:8px 10px;border-radius:11px;background:var(--bg-2)}
+.cb-prog .it .who{flex:1;min-width:0}
+.cb-prog .it .who b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+.cb-prog .it .who small{color:var(--soft);font-size:11px}
+.cb-prog .it .st{font-weight:700;font-size:11.5px;white-space:nowrap}
+.cb-prog .it.ok .st{color:var(--green)}.cb-prog .it.err .st{color:var(--red)}.cb-prog .it.run .st{color:var(--navy)}.cb-prog .it.warn .st{color:var(--amber)}
+.cb-barra{height:6px;border-radius:4px;background:var(--line-2);overflow:hidden}.cb-barra i{display:block;height:100%;background:var(--grad-green);transition:width .35s var(--ease)}
+.cb-log .lg{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-2);font-size:12.5px}
+.cb-log .lg:last-child{border-bottom:none}
+.cb-log .lg .t{color:var(--soft);font-size:11px;min-width:92px;font-variant-numeric:tabular-nums}
+.cb-log .lg .n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.cb-log .lg .v{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cb-log .lg .c{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:6px;background:var(--bg-2);color:var(--muted)}
+.cb-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;align-items:start}
+.cb-col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.kpi.clicavel{cursor:pointer}
+#topbar.sem-periodo .period-wrap{display:none}
+.kpi.clicavel:hover .k-lab{color:var(--navy)}
+.wa-status{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700}
+.wa-status i{width:8px;height:8px;border-radius:50%;background:var(--soft);display:inline-block}
+.wa-status.on i{background:var(--green);box-shadow:0 0 8px var(--green)}
+.wa-status.off i{background:var(--red)}
+
 /* ═══════════ MOBILE ═══════════ */
 @media(max-width:820px){
   #sidebar{display:none}
@@ -477,6 +557,20 @@ body.dark .bn-item.on{color:var(--gold-soft)}
   /* ── botão + : some ao rolar para baixo, volta ao rolar para cima ── */
   #fab{width:52px;height:52px;border-radius:17px;right:14px;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 14px);transition:transform .25s var(--ease),opacity .25s var(--ease)}
   #fab.hide{transform:translateY(110px) scale(.9);opacity:0;pointer-events:none}
+  /* ── cobrança ── */
+  .cb-grid{grid-template-columns:1fr}
+  .cb-row{padding:12px 12px;gap:10px}
+  .cb-det{padding:2px 12px 14px 12px}
+  .cb-bar{bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 10px);padding:11px 13px;flex-wrap:wrap}
+  .cb-bar>div:last-child{flex:1 1 100%;display:flex;gap:8px}
+  .cb-bar>div:last-child .btn{flex:1;justify-content:center}
+  .cb-tel{display:none}
+  .cb-tabs{width:100%;display:flex}
+  .cb-tabs button{flex:1;padding:9px 4px;font-size:11.5px;display:flex;flex-direction:column;align-items:center;gap:1px}
+  .cb-tabs button b{margin:0;font-size:13px}
+  .cb-tools{width:100%}.cb-tools .search{flex:1;min-width:0}
+  .cb-msg textarea{min-height:170px}
+  .cb-det .dg{grid-template-columns:1fr 1fr}
 }
 @media(min-width:821px){
   .card:hover{box-shadow:var(--sh-md);transform:translateY(-1px)}
@@ -497,6 +591,9 @@ body.dark .bn-item.on{color:var(--gold-soft)}
   <button class="nav-item" data-v="lanc">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1.2" fill="currentColor"/><circle cx="4" cy="12" r="1.2" fill="currentColor"/><circle cx="4" cy="18" r="1.2" fill="currentColor"/></svg>
     <span>Lançamentos</span></button>
+  <button class="nav-item" data-v="cobranca">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 10.5h6M9 13.5h3.5"/></svg>
+    <span>Cobrança</span></button>
   <button class="nav-item" data-v="fixas">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>
     <span>Despesas fixas</span></button>
@@ -617,6 +714,33 @@ body.dark .bn-item.on{color:var(--gold-soft)}
       <div class="totbar" id="lancTotais"></div>
     </section>
 
+    <!-- ══════════ COBRANÇA ══════════ -->
+    <section class="view" id="view-cobranca">
+      <div class="card panel" id="cbTop"></div>
+      <div class="cb-grid">
+        <div class="cb-col">
+          <div class="card" style="overflow:hidden"><div class="list" id="cbLista"></div></div>
+          <div class="cb-bar" id="cbBar"></div>
+        </div>
+        <div class="cb-col">
+          <div class="card panel cb-msg">
+            <h3>Mensagem <button class="add-mini" onclick="cbRestaurarMsg()">restaurar padrão</button></h3>
+            <div class="fld"><textarea id="cbTpl" spellcheck="false" placeholder="Escreva a mensagem…"></textarea></div>
+            <div class="cb-vars" id="cbVars"></div>
+            <div style="font-size:11px;color:var(--soft);line-height:1.5;font-weight:500">Toque numa variável para inserir. <b>{resumo}</b> e <b>{links}</b> se adaptam sozinhos a um ou vários boletos, vencidos ou a vencer.</div>
+          </div>
+          <div class="card panel">
+            <h3>Como o cliente recebe <span class="hint" id="cbPrevQuem"></span></h3>
+            <div class="wa-wrap"><div class="wa-prev" id="cbPrev"></div></div>
+          </div>
+          <div class="card panel cb-log">
+            <h3>Histórico <span class="hint" id="cbLogHint"></span></h3>
+            <div id="cbLog"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ══════════ DESPESAS FIXAS ══════════ -->
     <section class="view" id="view-fixas">
       <div class="card panel">
@@ -686,10 +810,15 @@ body.dark .bn-item.on{color:var(--gold-soft)}
           <div id="asaasBox"></div>
         </div>
         <div class="card panel">
+          <h3>WhatsApp da cobrança <span class="hint" id="whatsHint"></span></h3>
+          <div id="whatsBox"></div>
+        </div>
+        <div class="card panel">
           <h3>Preferências</h3>
           <div style="display:flex;flex-direction:column;gap:9px">
             <button class="btn btn-ghost" onclick="importPlanilha()">📄 Importar lançamentos de planilha (Excel/CSV)</button>
             <button class="btn btn-ghost" onclick="alternaTema()">◐ Alternar tema claro/escuro</button>
+            <button class="btn btn-ghost" onclick="goView('vendas')">🛒 Vendas manuais (parceladas)</button>
             <div style="font-size:11.5px;color:var(--soft);line-height:1.5;margin-top:4px">Seus dados ficam salvos neste navegador, protegidos pela sua senha.</div>
           </div>
         </div>
@@ -710,9 +839,9 @@ body.dark .bn-item.on{color:var(--gold-soft)}
   <button class="bn-item" data-v="fixas">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>
     Fixas</button>
-  <button class="bn-item" data-v="vendas">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 2-1.6L22 7H6"/><circle cx="10" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/></svg>
-    Vendas</button>
+  <button class="bn-item" data-v="cobranca">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 10.5h6M9 13.5h3.5"/></svg>
+    Cobrança</button>
   <button class="bn-item" data-v="cartoes">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/></svg>
     Cartões</button>
@@ -912,6 +1041,16 @@ body.dark .bn-item.on{color:var(--gold-soft)}
   </div>
 </div>
 
+<!-- ══════════ MODAL COBRAR (confirmação + progresso) ══════════ -->
+<div class="overlay" id="ovCobrar">
+  <div class="modal" style="max-width:520px">
+    <div class="sheet-handle"></div>
+    <div class="modal-head"><h3 id="cbModalTitle">Enviar cobranças</h3><button class="icon-btn" data-close="ovCobrar" id="cbModalX">✕</button></div>
+    <div class="modal-body" id="cbModalBody"></div>
+    <div class="modal-foot" id="cbModalFoot"></div>
+  </div>
+</div>
+
 <!-- ══════════ MODAL CONFIRM ══════════ -->
 <div class="overlay" id="ovConfirm">
   <div class="modal" style="max-width:380px">
@@ -1048,8 +1187,8 @@ function periodoAnterior(){
 const labelPeriodo=()=>$('#periodSel').selectedOptions[0].textContent.replace('…','');
 
 /* ═══════════════ NAVEGAÇÃO ═══════════════ */
-const TITULOS={dash:'Dashboard',lanc:'Lançamentos',fixas:'Despesas fixas',vendas:'Vendas',cartoes:'Cartões de crédito',cad:'Cadastros'};
-const TITULOS_MOB={dash:'Início',lanc:'Extrato',fixas:'Fixas',vendas:'Vendas',cartoes:'Cartões',cad:'Ajustes'};
+const TITULOS={dash:'Dashboard',lanc:'Lançamentos',cobranca:'Cobrança',fixas:'Despesas fixas',vendas:'Vendas',cartoes:'Cartões de crédito',cad:'Cadastros'};
+const TITULOS_MOB={dash:'Início',lanc:'Extrato',cobranca:'Cobrança',fixas:'Fixas',vendas:'Vendas',cartoes:'Cartões',cad:'Ajustes'};
 const ehMobile=()=>window.matchMedia('(max-width:820px)').matches;
 let viewAtual='dash';
 function goView(v){
@@ -1059,6 +1198,7 @@ function goView(v){
   $$('.view').forEach(x=>x.classList.toggle('on',x.id==='view-'+v));
   $('#viewTitle').textContent=(ehMobile()?TITULOS_MOB:TITULOS)[v];
   $('#viewTitle').dataset.v=v;
+  $('#topbar').classList.toggle('sem-periodo',v==='cobranca');
   $('#content').scrollTop=0;
   render();
 }
@@ -1175,9 +1315,9 @@ function renderDash(){
       <div><div class="k-lab">Margem realizada</div>
       <div class="k-sub">resultado ÷ receita recebida</div></div>
       <div class="k-val" style="color:var(--gold)">${margem===null?'<span style="font-size:14px;color:var(--soft);font-weight:600">sem receita ainda</span>':margem.toFixed(0)+'%'}</div></div>
-    <div class="card kpi"><span class="k-bar" style="background:${atrasRv+atrasDv>0?'var(--red)':'var(--green)'}"></span>
+    <div class="card kpi clicavel" onclick="goView('cobranca')" title="Abrir a cobrança"><span class="k-bar" style="background:${atrasRv+atrasDv>0?'var(--red)':'var(--green)'}"></span>
       <div><div class="k-lab">Em atraso</div>
-      <div class="k-sub">${atrasRn+atrasDn>0?`${atrasRn} a receber · ${atrasDn} a pagar`:'tudo em dia'}</div></div>
+      <div class="k-sub">${atrasRn+atrasDn>0?`${atrasRn} a receber · ${atrasDn} a pagar <span style="color:var(--navy);font-weight:700">· cobrar</span>`:'tudo em dia'}</div></div>
       <div class="k-val ${atrasRv+atrasDv>0?'neg':'pos'} cup" data-v="${atrasRv+atrasDv}">${fmt(atrasRv+atrasDv)}</div></div>`;
 
   renderFluxo();renderAcum();
@@ -1766,6 +1906,7 @@ function renderCad(){
   $('#cadCartoes').innerHTML=S.cartoes.map(c=>item('cartoes',c,`fecha ${c.fech} · vence ${c.venc}${c.limite?' · '+fmtK(c.limite):''}`)).join('')||'<div class="empty">Nenhum cartão.</div>';
   renderUsuarios();
   renderAsaas();
+  renderWhats();
 }
 let cadTipo=null,cadEditId=null;
 window.abrirCad=function(tipo,editId){
@@ -1939,6 +2080,10 @@ window.sincronizarAsaas=async function(silencioso){
   try{
     const d=await baixarCobrancas();
     const r=mesclarCobrancas(d.cobrancas||[]);
+    /* guarda a leitura completa p/ a tela de Cobrança (telefones, links, saldo em aberto) */
+    S.asaasCache={versao:d.versao||1,geradoEm:d.geradoEm||null,cobrancas:d.cobrancas||[],clientes:d.clientes||[]};
+    /* credencial do WhatsApp vem cifrada junto; um ajuste manual em Ajustes tem prioridade */
+    if(d.whats&&d.whats.token&&!(S.cfg.whats&&S.cfg.whats.manual))S.cfg.whats=Object.assign({},S.cfg.whats,{url:d.whats.url||'https://roniautomacoes-pro.uazapi.com',token:d.whats.token});
     S.cfg.asaas=Object.assign({},S.cfg.asaas,{ultima:new Date().toISOString(),
       geradoEm:d.geradoEm||null,resumo:`${r.total} cobranças · ${r.novos} nova(s) · ${r.pagos} baixada(s)`+(r.sumiram?` · ${r.sumiram} fora do Asaas`:'')});
     save();render();
@@ -1970,6 +2115,318 @@ async function autoSincronizarAsaas(){
   if(c.ultima&&(Date.now()-new Date(c.ultima).getTime())<3600000)return;
   await sincronizarAsaas(true);
 }
+
+
+/* ═══════════════ COBRANÇA (WhatsApp) ═══════════════ */
+const CB_TPL_PADRAO=`{saudacao} Tudo bem? 👋
+
+Passando rapidinho aqui: {resumo}.
+
+{links}
+
+Se já tiver pago, me avisa que eu dou baixa por aqui 🙏
+
+Qualquer coisa é só chamar!`;
+const CB_VARS=[['saudacao','Oi, Nome! ou Oi!'],['nome','primeiro nome (só pessoa física)'],['cliente','nome completo do cadastro'],['resumo','frase com parcelas, valor e vencimento'],['links','link(s) de pagamento'],['valor','total cobrado'],['qtd','quantidade de parcelas'],['dias','dias de atraso da mais antiga'],['vencimento','vencimento da mais antiga'],['restante','saldo em aberto do contrato'],['programa','nome do programa']];
+const cbCfg=()=>(S.cfg.cobranca||(S.cfg.cobranca={}));
+const cb={filtro:'atras',sel:new Set(),aberto:null,busca:'',cancelar:false,enviando:false};
+const brl=v=>Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const ddmm=s=>String(s).slice(8,10)+'/'+String(s).slice(5,7);
+const cbDiasAtraso=s=>Math.max(0,Math.floor((pDate(hoje())-pDate(s))/86400000));
+const cbIniciais=n=>String(n||'').replace(/\(.*?\)/g,'').trim().split(/\s+/).filter(w=>w.length>2&&!/^(ltda|me|eireli|s\/a|de|do|da|e)$/i.test(w)).slice(0,2).map(w=>w[0]).join('').toUpperCase()||'?';
+const cbTelFmt=t=>{if(!t)return'';const n=String(t).replace(/^55/,'');return n.length>=10?`(${n.slice(0,2)}) ${n.slice(2,-4)}-${n.slice(-4)}`:n};
+function cbPrograma(desc){const d=norm(desc);if(d.includes('gestao de pessoas')||d.includes('lidera -'))return'Programa Lidera';if(d.includes('self')||d.includes('segredos'))return'Segredos do Self-Service';return'Lucro e Liberdade'}
+function cbTitulo(s){s=String(s||'').trim();if(!s||/[a-z]/.test(s))return s;/* só mexe se estiver toda em maiúsculas */
+  const peq=new Set(['de','da','do','das','dos','e','a','o','em','no','na']);
+  return s.toLowerCase().split(/\s+/).map((w,i)=>{if(i&&peq.has(w))return w;if(w.length<=3&&/^[a-z]+$/.test(w)&&i===0&&w.length<=2)return w.toUpperCase();return w.replace(/^(\w)/,c=>c.toUpperCase()).replace(/(['’]\w)/g,c=>c.toUpperCase())}).join(' ')}
+function cbNomeCurto(n){return cbTitulo(String(n||'').replace(/\s*\(.*?\)\s*/g,' ').replace(/\b(LTDA|ME|EIRELI|S\/A)\b\.?/gi,'').replace(/\s+/g,' ').trim())}
+function cbApelido(n){const m=String(n||'').match(/\(([^)]+)\)/);return cbTitulo(m?m[1].trim():cbNomeCurto(n))}
+
+/* monta o quadro por cliente a partir da última leitura do Asaas */
+function cbDados(){
+  const c=S.asaasCache;if(!c||!c.cobrancas)return null;
+  const H=hoje(),em7=iso(new Date(Date.now()+7*86400000));
+  const cli={};(c.clientes||[]).forEach(x=>cli[x.id]=x);
+  const por={};
+  c.cobrancas.forEach(b=>{
+    if(ASAAS_IGNORAR.includes(b.status))return;
+    const k=b.clienteId||b.cliente;
+    if(!por[k])por[k]={id:k,nome:b.cliente,tel:(cli[k]||{}).telefone||null,pf:!!(cli[k]||{}).pf,pagos:[],abertos:[],atras:[],prox:[]};
+    const o=por[k];
+    if(ASAAS_PAGOS.includes(b.status))o.pagos.push(b);
+    else{o.abertos.push(b);if(b.vencimento<H)o.atras.push(b);else if(b.vencimento<=em7)o.prox.push(b)}
+  });
+  const ult={};(S.cobrancas||[]).forEach(l=>{if(!ult[l.cid]||l.data>ult[l.cid].data)ult[l.cid]=l});
+  return Object.values(por).map(o=>{
+    const byV=(a,b)=>a.vencimento<b.vencimento?-1:1;
+    o.atras.sort(byV);o.prox.sort(byV);o.abertos.sort(byV);
+    o.totalAtras=o.atras.reduce((a,b)=>a+b.valor,0);
+    o.totalProx=o.prox.reduce((a,b)=>a+b.valor,0);
+    o.restante=o.abertos.reduce((a,b)=>a+b.valor,0);
+    o.pago=o.pagos.reduce((a,b)=>a+b.valor,0);
+    o.nPagas=o.pagos.length;o.nTotal=o.pagos.length+o.abertos.length;
+    o.dias=o.atras.length?cbDiasAtraso(o.atras[0].vencimento):0;
+    const fut=o.abertos.find(b=>b.vencimento>=H);o.proxima=fut?fut.vencimento:null;
+    o.ultPag=o.pagos.length?o.pagos.map(b=>b.pagamento||'').sort().pop():null;
+    o.sev=o.dias>=30?'cron':o.dias>=8?'aten':o.dias>0?'rec':'ok';
+    o.cobraveis=o.atras.concat(o.prox);
+    o.programa=cbPrograma((o.cobraveis[0]||o.abertos[0]||o.pagos[0]||{}).descricao);
+    o.ultima=ult[o.id]||null;
+    o.podeCobrar=!!(o.tel&&o.cobraveis.length);
+    return o;
+  }).sort((a,b)=>(b.dias-a.dias)||(b.totalAtras-a.totalAtras)||a.nome.localeCompare(b.nome));
+}
+function cbFiltrar(lista){
+  const q=norm(cb.busca);
+  return lista.filter(o=>{
+    if(q&&!norm(o.nome).includes(q))return false;
+    if(cb.filtro==='atras')return o.atras.length>0;
+    if(cb.filtro==='prox')return o.prox.length>0;
+    return o.abertos.length>0;
+  });
+}
+/* texto final para um cliente */
+function cbMontar(o,tpl){
+  const bs=o.cobraveis.length?o.cobraveis:o.abertos.slice(0,1);
+  const n=bs.length,tot=bs.reduce((a,b)=>a+b.valor,0),H=hoje();
+  const prog='do '+o.programa;
+  const quando=b=>b.vencimento<H?`venceu dia ${ddmm(b.vencimento)}`:(b.vencimento===H?'vence hoje':`vence dia ${ddmm(b.vencimento)}`);
+  const todasFuturas=bs.every(b=>b.vencimento>=H);
+  let resumo='',links='';
+  if(n===1){const b=bs[0];
+    resumo=todasFuturas?`a próxima parcela ${prog}, de R$ ${brl(b.valor)}, ${quando(b)}`:`ficou uma parcela ${prog} em aberto, de R$ ${brl(b.valor)}, que ${quando(b)}`;
+    links=b.link?`Deixo o link pra você pagar no Pix ou no boleto, é só clicar:\n${b.link}`:'';
+  }else if(n>1){
+    resumo=todasFuturas?`as próximas ${n} parcelas ${prog} somam R$ ${brl(tot)}`:`ficaram ${n} parcelas ${prog} em aberto, somando R$ ${brl(tot)}`;
+    links=bs.map(b=>`• R$ ${brl(b.valor)}, ${quando(b)}`+(b.link?`\n  ${b.link}`:'')).join('\n')+'\n\nÉ só clicar nos links pra pagar no Pix ou no boleto.';
+  }
+  const pn=o.pf?(String(o.nome).trim().split(/\s+/)[0]||''):'';
+  const nome=pn?pn.charAt(0).toUpperCase()+pn.slice(1).toLowerCase():'';
+  const vars={saudacao:nome?`Oi, ${nome}!`:'Oi!',nome,cliente:cbNomeCurto(o.nome),resumo,links,valor:'R$ '+brl(tot),qtd:String(n),dias:String(o.dias),
+    vencimento:bs[0]?ddmm(bs[0].vencimento):'',restante:'R$ '+brl(o.restante),programa:o.programa};
+  return String(tpl||cbCfg().template||CB_TPL_PADRAO).replace(/\{(\w+)\}/g,(m,k)=>k in vars?vars[k]:m).replace(/\n{3,}/g,'\n\n').trim();
+}
+const cbTpl=()=>cbCfg().template||CB_TPL_PADRAO;
+const cbTempoRel=isoStr=>{const d=new Date(isoStr);const m=Math.round((Date.now()-d.getTime())/60000);if(m<1)return'agora';if(m<60)return`há ${m} min`;const hh=Math.round(m/60);if(hh<24)return`há ${hh} h`;return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})};
+
+function renderCobranca(){
+  const top=$('#cbTop');if(!top)return;
+  const dados=cbDados();
+  if(!dados){
+    top.innerHTML=`<div class="empty"><b>Ainda sem dados de cobrança</b>Os telefones e links de pagamento chegam do Asaas na próxima sincronização.<br><button class="btn btn-primary btn-sm" onclick="cbAtualizar()">⟳ Sincronizar agora</button></div>`;
+    $('#cbLista').innerHTML='';$('#cbBar').classList.remove('on');cbRenderMsg(null);cbRenderLog();return;
+  }
+  const semTel=(S.asaasCache.clientes||[]).length===0;
+  const atras=dados.filter(o=>o.atras.length),prox=dados.filter(o=>o.prox.length),todos=dados.filter(o=>o.abertos.length);
+  const vAtras=atras.reduce((a,o)=>a+o.totalAtras,0),nBol=atras.reduce((a,o)=>a+o.atras.length,0);
+  const vProx=prox.reduce((a,o)=>a+o.totalProx,0);
+  const semana=(S.cobrancas||[]).filter(l=>l.ok&&(Date.now()-new Date(l.data).getTime())<7*86400000).length;
+  const semFone=dados.filter(o=>o.cobraveis.length&&!o.tel).length;
+  const g=S.asaasCache.geradoEm;
+  top.innerHTML=`<h3>Cobrança <span class="hint">Asaas ${g?cbTempoRel(g):''} <button class="add-mini" onclick="cbAtualizar()" id="cbBtnAtu">⟳ atualizar</button></span></h3>
+    ${semTel?`<div class="resumo-box" style="margin-bottom:12px">⚠ Esta leitura ainda não trouxe os telefones. Toque em <b>atualizar</b> para buscar a versão nova.</div>`:''}
+    <div class="totbar" style="margin:0 0 14px">
+      <div class="tot">Em atraso<b class="${vAtras>0?'neg':'pos'}">${fmt(vAtras)}</b><span class="mini">${nBol} boleto${nBol===1?'':'s'} · ${atras.length} cliente${atras.length===1?'':'s'}</span></div>
+      <div class="tot">Vencem em 7 dias<b class="amb">${fmt(vProx)}</b><span class="mini">${prox.length} cliente${prox.length===1?'':'s'}</span></div>
+      <div class="tot">Cobrados 7 dias<b>${semana}</b><span class="mini">mensagens enviadas</span></div>
+      <div class="tot">Sem telefone<b class="${semFone?'amb':''}">${semFone}</b><span class="mini">cadastrar no Asaas</span></div>
+    </div>
+    <div class="cb-head">
+      <div class="cb-tabs">
+        <button class="${cb.filtro==='atras'?'on':''}" onclick="cbFiltro('atras')">Atrasados<b>${atras.length}</b></button>
+        <button class="${cb.filtro==='prox'?'on':''}" onclick="cbFiltro('prox')">Vencem em 7 dias<b>${prox.length}</b></button>
+        <button class="${cb.filtro==='todos'?'on':''}" onclick="cbFiltro('todos')">Com saldo<b>${todos.length}</b></button>
+      </div>
+      <div class="cb-tools">
+        <input class="search" id="cbBusca" placeholder="Buscar cliente…" value="${esc(cb.busca)}" oninput="cbBuscar(this.value)">
+        <button class="add-mini" onclick="cbTodos()">selecionar todos</button>
+      </div>
+    </div>`;
+  const lista=cbFiltrar(dados);
+  const el=$('#cbLista');
+  if(!lista.length){el.innerHTML=`<div class="empty"><b>${cb.filtro==='atras'?'Ninguém em atraso 🎉':cb.filtro==='prox'?'Nada vence nos próximos 7 dias':'Nenhum cliente encontrado'}</b>${cb.busca?'Tente outro nome.':''}</div>`}
+  else el.innerHTML=lista.map(o=>{
+    const sel=cb.sel.has(o.id),off=!o.podeCobrar,ab=cb.aberto===o.id;
+    const sub=[];
+    if(o.atras.length)sub.push(`<b style="color:var(--red)">${o.atras.length} atrasada${o.atras.length>1?'s':''}</b> · mais antiga ${o.dias} dia${o.dias===1?'':'s'}`);
+    else if(o.prox.length)sub.push(`<b style="color:var(--amber)">vence ${relData(o.prox[0].vencimento)}</b>`);
+    else if(o.proxima)sub.push(`próxima ${fmtData(o.proxima)}`);
+    sub.push(o.tel?`<span class="cb-tel">📱 ${cbTelFmt(o.tel)}</span>`:`<b style="color:var(--amber)">sem telefone</b>`);
+    if(o.ultima&&o.ultima.ok)sub.push(`<span style="color:var(--navy)">cobrado ${cbTempoRel(o.ultima.data)}</span>`);
+    const val=o.atras.length?o.totalAtras:(o.prox.length?o.totalProx:o.restante);
+    const valCls=o.atras.length?'neg':(o.prox.length?'amb':'');
+    const sevTxt={cron:'crônico',aten:'atenção',rec:'recente',ok:(o.prox.length?'a vencer':'em dia')}[o.sev];
+    const sevCls=o.sev==='ok'&&o.prox.length?'aten':o.sev;
+    return `<div class="cb-row ${sel?'sel':''} ${off?'off':''}" data-id="${o.id}" onclick="cbClick(event,'${o.id}')">
+      <div class="cb-chk" title="${off?(o.tel?'nada a cobrar':'sem telefone'):'selecionar'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></div>
+      <div class="cb-av ${sevCls}">${cbIniciais(o.nome)}</div>
+      <div class="cb-info"><div class="cb-nm">${esc(cbApelido(o.nome))}</div><div class="cb-sub">${sub.join('<span class="sep">·</span>')}</div></div>
+      <div class="cb-right"><div class="cb-val ${valCls==='neg'?'':''}" style="color:${valCls==='neg'?'var(--red)':valCls==='amb'?'var(--amber)':'var(--ink)'}">${fmt(val)}</div><span class="sev ${sevCls}">${sevTxt}</span></div>
+    </div>
+    <div class="cb-det ${ab?'on':''}" id="det-${o.id}">${ab?cbDetalhe(o):''}</div>`;
+  }).join('');
+  cbRenderBar(dados);cbRenderMsg(dados);cbRenderLog();
+}
+function cbDetalhe(o){
+  const H=hoje();
+  const linhas=(o.atras.length||o.prox.length?o.cobraveis:o.abertos.slice(0,6)).map(b=>`<div class="cb-bol"><span class="v">${fmt(b.valor)}</span><span class="d">${b.vencimento<H?`venceu ${fmtData(b.vencimento)} · ${cbDiasAtraso(b.vencimento)} d`:`vence ${fmtData(b.vencimento)}`}${b.parcela?' · parc. '+b.parcela:''}</span>${b.link?`<a href="${b.link}" target="_blank" rel="noopener">abrir boleto ↗</a>`:''}</div>`).join('');
+  return `<div class="dg">
+      <div>Saldo em aberto<b>${fmt(o.restante)}</b></div>
+      <div>Contrato<b>${o.nPagas} de ${o.nTotal} pagas</b></div>
+      <div>Já pagou<b>${fmt(o.pago)}</b></div>
+      <div>${o.ultPag?'Último pagto':'Próxima'}<b>${o.ultPag?fmtData(o.ultPag):(o.proxima?fmtData(o.proxima):'nenhuma')}</b></div>
+    </div>
+    <div style="font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">${o.cobraveis.length?'Entram na mensagem':'Próximas parcelas'}</div>
+    ${linhas||'<div class="cb-bol"><span class="d">Nenhum boleto em aberto.</span></div>'}
+    ${o.ultima?`<div class="cb-ult">Última cobrança ${cbTempoRel(o.ultima.data)} · ${o.ultima.canal==='wa'?'pelo meu WhatsApp':'pelo WhatsApp da Lidera'} ${o.ultima.ok?'✓':'✗ '+esc(o.ultima.erro||'falhou')}</div>`:''}
+    <div class="cb-acts">
+      <button class="btn btn-primary btn-sm" ${o.tel&&o.cobraveis.length?'':'disabled style="opacity:.45"'} onclick="cbUm('${o.id}')">Enviar pelo WhatsApp da Lidera</button>
+      <button class="btn btn-ghost btn-sm" ${o.tel?'':'disabled style="opacity:.45"'} onclick="cbWa('${o.id}')">Abrir no meu WhatsApp</button>
+      <button class="btn btn-ghost btn-sm" onclick="cbCopiar('${o.id}')">Copiar mensagem</button>
+    </div>`;
+}
+function cbRenderBar(dados){
+  const bar=$('#cbBar');const ids=[...cb.sel].filter(id=>dados.some(o=>o.id===id&&o.podeCobrar));
+  if(!ids.length){bar.classList.remove('on');return}
+  const sel=dados.filter(o=>ids.includes(o.id));
+  const tot=sel.reduce((a,o)=>a+o.cobraveis.reduce((x,b)=>x+b.valor,0),0),nb=sel.reduce((a,o)=>a+o.cobraveis.length,0);
+  bar.classList.add('on');
+  bar.innerHTML=`<div><div class="n">${sel.length} selecionado${sel.length>1?'s':''}</div><div class="s">${fmt(tot)} em ${nb} boleto${nb>1?'s':''}</div></div>
+    <div style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" onclick="cbLimpar()">Limpar</button><button class="btn btn-gold btn-sm" onclick="cbEnviarSel()">Enviar pelo WhatsApp</button></div>`;
+}
+function cbRenderMsg(dados){
+  const ta=$('#cbTpl');if(!ta)return;
+  if(document.activeElement!==ta)ta.value=cbTpl();
+  $('#cbVars').innerHTML=CB_VARS.map(([k,t])=>`<button type="button" title="${esc(t)}" onclick="cbVar('${k}')">{${k}}</button>`).join('');
+  let alvo=null;
+  if(dados){const ids=[...cb.sel];alvo=dados.find(o=>ids.includes(o.id)&&o.podeCobrar)||cbFiltrar(dados).find(o=>o.cobraveis.length)||cbFiltrar(dados)[0]||dados[0]}
+  const prev=$('#cbPrev');
+  if(!alvo){prev.textContent='Selecione um cliente para ver a mensagem montada.';$('#cbPrevQuem').textContent='';return}
+  const txt=cbMontar(alvo,ta.value);
+  prev.innerHTML=esc(txt).replace(/(https?:\/\/\S+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')+`<span class="hora">${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} ✓✓</span>`;
+  $('#cbPrevQuem').textContent='para '+cbApelido(alvo.nome);
+}
+function cbRenderLog(){
+  const el=$('#cbLog');if(!el)return;
+  const L=(S.cobrancas||[]).slice(0,40);
+  $('#cbLogHint').textContent=S.cobrancas&&S.cobrancas.length?`${S.cobrancas.length} envio${S.cobrancas.length>1?'s':''}`:'';
+  el.innerHTML=L.length?L.map(l=>`<div class="lg"><span class="t">${new Date(l.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})} ${new Date(l.data).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</span><span class="n">${esc(cbApelido(l.cliente))}</span><span class="c">${l.canal==='wa'?'meu whats':'lidera'}</span><span class="v" style="color:${l.ok?'var(--ink)':'var(--red)'}">${l.ok?fmt(l.valor):'falhou'}</span></div>`).join('')
+    :'<div class="empty" style="padding:22px">Nenhuma cobrança enviada ainda.</div>';
+}
+/* interações */
+window.cbFiltro=f=>{cb.filtro=f;cb.aberto=null;renderCobranca()};
+window.cbBuscar=debounce(v=>{cb.busca=v;renderCobranca();const i=$('#cbBusca');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}},160);
+window.cbClick=(ev,id)=>{
+  const d=cbDados()||[];const o=d.find(x=>x.id===id);if(!o)return;
+  if(ev.target.closest('.cb-chk')){if(o.podeCobrar){cb.sel.has(id)?cb.sel.delete(id):cb.sel.add(id)}else toast(o.tel?'Este cliente não tem boleto a cobrar.':'Sem telefone no Asaas. Cadastre lá e sincronize.');renderCobranca();return}
+  cb.aberto=cb.aberto===id?null:id;renderCobranca();
+  if(cb.aberto){const el=document.getElementById('det-'+id);if(el&&ehMobile())setTimeout(()=>el.scrollIntoView({block:'nearest',behavior:'smooth'}),60)}
+};
+window.cbTodos=()=>{const d=cbFiltrar(cbDados()||[]).filter(o=>o.podeCobrar);if(!d.length){toast('Ninguém cobrável nesta lista.');return}const all=d.every(o=>cb.sel.has(o.id));d.forEach(o=>all?cb.sel.delete(o.id):cb.sel.add(o.id));renderCobranca()};
+window.cbLimpar=()=>{cb.sel.clear();renderCobranca()};
+window.cbRestaurarMsg=()=>{cbCfg().template=undefined;save();renderCobranca();toast('Mensagem padrão restaurada')};
+window.cbVar=k=>{const ta=$('#cbTpl');const s=ta.selectionStart||0,e=ta.selectionEnd||0;ta.value=ta.value.slice(0,s)+'{'+k+'}'+ta.value.slice(e);ta.focus();ta.selectionStart=ta.selectionEnd=s+k.length+2;cbSalvarTpl()};
+const cbSalvarTpl=debounce(()=>{const v=$('#cbTpl').value;if(v.trim()===CB_TPL_PADRAO.trim()||!v.trim())cbCfg().template=undefined;else cbCfg().template=v;save();cbRenderMsg(cbDados())},250);
+document.addEventListener('input',e=>{if(e.target&&e.target.id==='cbTpl')cbSalvarTpl()});
+window.cbAtualizar=async()=>{const b=$('#cbBtnAtu');if(b){b.textContent='⟳ atualizando…'}const r=await sincronizarAsaas(true);if(r)toast('Dados do Asaas atualizados');renderCobranca()};
+window.cbCopiar=async id=>{const o=(cbDados()||[]).find(x=>x.id===id);if(!o)return;try{await navigator.clipboard.writeText(cbMontar(o));toast('Mensagem copiada')}catch(e){toast('Não consegui copiar. Selecione o texto na prévia.')}};
+window.cbWa=id=>{const o=(cbDados()||[]).find(x=>x.id===id);if(!o||!o.tel)return;
+  cbLog(o,'wa',true);window.open('https://wa.me/'+o.tel+'?text='+encodeURIComponent(cbMontar(o)),'_blank','noopener');renderCobranca()};
+function cbLog(o,canal,ok,erro){S.cobrancas=S.cobrancas||[];S.cobrancas.unshift({id:uid(),cid:o.id,cliente:o.nome,tel:o.tel,data:new Date().toISOString(),valor:o.cobraveis.reduce((a,b)=>a+b.valor,0),qtd:o.cobraveis.length,canal,ok:!!ok,erro:erro||null});if(S.cobrancas.length>500)S.cobrancas.length=500;save()}
+window.cbUm=id=>{cb.sel.clear();cb.sel.add(id);cbEnviarSel()};
+
+/* envio pelo WhatsApp da Lidera (UAZAPI), com confirmação e progresso */
+let whatsInfo=null;
+async function whatsStatus(force){
+  const c=S.cfg.whats||{};if(!c.token)return null;
+  if(whatsInfo&&!force)return whatsInfo;
+  try{const r=await fetch(String(c.url||'https://roniautomacoes-pro.uazapi.com').replace(/\/$/,'')+'/instance/status',{headers:{Accept:'application/json',token:c.token}});
+    const j=await r.json();const i=j.instance||{};whatsInfo={status:i.status||'?',nome:i.profileName||i.name||'',inst:i.name||''}}
+  catch(e){whatsInfo={status:'erro',nome:'',inst:''}}
+  return whatsInfo;
+}
+async function whatsEnviar(numero,texto){
+  const c=S.cfg.whats||{};if(!c.token)throw new Error('sem-token');
+  const r=await fetch(String(c.url||'https://roniautomacoes-pro.uazapi.com').replace(/\/$/,'')+'/send/text',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json',token:c.token},body:JSON.stringify({number:numero,text:texto})});
+  if(!r.ok){let t='';try{t=(await r.text()).slice(0,120)}catch(e){}throw new Error('http-'+r.status+(t?' '+t:''))}
+  return r.json().catch(()=>({}));
+}
+const itHtml=(o,st,cls)=>`<div class="it ${cls||''}" id="cbit-${o.id}"><span class="cb-av ${o.sev}" style="width:32px;height:32px;border-radius:10px;font-size:11px">${cbIniciais(o.nome)}</span><div class="who"><b>${esc(cbApelido(o.nome))}</b><small>${cbTelFmt(o.tel)} · ${fmt(o.cobraveis.reduce((a,b)=>a+b.valor,0))} · ${o.cobraveis.length} boleto${o.cobraveis.length>1?'s':''}</small></div><span class="st">${st}</span></div>`;
+window.cbEnviarSel=async()=>{
+  const dados=cbDados()||[];const sel=dados.filter(o=>cb.sel.has(o.id)&&o.podeCobrar);
+  if(!sel.length){toast('Selecione ao menos um cliente com telefone.');return}
+  if(!(S.cfg.whats&&S.cfg.whats.token)){toast('WhatsApp da cobrança ainda não conectado. Toque em atualizar ou veja Ajustes.');return}
+  $('#cbModalTitle').textContent=`Enviar ${sel.length} cobrança${sel.length>1?'s':''}`;
+  $('#cbModalBody').innerHTML=`<div class="resumo-box" id="cbQuem">Conferindo o WhatsApp conectado…</div>
+    <div class="cb-prog">${sel.map(o=>{const rec=o.ultima&&o.ultima.ok&&(Date.now()-new Date(o.ultima.data).getTime())<3*86400000;return itHtml(o,rec?'⚠ cobrado '+cbTempoRel(o.ultima.data):'pronto',rec?'warn':'')}).join('')}</div>
+    <div style="font-size:11.5px;color:var(--soft);line-height:1.5;font-weight:500">As mensagens saem uma a uma, com intervalo de ${(cbCfg().intMin||8)} a ${(cbCfg().intMax||20)} segundos. Cada uma usa a mensagem do painel com os dados daquele cliente.</div>`;
+  $('#cbModalFoot').innerHTML=`<button class="btn btn-ghost" data-close="ovCobrar" onclick="fechar('ovCobrar')">Cancelar</button><button class="btn btn-primary" id="cbGo">Enviar ${sel.length} mensagem${sel.length>1?'ns':''}</button>`;
+  abrir('ovCobrar');
+  const st=await whatsStatus(true);
+  const q=$('#cbQuem');if(q)q.innerHTML=st&&st.status==='connected'?`Vai sair do WhatsApp conectado: <b>${esc(st.nome||st.inst)}</b>.`:`<span style="color:var(--red)">⚠ O WhatsApp da Lidera não está conectado (${esc((st&&st.status)||'sem resposta')}). Verifique o UAZAPI antes de enviar.</span>`;
+  $('#cbGo').onclick=()=>cbDisparar(sel);
+};
+async function cbDisparar(sel){
+  cb.cancelar=false;cb.enviando=true;
+  const min=+(cbCfg().intMin||8),max=+(cbCfg().intMax||20);
+  $('#cbModalFoot').innerHTML=`<div class="cb-barra" style="flex:1"><i id="cbPct" style="width:0%"></i></div><button class="btn btn-ghost" id="cbStop">Parar</button>`;
+  $('#cbStop').onclick=()=>{cb.cancelar=true;$('#cbStop').textContent='Parando…'};
+  $('#cbModalX').style.visibility='hidden';
+  let ok=0,err=0;
+  for(let i=0;i<sel.length;i++){
+    const o=sel[i];const it=document.getElementById('cbit-'+o.id);
+    if(cb.cancelar){if(it){it.className='it';it.querySelector('.st').textContent='cancelado'}continue}
+    if(i>0){const w=min+Math.floor(Math.random()*(max-min+1));for(let s=w;s>0&&!cb.cancelar;s--){if(it){it.className='it run';it.querySelector('.st').textContent=`aguardando ${s}s`}await new Promise(r=>setTimeout(r,1000))}
+      if(cb.cancelar){if(it){it.className='it';it.querySelector('.st').textContent='cancelado'}continue}}
+    if(it){it.className='it run';it.querySelector('.st').textContent='enviando…'}
+    try{await whatsEnviar(o.tel,cbMontar(o));ok++;cbLog(o,'whats',true);if(it){it.className='it ok';it.querySelector('.st').textContent='enviada ✓'}}
+    catch(e){err++;const m=String(e&&e.message||e);cbLog(o,'whats',false,m);if(it){it.className='it err';it.querySelector('.st').textContent='falhou'}console.warn('cobrança',o.nome,m)}
+    const p=$('#cbPct');if(p)p.style.width=Math.round((i+1)/sel.length*100)+'%';
+  }
+  cb.enviando=false;$('#cbModalX').style.visibility='';
+  $('#cbModalFoot').innerHTML=`<div style="flex:1;font-size:12.5px;color:var(--muted);font-weight:600">${ok} enviada${ok===1?'':'s'}${err?` · <span style="color:var(--red)">${err} falhou</span>`:''}${cb.cancelar?' · interrompido':''}</div><button class="btn btn-primary" onclick="fechar('ovCobrar')">Fechar</button>`;
+  cb.sel.clear();renderCobranca();
+  toast(ok?`${ok} cobrança${ok>1?'s':''} enviada${ok>1?'s':''}`:'Nenhuma mensagem enviada');
+}
+
+/* painel em Ajustes */
+async function renderWhats(){
+  const el=$('#whatsBox');if(!el)return;
+  const c=S.cfg.whats||{};
+  el.innerHTML=`<div style="display:flex;flex-direction:column;gap:11px">
+    <div id="waSt" class="wa-status"><i></i>${c.token?'verificando conexão…':'não configurado'}</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.6;font-weight:500">As cobranças em lote saem por este número. A credencial chega cifrada junto com os dados do Asaas; se preferir, informe outra aqui.</div>
+    <div class="fld"><label>Servidor UAZAPI</label><input id="waUrl" value="${esc(c.url||'https://roniautomacoes-pro.uazapi.com')}" placeholder="https://…"></div>
+    <div class="fld"><label>Token da instância</label><input id="waTok" type="password" value="${esc(c.token||'')}" placeholder="cole o token" autocomplete="off"></div>
+    <div class="frow">
+      <div class="fld"><label>Intervalo mín. (s)</label><input id="waMin" type="number" min="3" max="120" value="${cbCfg().intMin||8}"></div>
+      <div class="fld"><label>Intervalo máx. (s)</label><input id="waMax" type="number" min="3" max="180" value="${cbCfg().intMax||20}"></div>
+    </div>
+    <div class="fld"><label>Meu número para teste</label><input id="waTeste" inputmode="tel" value="${esc(cbCfg().numTeste||'')}" placeholder="DDD + número"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-primary btn-sm" onclick="whatsSalvar()">Salvar</button>
+      <button class="btn btn-ghost btn-sm" onclick="whatsTeste()">Enviar mensagem de teste</button>
+    </div></div>`;
+  $('#whatsHint').textContent=c.token?'':'aguardando';
+  if(c.token){const st=await whatsStatus(true);const w=$('#waSt');if(w){w.className='wa-status '+(st&&st.status==='connected'?'on':'off');w.innerHTML=`<i></i>${st&&st.status==='connected'?'conectado · '+esc(st.nome||st.inst):'sem conexão ('+esc((st&&st.status)||'?')+')'}`}
+    $('#whatsHint').textContent=st&&st.status==='connected'?esc(st.nome||''):''}
+}
+window.whatsSalvar=()=>{
+  const url=$('#waUrl').value.trim(),tok=$('#waTok').value.trim();
+  const antigo=(S.cfg.whats||{}).token||'';
+  S.cfg.whats=Object.assign({},S.cfg.whats,{url:url||'https://roniautomacoes-pro.uazapi.com',token:tok,manual:tok!==antigo?true:!!(S.cfg.whats&&S.cfg.whats.manual)});
+  cbCfg().intMin=Math.max(3,+$('#waMin').value||8);cbCfg().intMax=Math.max(cbCfg().intMin,+$('#waMax').value||20);
+  cbCfg().numTeste=$('#waTeste').value.replace(/\D/g,'');
+  whatsInfo=null;save();renderWhats();toast('WhatsApp salvo');
+};
+window.whatsTeste=async()=>{
+  let n=($('#waTeste').value||'').replace(/\D/g,'');if(n.length===10||n.length===11)n='55'+n;
+  if(n.length<12){toast('Informe seu número com DDD.');return}
+  cbCfg().numTeste=$('#waTeste').value.replace(/\D/g,'');save();
+  const d=cbDados()||[];const o=d.find(x=>x.cobraveis.length)||d[0];
+  const txt=o?cbMontar(o):'Teste de cobrança do Financeiro · by Lidera ✅';
+  try{await whatsEnviar(n,'🧪 TESTE (não é uma cobrança real)\n\n'+txt);toast('Teste enviado para '+cbTelFmt(n))}catch(e){toast('Falhou: '+String(e&&e.message||e))}
+};
 
 /* ═══════════════ IMPORTAÇÃO DE PLANILHA ═══════════════ */
 const norm=s=>String(s??'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
@@ -2164,6 +2621,7 @@ $('#filePlan').onchange=e=>{
 /* ═══════════════ DESPESAS FIXAS ═══════════════ */
 const catByNome=n=>S.categorias.find(c=>norm(c.nome)===norm(n))?.id||null;
 function migrar(){
+  S.cobrancas=S.cobrancas||[];S.cfg.cobranca=S.cfg.cobranca||{};
   if(!S.fixas){
     const mk=(desc,valor,dia,cat,meioNome)=>({id:uid(),desc,valor,dia,
       catId:catByNome(cat),ccId:S.centros.find(c=>norm(c.nome)===norm('Administrativo'))?.id||null,
@@ -2456,6 +2914,7 @@ function migrar(){
   }
 }
 if(S.lancs&&S.lancs.length)migrar();  /* só migra estado com dados */
+S.cobrancas=S.cobrancas||[];S.cfg.cobranca=S.cfg.cobranca||{};
 let fixMes=mesKey(hoje());
 const jaLancada=fid=>S.lancs.some(l=>l.fixaId===fid&&mesKey(l.venc)===fixMes);
 const icoRepeat='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>';
@@ -2615,6 +3074,7 @@ $('#escTodas').onclick=()=>{fechar('ovEscopo');escTodasCb&&escTodasCb();escUmaCb
 function render(){
   if(viewAtual==='dash')renderDash();
   else if(viewAtual==='lanc')renderLanc();
+  else if(viewAtual==='cobranca')renderCobranca();
   else if(viewAtual==='fixas')renderFixas();
   else if(viewAtual==='vendas')renderVendas();
   else if(viewAtual==='cartoes')renderCartoes();
