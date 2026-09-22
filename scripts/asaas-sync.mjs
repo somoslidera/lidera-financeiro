@@ -29,9 +29,26 @@ const [pagamentos, clientes] = await Promise.all([buscarTudo('payments'), buscar
 const nomes = {};
 clientes.forEach(c => { nomes[c.id] = c.name || c.company || ''; });
 
+// telefone no formato do WhatsApp (55 + DDD + número), ou null se não der pra usar
+function fone(c) {
+  let n = String((c && (c.mobilePhone || c.phone)) || '').replace(/\D/g, '');
+  if (!n) return null;
+  if (n.length === 10 || n.length === 11) n = '55' + n;
+  if (n.length < 12 || n.length > 13) return null;
+  return n;
+}
+const clientesOut = clientes.map(c => ({
+  id: c.id,
+  nome: c.name || c.company || '',
+  telefone: fone(c),
+  pf: String(c.cpfCnpj || '').replace(/\D/g, '').length === 11   // pessoa física → dá pra chamar pelo nome
+}));
+
 const cobrancas = pagamentos.map(p => ({
   id: p.id,
+  clienteId: p.customer || null,
   cliente: nomes[p.customer] || p.customer || '',
+  link: p.invoiceUrl || p.bankSlipUrl || null,     // página de pagamento (Pix + boleto)
   valor: p.value,
   vencimento: p.dueDate,
   pagamento: p.paymentDate || p.clientPaymentDate || null,
@@ -41,7 +58,7 @@ const cobrancas = pagamentos.map(p => ({
   parcela: (p.installmentNumber && p.installmentCount) ? `${p.installmentNumber}/${p.installmentCount}` : null
 })).sort((a, b) => String(a.vencimento).localeCompare(String(b.vencimento)));
 
-const conteudo = { total: cobrancas.length, geradoEm: new Date().toISOString(), cobrancas };
+const conteudo = { versao: 2, total: cobrancas.length, geradoEm: new Date().toISOString(), cobrancas, clientes: clientesOut };
 console.log(`Asaas: ${cobrancas.length} cobranças (${clientes.length} clientes)`);
 
 // criptografa com AES-256-GCM
@@ -63,12 +80,12 @@ if (existsSync(destino)) {
   try {
     const antigo = JSON.parse(readFileSync(destino, 'utf8'));
     if (antigo.total === saida.total) {
-      const chaveAntiga = antigo.assinatura, nova = cobrancas.map(c => `${c.id}:${c.status}:${c.valor}:${c.vencimento}`).join('|');
+      const chaveAntiga = antigo.assinatura, nova = 'v2|' + cobrancas.map(c => `${c.id}:${c.status}:${c.valor}:${c.vencimento}:${c.link ? 1 : 0}`).join('|') + '|' + clientesOut.map(c => `${c.id}:${c.telefone || ''}`).join(',');
       const hashNovo = Buffer.from(nova).toString('base64').slice(-64);
       if (chaveAntiga === hashNovo) { console.log('Sem mudanças — nada a publicar.'); process.exit(0); }
     }
   } catch {}
 }
-saida.assinatura = Buffer.from(cobrancas.map(c => `${c.id}:${c.status}:${c.valor}:${c.vencimento}`).join('|')).toString('base64').slice(-64);
+saida.assinatura = Buffer.from('v2|' + cobrancas.map(c => `${c.id}:${c.status}:${c.valor}:${c.vencimento}:${c.link ? 1 : 0}`).join('|') + '|' + clientesOut.map(c => `${c.id}:${c.telefone || ''}`).join(',')).toString('base64').slice(-64);
 writeFileSync(destino, JSON.stringify(saida));
 console.log(`Publicado ${destino} (${saida.data.length} bytes cifrados)`);
