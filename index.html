@@ -2138,7 +2138,7 @@ const cbTelFmt=t=>{if(!t)return'';const n=String(t).replace(/^55/,'');return n.l
 function cbPrograma(desc){const d=norm(desc);if(d.includes('gestao de pessoas')||d.includes('lidera -'))return'Programa Lidera';if(d.includes('self')||d.includes('segredos'))return'Segredos do Self-Service';return'Lucro e Liberdade'}
 function cbTitulo(s){s=String(s||'').trim();if(!s||/[a-z]/.test(s))return s;/* só mexe se estiver toda em maiúsculas */
   const peq=new Set(['de','da','do','das','dos','e','a','o','em','no','na']);
-  return s.toLowerCase().split(/\s+/).map((w,i)=>{if(i&&peq.has(w))return w;if(w.length<=3&&/^[a-z]+$/.test(w)&&i===0&&w.length<=2)return w.toUpperCase();return w.replace(/^(\w)/,c=>c.toUpperCase()).replace(/(['’]\w)/g,c=>c.toUpperCase())}).join(' ')}
+  return s.toLowerCase().split(/\s+/).map((w,i)=>{if(i&&peq.has(w))return w;if(w.length===1)return w.toUpperCase();  /* letras isoladas (A B S) ficam maiúsculas */return w.replace(/^(\w)/,c=>c.toUpperCase()).replace(/(['’]\w)/g,c=>c.toUpperCase())}).join(' ')}
 function cbNomeCurto(n){return cbTitulo(String(n||'').replace(/\s*\(.*?\)\s*/g,' ').replace(/\b(LTDA|ME|EIRELI|S\/A)\b\.?/gi,'').replace(/\s+/g,' ').trim())}
 function cbApelido(n){const m=String(n||'').match(/\(([^)]+)\)/);return cbTitulo(m?m[1].trim():cbNomeCurto(n))}
 
