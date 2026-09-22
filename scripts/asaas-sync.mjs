@@ -58,7 +58,11 @@ const cobrancas = pagamentos.map(p => ({
   parcela: (p.installmentNumber && p.installmentCount) ? `${p.installmentNumber}/${p.installmentCount}` : null
 })).sort((a, b) => String(a.vencimento).localeCompare(String(b.vencimento)));
 
-const conteudo = { versao: 2, total: cobrancas.length, geradoEm: new Date().toISOString(), cobrancas, clientes: clientesOut };
+// credencial do WhatsApp (UAZAPI) viaja cifrada junto com os dados; o app usa para as cobranças em lote
+const whats = process.env.UAZAPI_TOKEN
+  ? { url: (process.env.UAZAPI_URL || 'https://roniautomacoes-pro.uazapi.com').replace(/\/$/, ''), token: process.env.UAZAPI_TOKEN }
+  : null;
+const conteudo = { versao: 2, total: cobrancas.length, geradoEm: new Date().toISOString(), cobrancas, clientes: clientesOut, whats };
 console.log(`Asaas: ${cobrancas.length} cobranças (${clientes.length} clientes)`);
 
 // criptografa com AES-256-GCM
@@ -80,12 +84,12 @@ if (existsSync(destino)) {
   try {
     const antigo = JSON.parse(readFileSync(destino, 'utf8'));
     if (antigo.total === saida.total) {
-      const chaveAntiga = antigo.assinatura, nova = 'v2|' + cobrancas.map(c => `${c.id}:${c.status}:${c.valor}:${c.vencimento}:${c.link ? 1 : 0}`).join('|') + '|' + clientesOut.map(c => `${c.id}:${c.telefone || ''}`).join(',');
+      const chaveAntiga = antigo.assinatura, nova = 'v2|' + cobrancas.map(c => `${c.id}:${c.status}:${c.valor}:${c.vencimento}:${c.link ? 1 : 0}`).join('|') + '|' + clientesOut.map(c => `${c.id}:${c.telefone || ''}`).join(',') + '|w:' + (whats ? whats.token.slice(-6) : '');
       const hashNovo = Buffer.from(nova).toString('base64').slice(-64);
       if (chaveAntiga === hashNovo) { console.log('Sem mudanças — nada a publicar.'); process.exit(0); }
     }
   } catch {}
 }
-saida.assinatura = Buffer.from('v2|' + cobrancas.map(c => `${c.id}:${c.status}:${c.valor}:${c.vencimento}:${c.link ? 1 : 0}`).join('|') + '|' + clientesOut.map(c => `${c.id}:${c.telefone || ''}`).join(',')).toString('base64').slice(-64);
+saida.assinatura = Buffer.from('v2|' + cobrancas.map(c => `${c.id}:${c.status}:${c.valor}:${c.vencimento}:${c.link ? 1 : 0}`).join('|') + '|' + clientesOut.map(c => `${c.id}:${c.telefone || ''}`).join(',') + '|w:' + (whats ? whats.token.slice(-6) : '')).toString('base64').slice(-64);
 writeFileSync(destino, JSON.stringify(saida));
 console.log(`Publicado ${destino} (${saida.data.length} bytes cifrados)`);

@@ -24,6 +24,8 @@ jobs:
         env:
           ASAAS_API_KEY: ${{ secrets.ASAAS_API_KEY }}
           ASAAS_ENC_KEY: ${{ secrets.ASAAS_ENC_KEY }}
+          UAZAPI_TOKEN: ${{ secrets.UAZAPI_TOKEN }}
+          UAZAPI_URL: ${{ secrets.UAZAPI_URL }}
         run: node scripts/asaas-sync.mjs
       - name: Publicar se mudou
         run: |
