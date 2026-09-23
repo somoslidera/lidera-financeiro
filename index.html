@@ -412,6 +412,16 @@ body.dark .bn-item.on{color:var(--gold-soft)}
 .cb-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .cb-ult{font-size:11.5px;color:var(--soft);margin-top:10px;font-weight:500}
 .cb-msg textarea{min-height:200px;resize:vertical;line-height:1.55;font-size:13.5px}
+.cb-modelos{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.cb-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:20px;font-size:12px;font-weight:700;background:var(--card);border:1px solid var(--line);color:var(--muted);transition:.15s var(--ease)}
+.cb-chip:hover{border-color:var(--soft);color:var(--ink)}
+.cb-chip.on{background:var(--grad-brand);color:#fff;border-color:transparent;box-shadow:var(--sh-brand)}
+.cb-chip i{font-style:normal;color:var(--gold);font-weight:800}
+.cb-chip.on i{color:var(--gold-light)}
+.cb-chip .x{opacity:.55;margin-left:2px;font-size:11px}.cb-chip .x:hover{opacity:1;color:var(--red)}
+.cb-modelo-desc{font-size:12px;color:var(--muted);line-height:1.55;font-weight:500;margin-bottom:10px;padding:9px 12px;background:var(--bg-2);border-radius:10px;border:1px solid var(--line)}
+.cb-modelo-desc b{color:var(--ink)}
+.cb-msg textarea.ro{opacity:.7;background:var(--bg-2)}
 .cb-vars{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 6px}
 .cb-vars button{font-size:11px;font-weight:700;padding:4px 9px;border-radius:8px;background:var(--bg-2);border:1px solid var(--line);color:var(--navy);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;transition:.15s}
 .cb-vars button:hover{background:var(--blue-bg);border-color:var(--navy)}
@@ -724,7 +734,9 @@ body.dark .wa-prev .hora{color:rgba(255,255,255,.42)}
         </div>
         <div class="cb-col">
           <div class="card panel cb-msg">
-            <h3>Mensagem <button class="add-mini" onclick="cbRestaurarMsg()">restaurar padrão</button></h3>
+            <h3>Mensagem <span style="display:flex;gap:6px"><button class="add-mini" onclick="cbSalvarComoModelo()">salvar como modelo</button><button class="add-mini" onclick="cbRestaurarMsg()">restaurar</button></span></h3>
+            <div class="cb-modelos" id="cbModelos"></div>
+            <div class="cb-modelo-desc" id="cbModeloDesc"></div>
             <div class="fld"><textarea id="cbTpl" spellcheck="false" placeholder="Escreva a mensagem…"></textarea></div>
             <div class="cb-vars" id="cbVars"></div>
             <div style="font-size:11px;color:var(--soft);line-height:1.5;font-weight:500">Toque numa variável para inserir. <b>{resumo}</b> e <b>{links}</b> se adaptam sozinhos a um ou vários boletos, vencidos ou a vencer.</div>
@@ -2127,7 +2139,80 @@ Passando rapidinho aqui: {resumo}.
 Se já tiver pago, me avisa que eu dou baixa por aqui 🙏
 
 Qualquer coisa é só chamar!`;
-const CB_VARS=[['saudacao','Oi, Nome! ou Oi!'],['nome','primeiro nome (só pessoa física)'],['cliente','nome completo do cadastro'],['resumo','frase com parcelas, valor e vencimento'],['links','link(s) de pagamento'],['valor','total cobrado'],['qtd','quantidade de parcelas'],['dias','dias de atraso da mais antiga'],['vencimento','vencimento da mais antiga'],['restante','saldo em aberto do contrato'],['programa','nome do programa']];
+const CB_VARS=[['saudacao','Oi, Nome! ou Oi!'],['nome','primeiro nome (só pessoa física)'],['cliente','nome do cadastro'],['resumo','frase completa: ficou uma parcela… que venceu…'],['parcelas','só o trecho: a parcela de R$ X que venceu dia…'],['links','link(s) já com a frase de introdução'],['link','só o(s) link(s)'],['valor','total cobrado'],['qtd','quantidade de parcelas'],['dias','dias de atraso da mais antiga'],['vencimento','vencimento da mais antiga'],['restante','saldo em aberto do contrato'],['programa','nome do programa']];
+/* modelos prontos. uso: 'atras' (vencidos), 'prox' (a vencer), 'cron' (30 dias ou mais) */
+const CB_MODELOS=[
+ {id:'leve',nome:'Lembrete leve',uso:'atras',desc:'Primeiro contato. Leve, sem cobrar explicação.',texto:CB_TPL_PADRAO},
+ {id:'segundo',nome:'Segundo aviso',uso:'atras',desc:'Para quem já recebeu o lembrete e não respondeu.',texto:`{saudacao} Passando de novo por aqui 🙂
+
+Te mandei uma mensagem esses dias sobre {parcelas}, e ainda não consegui identificar o pagamento.
+
+Sei que a correria do restaurante é grande, então deixo os links de novo pra facilitar:
+
+{link}
+
+Se o pagamento já saiu, me manda o comprovante que eu dou baixa na hora 🙏`},
+ {id:'comprovante',nome:'Já pagou?',uso:'atras',desc:'Pede o comprovante. Bom quando o cliente costuma pagar por fora do boleto.',texto:`{saudacao}
+
+Estou fechando o controle por aqui e ainda aparece em aberto no sistema: {parcelas}.
+
+Se você já pagou, me manda o comprovante que eu dou baixa agora mesmo. Se ainda não, o link pra resolver é este:
+
+{link}
+
+Obrigado! 🙏`},
+ {id:'direto',nome:'Direto ao ponto',uso:'atras',desc:'Curta e objetiva. Só o fato e o link.',texto:`{saudacao}
+
+Consta em aberto {parcelas}.
+
+Link pra pagar no Pix ou no boleto:
+{link}
+
+Qualquer dúvida é só me chamar.`},
+ {id:'data',nome:'Combinar uma data',uso:'atras',desc:'Pede uma previsão de pagamento em vez de só lembrar.',texto:`{saudacao} Tudo certo?
+
+Ainda está pendente por aqui: {parcelas}.
+
+Consegue me passar uma previsão de quando dá pra acertar? Assim eu deixo anotado e não fico te lembrando à toa 😅
+
+Se quiser já resolver, os links são estes:
+{link}`},
+ {id:'conversa',nome:'Vamos conversar',uso:'cron',desc:'Para atraso longo. Abre espaço pra negociar, sem pressão.',texto:`{saudacao} Tudo bem por aí?
+
+Vi que ainda está em aberto: {parcelas}. Antes de qualquer coisa, queria entender se aconteceu alguma coisa.
+
+Se ficou apertado, me fala que a gente encontra um jeito de resolver junto, sem stress. Se foi só esquecimento, os links estão aqui:
+
+{link}
+
+Conta comigo 🤝`},
+ {id:'vence',nome:'Vence em breve',uso:'prox',desc:'Lembrete antes do vencimento, para a aba "Vencem em 7 dias".',texto:`{saudacao} Tudo bem? 👋
+
+Só um lembrete rápido: {parcelas}.
+
+Se quiser adiantar, o link já está aqui:
+{link}
+
+Boa semana por aí! 🙌`}
+];
+const cbModeloDef=id=>CB_MODELOS.find(m=>m.id===id)||(cbCfg().modelos||[]).find(m=>m.id===id)||null;
+const cbEhCustom=id=>!!(cbCfg().modelos||[]).find(m=>m.id===id);
+function cbTextoModelo(id){const m=cbModeloDef(id);if(!m)return CB_TPL_PADRAO;if(cbEhCustom(id))return m.texto;const ov=(cbCfg().override||{})[id];return ov||m.texto}
+const cbModeloSel=()=>cbCfg().modelo||'auto';
+/* modo automático: situação do cliente + o que ele já recebeu */
+function cbModeloAuto(o){
+  const hist=(S.cobrancas||[]).filter(l=>l.cid===o.id&&l.ok).sort((a,b)=>a.data<b.data?1:-1);
+  const usados=hist.map(l=>l.tpl||'leve');
+  const livre=ids=>ids.find(i=>!usados.includes(i));
+  if(!o.atras.length&&o.prox.length)return 'vence';
+  if(o.dias>=30){const c=livre(['conversa','data','comprovante','segundo','direto']);if(c)return c}
+  const c=livre(usados.length?['segundo','comprovante','direto','data','conversa']:['leve']);
+  if(c)return c;
+  /* já recebeu todos: repete o menos recente */
+  const ordem=CB_MODELOS.filter(m=>m.uso!=='prox').map(m=>m.id);
+  return ordem.sort((a,b)=>usados.lastIndexOf(a)-usados.lastIndexOf(b))[0]||'leve';
+}
+function cbTextoPara(o){const id=cbModeloSel()==='auto'?cbModeloAuto(o):cbModeloSel();const m=cbModeloDef(id);return {id,nome:m?m.nome:'Modelo',texto:cbTextoModelo(id)}}
 const cbCfg=()=>(S.cfg.cobranca||(S.cfg.cobranca={}));
 const cb={filtro:'atras',sel:new Set(),aberto:null,busca:'',cancelar:false,enviando:false};
 const brl=v=>Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -2192,21 +2277,24 @@ function cbMontar(o,tpl){
   const prog='do '+o.programa;
   const quando=b=>b.vencimento<H?`venceu dia ${ddmm(b.vencimento)}`:(b.vencimento===H?'vence hoje':`vence dia ${ddmm(b.vencimento)}`);
   const todasFuturas=bs.every(b=>b.vencimento>=H);
-  let resumo='',links='';
+  let resumo='',links='',parcelas='',link='';
   if(n===1){const b=bs[0];
     resumo=todasFuturas?`a próxima parcela ${prog}, de R$ ${brl(b.valor)}, ${quando(b)}`:`ficou uma parcela ${prog} em aberto, de R$ ${brl(b.valor)}, que ${quando(b)}`;
+    parcelas=todasFuturas?`a parcela de R$ ${brl(b.valor)} ${prog} ${quando(b)}`:`a parcela de R$ ${brl(b.valor)} ${prog}, que ${quando(b)}`;
     links=b.link?`Deixo o link pra você pagar no Pix ou no boleto, é só clicar:\n${b.link}`:'';
+    link=b.link||'';
   }else if(n>1){
     resumo=todasFuturas?`as próximas ${n} parcelas ${prog} somam R$ ${brl(tot)}`:`ficaram ${n} parcelas ${prog} em aberto, somando R$ ${brl(tot)}`;
+    parcelas=todasFuturas?`as próximas ${n} parcelas ${prog}, que somam R$ ${brl(tot)}`:`as ${n} parcelas ${prog}, que somam R$ ${brl(tot)}`;
     links=bs.map(b=>`• R$ ${brl(b.valor)}, ${quando(b)}`+(b.link?`\n  ${b.link}`:'')).join('\n')+'\n\nÉ só clicar nos links pra pagar no Pix ou no boleto.';
+    link=bs.map(b=>`• R$ ${brl(b.valor)} (${ddmm(b.vencimento)})`+(b.link?`: ${b.link}`:'')).join('\n');
   }
   const pn=o.pf?(String(o.nome).trim().split(/\s+/)[0]||''):'';
   const nome=pn?pn.charAt(0).toUpperCase()+pn.slice(1).toLowerCase():'';
-  const vars={saudacao:nome?`Oi, ${nome}!`:'Oi!',nome,cliente:cbNomeCurto(o.nome),resumo,links,valor:'R$ '+brl(tot),qtd:String(n),dias:String(o.dias),
+  const vars={saudacao:nome?`Oi, ${nome}!`:'Oi!',nome,cliente:cbNomeCurto(o.nome),resumo,parcelas,links,link,valor:'R$ '+brl(tot),qtd:String(n),dias:String(o.dias),
     vencimento:bs[0]?ddmm(bs[0].vencimento):'',restante:'R$ '+brl(o.restante),programa:o.programa};
-  return String(tpl||cbCfg().template||CB_TPL_PADRAO).replace(/\{(\w+)\}/g,(m,k)=>k in vars?vars[k]:m).replace(/\n{3,}/g,'\n\n').trim();
+  return String(tpl||cbTextoPara(o).texto).replace(/\{(\w+)\}/g,(m,k)=>k in vars?vars[k]:m).replace(/\n{3,}/g,'\n\n').trim();
 }
-const cbTpl=()=>cbCfg().template||CB_TPL_PADRAO;
 const cbTempoRel=isoStr=>{const d=new Date(isoStr);const m=Math.round((Date.now()-d.getTime())/60000);if(m<1)return'agora';if(m<60)return`há ${m} min`;const hh=Math.round(m/60);if(hh<24)return`há ${hh} h`;return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})};
 
 function renderCobranca(){
@@ -2278,7 +2366,8 @@ function cbDetalhe(o){
     </div>
     <div style="font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">${o.cobraveis.length?'Entram na mensagem':'Próximas parcelas'}</div>
     ${linhas||'<div class="cb-bol"><span class="d">Nenhum boleto em aberto.</span></div>'}
-    ${o.ultima?`<div class="cb-ult">Última cobrança ${cbTempoRel(o.ultima.data)} · ${o.ultima.canal==='wa'?'pelo meu WhatsApp':'pelo WhatsApp da Lidera'} ${o.ultima.ok?'✓':'✗ '+esc(o.ultima.erro||'falhou')}</div>`:''}
+    ${o.ultima?`<div class="cb-ult">Última cobrança ${cbTempoRel(o.ultima.data)} · ${o.ultima.canal==='wa'?'pelo meu WhatsApp':'pelo WhatsApp da Lidera'} · modelo <b>${esc(o.ultima.tplNome||'Lembrete leve')}</b> ${o.ultima.ok?'✓':'✗ '+esc(o.ultima.erro||'falhou')}</div>`:''}
+    <div class="cb-ult" style="margin-top:6px">Próxima mensagem: <b>${esc(cbTextoPara(o).nome)}</b>${cbModeloSel()==='auto'?' (automático)':''}</div>
     <div class="cb-acts">
       <button class="btn btn-primary btn-sm" ${o.tel&&o.cobraveis.length?'':'disabled style="opacity:.45"'} onclick="cbUm('${o.id}')">Enviar pelo WhatsApp da Lidera</button>
       <button class="btn btn-ghost btn-sm" ${o.tel?'':'disabled style="opacity:.45"'} onclick="cbWa('${o.id}')">Abrir no meu WhatsApp</button>
@@ -2296,21 +2385,41 @@ function cbRenderBar(dados){
 }
 function cbRenderMsg(dados){
   const ta=$('#cbTpl');if(!ta)return;
-  if(document.activeElement!==ta)ta.value=cbTpl();
-  $('#cbVars').innerHTML=CB_VARS.map(([k,t])=>`<button type="button" title="${esc(t)}" onclick="cbVar('${k}')">{${k}}</button>`).join('');
+  const cfg=cbCfg();
+  if(cfg.template&&!cfg.override){cfg.override={leve:cfg.template};cfg.template=undefined;save()}  /* migra a edição antiga */
+  const sel=cbModeloSel(),auto=sel==='auto';
   let alvo=null;
   if(dados){const ids=[...cb.sel];alvo=dados.find(o=>ids.includes(o.id)&&o.podeCobrar)||cbFiltrar(dados).find(o=>o.cobraveis.length)||cbFiltrar(dados)[0]||dados[0]}
+  const custom=cfg.modelos||[];
+  const chip=(id,nome,extra)=>`<button type="button" class="cb-chip ${sel===id?'on':''}" onclick="cbEscolherModelo('${id}')">${esc(nome)}${extra||''}</button>`;
+  $('#cbModelos').innerHTML=chip('auto','✨ Automático')+CB_MODELOS.map(m=>chip(m.id,m.nome,(cfg.override||{})[m.id]?' <i title="editado">•</i>':'')).join('')+custom.map(m=>chip(m.id,m.nome,' <span class="x" title="excluir modelo" onclick="event.stopPropagation();cbExcluirModelo(\''+m.id+'\')">✕</span>')).join('');
+  const mAtual=auto?(alvo?cbModeloDef(cbModeloAuto(alvo)):null):cbModeloDef(sel);
+  const desc=$('#cbModeloDesc');
+  if(auto)desc.innerHTML=`Cada cliente recebe o modelo certo para a situação dele e que <b>ainda não recebeu</b>: primeiro o lembrete leve, depois o segundo aviso, e assim por diante. Atraso de 30 dias ou mais começa por "Vamos conversar". A vencer usa "Vence em breve".${mAtual?` <br>Para ${esc(cbApelido(alvo.nome))}: <b>${esc(mAtual.nome)}</b>.`:''}`;
+  else desc.innerHTML=mAtual?esc(mAtual.desc||'Seu modelo.')+(cbEhCustom(sel)?'':' Edite à vontade, a mudança fica salva neste modelo.'):'';
+  const txtSel=auto?(alvo?cbTextoPara(alvo).texto:CB_TPL_PADRAO):cbTextoModelo(sel);
+  if(document.activeElement!==ta||auto)ta.value=txtSel;
+  ta.readOnly=auto;ta.classList.toggle('ro',auto);
+  $('#cbVars').innerHTML=auto?`<span style="font-size:11px;color:var(--soft)">No automático o texto é só leitura. Toque num modelo para editá-lo.</span>`:CB_VARS.map(([k,t])=>`<button type="button" title="${esc(t)}" onclick="cbVar('${k}')">{${k}}</button>`).join('');
   const prev=$('#cbPrev');
   if(!alvo){prev.textContent='Selecione um cliente para ver a mensagem montada.';$('#cbPrevQuem').textContent='';return}
-  const txt=cbMontar(alvo,ta.value);
+  const txt=cbMontar(alvo,auto?undefined:ta.value);
   prev.innerHTML=esc(txt).replace(/(https?:\/\/\S+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')+`<span class="hora">${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} ✓✓</span>`;
-  $('#cbPrevQuem').textContent='para '+cbApelido(alvo.nome);
+  $('#cbPrevQuem').textContent='para '+cbApelido(alvo.nome)+(mAtual?' · '+mAtual.nome:'');
 }
+window.cbEscolherModelo=id=>{cbCfg().modelo=id;save();renderCobranca()};
+window.cbExcluirModelo=id=>{const m=cbModeloDef(id);if(!m)return;confirmar(`Excluir o modelo "${m.nome}"?`,()=>{cbCfg().modelos=(cbCfg().modelos||[]).filter(x=>x.id!==id);if(cbCfg().modelo===id)cbCfg().modelo='auto';save();renderCobranca();toast('Modelo excluído')})};
+window.cbSalvarComoModelo=()=>{
+  const ta=$('#cbTpl');const texto=(ta.value||'').trim();if(!texto){toast('Escreva a mensagem antes de salvar.');return}
+  const nome=prompt('Nome do novo modelo:');if(!nome)return;
+  const m={id:'m'+uid(),nome:nome.trim().slice(0,32),texto};
+  cbCfg().modelos=(cbCfg().modelos||[]).concat([m]);cbCfg().modelo=m.id;save();renderCobranca();toast('Modelo salvo');
+};
 function cbRenderLog(){
   const el=$('#cbLog');if(!el)return;
   const L=(S.cobrancas||[]).slice(0,40);
   $('#cbLogHint').textContent=S.cobrancas&&S.cobrancas.length?`${S.cobrancas.length} envio${S.cobrancas.length>1?'s':''}`:'';
-  el.innerHTML=L.length?L.map(l=>`<div class="lg"><span class="t">${new Date(l.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})} ${new Date(l.data).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</span><span class="n">${esc(cbApelido(l.cliente))}</span><span class="c">${l.canal==='wa'?'meu whats':'lidera'}</span><span class="v" style="color:${l.ok?'var(--ink)':'var(--red)'}">${l.ok?fmt(l.valor):'falhou'}</span></div>`).join('')
+  el.innerHTML=L.length?L.map(l=>`<div class="lg"><span class="t">${new Date(l.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})} ${new Date(l.data).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</span><span class="n">${esc(cbApelido(l.cliente))}</span><span class="c">${esc(l.tplNome||'Lembrete leve')}</span><span class="c">${l.canal==='wa'?'meu whats':'lidera'}</span><span class="v" style="color:${l.ok?'var(--ink)':'var(--red)'}">${l.ok?fmt(l.valor):'falhou'}</span></div>`).join('')
     :'<div class="empty" style="padding:22px">Nenhuma cobrança enviada ainda.</div>';
 }
 /* interações */
@@ -2324,15 +2433,18 @@ window.cbClick=(ev,id)=>{
 };
 window.cbTodos=()=>{const d=cbFiltrar(cbDados()||[]).filter(o=>o.podeCobrar);if(!d.length){toast('Ninguém cobrável nesta lista.');return}const all=d.every(o=>cb.sel.has(o.id));d.forEach(o=>all?cb.sel.delete(o.id):cb.sel.add(o.id));renderCobranca()};
 window.cbLimpar=()=>{cb.sel.clear();renderCobranca()};
-window.cbRestaurarMsg=()=>{cbCfg().template=undefined;save();renderCobranca();toast('Mensagem padrão restaurada')};
+window.cbRestaurarMsg=()=>{const id=cbModeloSel();if(id==='auto'){toast('Escolha um modelo para restaurar.');return}if(cbEhCustom(id)){toast('Modelo seu: edite o texto direto.');return}if(cbCfg().override)delete cbCfg().override[id];save();renderCobranca();toast('Texto original do modelo restaurado')};
 window.cbVar=k=>{const ta=$('#cbTpl');const s=ta.selectionStart||0,e=ta.selectionEnd||0;ta.value=ta.value.slice(0,s)+'{'+k+'}'+ta.value.slice(e);ta.focus();ta.selectionStart=ta.selectionEnd=s+k.length+2;cbSalvarTpl()};
-const cbSalvarTpl=debounce(()=>{const v=$('#cbTpl').value;if(v.trim()===CB_TPL_PADRAO.trim()||!v.trim())cbCfg().template=undefined;else cbCfg().template=v;save();cbRenderMsg(cbDados())},250);
+const cbSalvarTpl=debounce(()=>{const id=cbModeloSel();if(id==='auto')return;const v=$('#cbTpl').value;
+  if(cbEhCustom(id)){const m=cbModeloDef(id);m.texto=v}
+  else{const def=cbModeloDef(id);cbCfg().override=cbCfg().override||{};if(!v.trim()||v.trim()===def.texto.trim())delete cbCfg().override[id];else cbCfg().override[id]=v}
+  save();cbRenderMsg(cbDados())},250);
 document.addEventListener('input',e=>{if(e.target&&e.target.id==='cbTpl')cbSalvarTpl()});
 window.cbAtualizar=async()=>{const b=$('#cbBtnAtu');if(b){b.textContent='⟳ atualizando…'}const r=await sincronizarAsaas(true);if(r)toast('Dados do Asaas atualizados');renderCobranca()};
 window.cbCopiar=async id=>{const o=(cbDados()||[]).find(x=>x.id===id);if(!o)return;try{await navigator.clipboard.writeText(cbMontar(o));toast('Mensagem copiada')}catch(e){toast('Não consegui copiar. Selecione o texto na prévia.')}};
 window.cbWa=id=>{const o=(cbDados()||[]).find(x=>x.id===id);if(!o||!o.tel)return;
   cbLog(o,'wa',true);window.open('https://wa.me/'+o.tel+'?text='+encodeURIComponent(cbMontar(o)),'_blank','noopener');renderCobranca()};
-function cbLog(o,canal,ok,erro){S.cobrancas=S.cobrancas||[];S.cobrancas.unshift({id:uid(),cid:o.id,cliente:o.nome,tel:o.tel,data:new Date().toISOString(),valor:o.cobraveis.reduce((a,b)=>a+b.valor,0),qtd:o.cobraveis.length,canal,ok:!!ok,erro:erro||null});if(S.cobrancas.length>500)S.cobrancas.length=500;save()}
+function cbLog(o,canal,ok,erro){const t=cbTextoPara(o);S.cobrancas=S.cobrancas||[];S.cobrancas.unshift({id:uid(),cid:o.id,cliente:o.nome,tel:o.tel,data:new Date().toISOString(),valor:o.cobraveis.reduce((a,b)=>a+b.valor,0),qtd:o.cobraveis.length,canal,ok:!!ok,erro:erro||null,tpl:t.id,tplNome:t.nome});if(S.cobrancas.length>500)S.cobrancas.length=500;save()}
 window.cbUm=id=>{cb.sel.clear();cb.sel.add(id);cbEnviarSel()};
 
 /* envio pelo WhatsApp da Lidera (UAZAPI), com confirmação e progresso */
@@ -2351,14 +2463,15 @@ async function whatsEnviar(numero,texto){
   if(!r.ok){let t='';try{t=(await r.text()).slice(0,120)}catch(e){}throw new Error('http-'+r.status+(t?' '+t:''))}
   return r.json().catch(()=>({}));
 }
-const itHtml=(o,st,cls)=>`<div class="it ${cls||''}" id="cbit-${o.id}"><span class="cb-av ${o.sev}" style="width:32px;height:32px;border-radius:10px;font-size:11px">${cbIniciais(o.nome)}</span><div class="who"><b>${esc(cbApelido(o.nome))}</b><small>${cbTelFmt(o.tel)} · ${fmt(o.cobraveis.reduce((a,b)=>a+b.valor,0))} · ${o.cobraveis.length} boleto${o.cobraveis.length>1?'s':''}</small></div><span class="st">${st}</span></div>`;
+const itHtml=(o,st,cls)=>{const t=cbTextoPara(o);return `<div class="it ${cls||''}" id="cbit-${o.id}"><span class="cb-av ${o.sev}" style="width:32px;height:32px;border-radius:10px;font-size:11px">${cbIniciais(o.nome)}</span><div class="who"><b>${esc(cbApelido(o.nome))}</b><small>${cbTelFmt(o.tel)} · ${fmt(o.cobraveis.reduce((a,b)=>a+b.valor,0))} · modelo <b>${esc(t.nome)}</b></small></div><span class="st">${st}</span></div>`};
 window.cbEnviarSel=async()=>{
   const dados=cbDados()||[];const sel=dados.filter(o=>cb.sel.has(o.id)&&o.podeCobrar);
   if(!sel.length){toast('Selecione ao menos um cliente com telefone.');return}
   if(!(S.cfg.whats&&S.cfg.whats.token)){toast('WhatsApp da cobrança ainda não conectado. Toque em atualizar ou veja Ajustes.');return}
   $('#cbModalTitle').textContent=`Enviar ${sel.length} cobrança${sel.length>1?'s':''}`;
   $('#cbModalBody').innerHTML=`<div class="resumo-box" id="cbQuem">Conferindo o WhatsApp conectado…</div>
-    <div class="cb-prog">${sel.map(o=>{const rec=o.ultima&&o.ultima.ok&&(Date.now()-new Date(o.ultima.data).getTime())<3*86400000;return itHtml(o,rec?'⚠ cobrado '+cbTempoRel(o.ultima.data):'pronto',rec?'warn':'')}).join('')}</div>
+    <div class="cb-prog">${sel.map(o=>{const t=cbTextoPara(o);const rep=o.ultima&&o.ultima.ok&&(o.ultima.tpl||'leve')===t.id;const rec=!rep&&o.ultima&&o.ultima.ok&&(Date.now()-new Date(o.ultima.data).getTime())<3*86400000;return itHtml(o,rep?'⚠ mesmo modelo de '+cbTempoRel(o.ultima.data):rec?'cobrado '+cbTempoRel(o.ultima.data):'pronto',rep?'warn':'')}).join('')}</div>
+    ${sel.some(o=>{const t=cbTextoPara(o);return o.ultima&&o.ultima.ok&&(o.ultima.tpl||'leve')===t.id})?`<div class="resumo-box" style="border-color:var(--amber)">⚠ Alguém vai receber o <b>mesmo modelo</b> de novo. Volte e escolha "Automático" ou outro modelo para não repetir.</div>`:''}
     <div style="font-size:11.5px;color:var(--soft);line-height:1.5;font-weight:500">As mensagens saem uma a uma, com intervalo de ${(cbCfg().intMin||8)} a ${(cbCfg().intMax||20)} segundos. Cada uma usa a mensagem do painel com os dados daquele cliente.</div>`;
   $('#cbModalFoot').innerHTML=`<button class="btn btn-ghost" data-close="ovCobrar" onclick="fechar('ovCobrar')">Cancelar</button><button class="btn btn-primary" id="cbGo">Enviar ${sel.length} mensagem${sel.length>1?'ns':''}</button>`;
   abrir('ovCobrar');
