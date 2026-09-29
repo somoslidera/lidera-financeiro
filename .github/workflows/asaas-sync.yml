@@ -2,8 +2,13 @@ name: Sincronizar Asaas
 
 on:
   schedule:
-    - cron: '0 11 * * *'   # todo dia às 08:00 (Brasília)
+    - cron: '0 * * * *'    # toda hora; o resumo no WhatsApp sai só na rodada das 08:00 (Brasília)
   workflow_dispatch:        # permite rodar na hora, pelo botão
+    inputs:
+      resumo:
+        description: 'Enviar o resumo diário agora?'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -26,6 +31,8 @@ jobs:
           ASAAS_ENC_KEY: ${{ secrets.ASAAS_ENC_KEY }}
           UAZAPI_TOKEN: ${{ secrets.UAZAPI_TOKEN }}
           UAZAPI_URL: ${{ secrets.UAZAPI_URL }}
+          RESUMO_NUMERO: ${{ secrets.RESUMO_NUMERO }}
+          ENVIAR_RESUMO: ${{ (github.event_name == 'workflow_dispatch' && inputs.resumo) && '1' || '0' }}
         run: node scripts/asaas-sync.mjs
       - name: Publicar se mudou
         run: |

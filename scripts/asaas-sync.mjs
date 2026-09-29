@@ -62,6 +62,49 @@ const cobrancas = pagamentos.map(p => ({
 const whats = process.env.UAZAPI_TOKEN
   ? { url: (process.env.UAZAPI_URL || 'https://roniautomacoes-pro.uazapi.com').replace(/\/$/, ''), token: process.env.UAZAPI_TOKEN }
   : null;
+// ── resumo diário no WhatsApp do dono (às 8h de Brasília, ou quando pedido à mão) ──
+const brt = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }));
+const isoBrt = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const hojeBrt = isoBrt(brt);
+const ontemBrt = isoBrt(new Date(brt.getTime() - 86400000));
+const querResumo = process.env.ENVIAR_RESUMO === '1' || (process.env.GITHUB_EVENT_NAME === 'schedule' && brt.getHours() === 8);
+if (querResumo) {
+  const PAGOS = ['RECEIVED', 'CONFIRMED', 'RECEIVED_IN_CASH'];
+  const MORTO = ['REFUNDED', 'REFUND_REQUESTED', 'REFUND_IN_PROGRESS', 'CHARGEBACK_REQUESTED', 'CHARGEBACK_DISPUTE', 'AWAITING_CHARGEBACK_REVERSAL', 'DELETED'];
+  const brl = v => Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const titulo = s => { s = String(s || '').trim(); if (!s || /[a-z]/.test(s)) return s; const peq = new Set(['de','da','do','das','dos','e','a','o','em','no','na']);
+    return s.toLowerCase().split(/\s+/).map((w, i) => (i && peq.has(w)) ? w : (w.length === 1 ? w.toUpperCase() : w.replace(/^(\w)/, c => c.toUpperCase()).replace(/(['’]\w)/g, c => c.toUpperCase()))).join(' '); };
+  const apelido = n => { const m = String(n || '').match(/\(([^)]+)\)/); return titulo(m ? m[1].trim() : String(n || '').replace(/\s*\(.*?\)\s*/g, ' ').replace(/\b(LTDA|ME|EIRELI|S\/A)\b\.?/gi, '').replace(/\s+/g, ' ').trim()); };
+  const dias = s => Math.max(0, Math.floor((brt - new Date(s + 'T00:00:00')) / 86400000));
+  const vivos = cobrancas.filter(c => !MORTO.includes(c.status));
+  const pagos = vivos.filter(c => PAGOS.includes(c.status) && c.pagamento && c.pagamento >= ontemBrt).sort((a, b) => (a.pagamento < b.pagamento ? 1 : -1));
+  const abertos = vivos.filter(c => !PAGOS.includes(c.status));
+  const venceHoje = abertos.filter(c => c.vencimento === hojeBrt);
+  const atras = abertos.filter(c => c.vencimento < hojeBrt);
+  const soma = l => l.reduce((a, c) => a + Number(c.valor), 0);
+  // atrasados agrupados por cliente
+  const porCli = {};
+  atras.forEach(c => { const k = c.clienteId || c.cliente; (porCli[k] = porCli[k] || { nome: c.cliente, n: 0, v: 0, d: 0 }); porCli[k].n++; porCli[k].v += Number(c.valor); porCli[k].d = Math.max(porCli[k].d, dias(c.vencimento)); });
+  const grupos = Object.values(porCli).sort((a, b) => b.d - a.d || b.v - a.v);
+  const dataTxt = brt.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' }).replace('.', '');
+  let txt = `📊 *Financeiro Lidera* · ${dataTxt}\n`;
+  txt += `\n✅ *Pagos desde ontem* (${pagos.length}) · R$ ${brl(soma(pagos))}\n`;
+  txt += pagos.length ? pagos.map(c => `• ${apelido(c.cliente)} · R$ ${brl(c.valor)}`).join('\n') + '\n' : '• nenhum pagamento\n';
+  txt += `\n📅 *Vencem hoje* (${venceHoje.length}) · R$ ${brl(soma(venceHoje))}\n`;
+  txt += venceHoje.length ? venceHoje.map(c => `• ${apelido(c.cliente)} · R$ ${brl(c.valor)}`).join('\n') + '\n' : '• nada vence hoje\n';
+  txt += `\n⚠️ *Atrasados* (${atras.length} boleto${atras.length === 1 ? '' : 's'} · ${grupos.length} cliente${grupos.length === 1 ? '' : 's'}) · R$ ${brl(soma(atras))}\n`;
+  txt += grupos.length ? grupos.map(g => `• ${apelido(g.nome)} · ${g.n > 1 ? g.n + '× · ' : ''}R$ ${brl(g.v)} · ${g.d} d`).join('\n') + '\n' : '• ninguém em atraso 🎉\n';
+  txt += `\nCobrar: financeiro.somoslidera.com.br`;
+  const numero = String(process.env.RESUMO_NUMERO || '').replace(/\D/g, '');
+  if (numero && process.env.UAZAPI_TOKEN) {
+    const url = (process.env.UAZAPI_URL || 'https://roniautomacoes-pro.uazapi.com').replace(/\/$/, '') + '/send/text';
+    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', token: process.env.UAZAPI_TOKEN }, body: JSON.stringify({ number: numero, text: txt }) });
+    console.log(r.ok ? `Resumo diário enviado para …${numero.slice(-4)}` : `Resumo diário FALHOU: HTTP ${r.status} ${(await r.text()).slice(0, 120)}`);
+  } else {
+    console.log('Resumo diário (sem RESUMO_NUMERO, só no log):\n' + txt);
+  }
+}
+
 const conteudo = { versao: 2, total: cobrancas.length, geradoEm: new Date().toISOString(), cobrancas, clientes: clientesOut, whats };
 console.log(`Asaas: ${cobrancas.length} cobranças (${clientes.length} clientes)`);
 
