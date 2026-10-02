@@ -51,7 +51,8 @@ function montar(etapa, c, bs) {
     ? `${s} Tudo bem? 👋\n\nPassando pra lembrar que ${item} ${quando(b)}.\n\nDeixo o link pra facilitar, dá pra pagar no Pix ou no boleto:${lista}\n\nSe já tiver pago, pode desconsiderar 🙂`
     : `${s} Tudo bem? 👋\n\nPassando pra lembrar das ${item}:${lista}\n\nÉ só clicar pra pagar no Pix ou no boleto. Se já tiver pago, pode desconsiderar 🙂`;
   if (etapa === 'd1') return `${s} Tudo bem? 👋\n\n${um ? `Vi aqui que ${item} ${quando(b)} e ainda está em aberto.` : `Ficaram em aberto ${item}.`} Na correria pode ter passado batido, então deixo ${oLink} aqui:${lista}\n\nSe já tiver pago, me avisa que eu dou baixa 🙏`;
-  if (etapa === 'd3') return `${s} Tudo certo?\n\nAinda não identifiquei o pagamento de ${item}${um ? `, que ${quando(b)}` : ''}.\n\nSe já saiu, me manda o comprovante que eu dou baixa na hora. Se ainda não, ${um ? 'o link é este' : 'os links são estes'}:${lista}\n\nObrigado! 🙏`;
+  const itemDe = um ? `da parcela de R$ ${brl(b.value)} ${prog}` : `das ${bs.length} parcelas ${prog}, que somam R$ ${brl(tot)}`;
+  if (etapa === 'd3') return `${s} Tudo certo?\n\nAinda não identifiquei o pagamento ${itemDe}${um ? `, que ${quando(b)}` : ''}.\n\nSe já saiu, me manda o comprovante que eu dou baixa na hora. Se ainda não, ${um ? 'o link é este' : 'os links são estes'}:${lista}\n\nObrigado! 🙏`;
   return `${s} Tudo bem por aí?\n\nJá faz uns dias que ${item} ${um ? 'está' : 'estão'} em aberto, e queria entender se aconteceu alguma coisa.\n\nSe ficou apertado, me fala que a gente encontra um jeito de resolver junto, sem stress. Se foi só esquecimento, ${um ? 'o link está aqui' : 'os links estão aqui'}:${lista}\n\nConta comigo 🤝`;
 }
 

@@ -413,6 +413,10 @@ body.dark .bn-item.on{color:var(--gold-soft)}
 .cb-ult{font-size:11.5px;color:var(--soft);margin-top:10px;font-weight:500}
 .cb-msg textarea{min-height:200px;resize:vertical;line-height:1.55;font-size:13.5px}
 .cb-modelos{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.cb-rg{border-top:1px solid var(--line-2);padding:9px 0}.cb-rg:first-of-type{border-top:none}
+.cb-rg summary{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;list-style:none}
+.cb-rg summary::-webkit-details-marker{display:none}
+.cb-rg summary b{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .cb-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:20px;font-size:12px;font-weight:700;background:var(--card);border:1px solid var(--line);color:var(--muted);transition:.15s var(--ease)}
 .cb-chip:hover{border-color:var(--soft);color:var(--ink)}
 .cb-chip.on{background:var(--grad-brand);color:#fff;border-color:transparent;box-shadow:var(--sh-brand)}
@@ -733,6 +737,10 @@ body.dark .wa-prev .hora{color:rgba(255,255,255,.42)}
           <div class="cb-bar" id="cbBar"></div>
         </div>
         <div class="cb-col">
+          <div class="card panel">
+            <h3>Régua automática <span id="cbReguaHint"></span></h3>
+            <div id="cbRegua"></div>
+          </div>
           <div class="card panel cb-msg">
             <h3>Mensagem <span style="display:flex;gap:6px"><button class="add-mini" onclick="cbSalvarComoModelo()">salvar como modelo</button><button class="add-mini" onclick="cbRestaurarMsg()">restaurar</button></span></h3>
             <div class="cb-modelos" id="cbModelos"></div>
@@ -2053,6 +2061,14 @@ async function baixarCobrancas(){
   const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(pack.iv)},key,b64d(pack.data));
   return JSON.parse(new TextDecoder().decode(pt));
 }
+async function baixarRegua(){
+  const cfg=S.cfg.asaas||{};if(!cfg.chave)return S.reguaCache||null;
+  const r=await fetch('regua.enc.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)return S.reguaCache||null;
+  const pack=await r.json();
+  const key=await crypto.subtle.importKey('raw',b64d(cfg.chave),{name:'AES-GCM'},false,['decrypt']);
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(pack.iv)},key,b64d(pack.data));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
 function mesclarCobrancas(lista){
   const catRec=S.categorias.find(x=>x.tipo==='R'&&norm(x.nome).includes('recebimentos'))?.id||null;
   const mBol=S.meios.find(m=>norm(m.nome)==='boleto')?.id||null;
@@ -2097,6 +2113,7 @@ window.sincronizarAsaas=async function(silencioso){
     const r=mesclarCobrancas(d.cobrancas||[]);
     /* guarda a leitura completa p/ a tela de Cobrança (telefones, links, saldo em aberto) */
     S.asaasCache={versao:d.versao||1,geradoEm:d.geradoEm||null,cobrancas:d.cobrancas||[],clientes:d.clientes||[]};
+    try{S.reguaCache=await baixarRegua()}catch(e){console.warn('régua',e)}
     /* credencial do WhatsApp vem cifrada junto; um ajuste manual em Ajustes tem prioridade */
     if(d.whats&&d.whats.token&&!(S.cfg.whats&&S.cfg.whats.manual))S.cfg.whats=Object.assign({},S.cfg.whats,{url:d.whats.url||'https://roniautomacoes-pro.uazapi.com',token:d.whats.token});
     S.cfg.asaas=Object.assign({},S.cfg.asaas,{ultima:new Date().toISOString(),
@@ -2244,7 +2261,7 @@ function cbDados(){
     if(ASAAS_PAGOS.includes(b.status))o.pagos.push(b);
     else{o.abertos.push(b);if(b.vencimento<H)o.atras.push(b);else if(b.vencimento<=em7)o.prox.push(b)}
   });
-  const ult={};(S.cobrancas||[]).forEach(l=>{if(!ult[l.cid]||l.data>ult[l.cid].data)ult[l.cid]=l});
+  const ult={};cbLogTodos().forEach(l=>{if(!ult[l.cid]||l.data>ult[l.cid].data)ult[l.cid]=l});
   return Object.values(por).map(o=>{
     const byV=(a,b)=>a.vencimento<b.vencimento?-1:1;
     o.atras.sort(byV);o.prox.sort(byV);o.abertos.sort(byV);
@@ -2356,7 +2373,7 @@ function renderCobranca(){
     </div>
     <div class="cb-det ${ab?'on':''}" id="det-${o.id}">${ab?cbDetalhe(o):''}</div>`;
   }).join('');
-  cbRenderBar(dados);cbRenderMsg(dados);cbRenderLog();
+  cbRenderBar(dados);cbRenderMsg(dados);cbRenderLog();cbRenderRegua();
 }
 function cbDetalhe(o){
   const H=hoje();
@@ -2418,11 +2435,32 @@ window.cbSalvarComoModelo=()=>{
   const m={id:'m'+uid(),nome:nome.trim().slice(0,32),texto};
   cbCfg().modelos=(cbCfg().modelos||[]).concat([m]);cbCfg().modelo=m.id;save();renderCobranca();toast('Modelo salvo');
 };
+const REGUA_ETAPA={antes:{nome:'1 dia antes',tpl:'vence'},d1:{nome:'1 dia depois',tpl:'leve'},d3:{nome:'3 dias depois',tpl:'comprovante'},d10:{nome:'10 dias depois',tpl:'conversa'}};
+function cbLogTodos(){
+  const auto=((S.reguaCache&&S.reguaCache.historico)||[]).map(h=>({id:'a'+h.cid+h.data,cid:h.cid,cliente:h.cliente,tel:h.tel,data:h.data,valor:h.valor,canal:'auto',ok:h.ok,erro:h.erro||null,tpl:(REGUA_ETAPA[h.etapa]||{}).tpl,tplNome:'Régua · '+((REGUA_ETAPA[h.etapa]||{}).nome||h.etapa)}));
+  return (S.cobrancas||[]).concat(auto).sort((a,b)=>a.data<b.data?1:-1);
+}
+function cbRenderRegua(){
+  const el=$('#cbRegua');if(!el)return;
+  const R=S.reguaCache;
+  if(!R){el.innerHTML=`<div style="font-size:12.5px;color:var(--muted);line-height:1.6">A régua aparece aqui depois da próxima sincronização com o Asaas.</div>`;$('#cbReguaHint').innerHTML='';return}
+  $('#cbReguaHint').innerHTML=R.ativa?'<span class="sev ok">ativa</span>':'<span class="sev aten">em teste</span>';
+  const prev=R.previa||[];
+  const hojeAuto=(R.historico||[]).filter(h=>h.ok&&String(h.data).slice(0,10)===new Date().toISOString().slice(0,10)).length;
+  el.innerHTML=`<div class="cb-modelos" style="margin-bottom:8px">${(R.etapas||[]).map(e=>`<span class="cb-chip" style="cursor:default">${esc(e)}</span>`).join('')}</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.6;font-weight:500;margin-bottom:10px">${R.ativa
+      ?`Envia sozinha pelo WhatsApp da Lidera, de segunda a sábado, das 8h às 20h. Cada cliente recebe no máximo uma mensagem por dia, e quem já pagou não recebe nada.`
+      :`<b style="color:var(--amber)">Em teste:</b> a régua calcula quem receberia, mas ainda não envia. Abaixo estão as mensagens que sairiam hoje.`}
+      <br><span style="color:var(--soft)">Última rodada ${R.ultimaRodada?cbTempoRel(R.ultimaRodada):'—'}${hojeAuto?` · ${hojeAuto} enviada${hojeAuto>1?'s':''} hoje`:''}</span></div>
+    <div style="font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">${R.ativa?'Próximos envios':'Sairia hoje'} (${prev.length})</div>
+    ${prev.length?prev.map((f,i)=>`<details class="cb-rg"><summary><span class="sev ${f.etapa==='antes'?'rec':f.etapa==='d10'?'cron':'aten'}">${esc((REGUA_ETAPA[f.etapa]||{}).nome||f.etapa)}</span> <b>${esc(cbApelido(f.cliente))}</b> <span style="margin-left:auto;font-weight:700">${fmt(f.valor)}</span>${f.semTelefone?' <span class="sev mudo">sem telefone</span>':''}</summary><div class="wa-prev" style="margin-top:8px">${esc(f.texto).replace(/(https?:\/\/\S+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')}</div></details>`).join('')
+      :'<div style="font-size:12.5px;color:var(--soft)">Ninguém entra na régua hoje.</div>'}`;
+}
 function cbRenderLog(){
   const el=$('#cbLog');if(!el)return;
-  const L=(S.cobrancas||[]).slice(0,40);
-  $('#cbLogHint').textContent=S.cobrancas&&S.cobrancas.length?`${S.cobrancas.length} envio${S.cobrancas.length>1?'s':''}`:'';
-  el.innerHTML=L.length?L.map(l=>`<div class="lg"><span class="t">${new Date(l.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})} ${new Date(l.data).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</span><span class="n">${esc(cbApelido(l.cliente))}</span><span class="c">${esc(l.tplNome||'Lembrete leve')}</span><span class="c">${l.canal==='wa'?'meu whats':'lidera'}</span><span class="v" style="color:${l.ok?'var(--ink)':'var(--red)'}">${l.ok?fmt(l.valor):'falhou'}</span></div>`).join('')
+  const TODOS=cbLogTodos();const L=TODOS.slice(0,40);
+  $('#cbLogHint').textContent=TODOS.length?`${TODOS.length} envio${TODOS.length>1?'s':''}`:'';
+  el.innerHTML=L.length?L.map(l=>`<div class="lg"><span class="t">${new Date(l.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})} ${new Date(l.data).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</span><span class="n">${esc(cbApelido(l.cliente))}</span><span class="c">${esc(l.tplNome||'Lembrete leve')}</span><span class="c">${l.canal==='wa'?'meu whats':l.canal==='auto'?'automático':'lidera'}</span><span class="v" style="color:${l.ok?'var(--ink)':'var(--red)'}">${l.ok?fmt(l.valor):'falhou'}</span></div>`).join('')
     :'<div class="empty" style="padding:22px">Nenhuma cobrança enviada ainda.</div>';
 }
 /* interações */
