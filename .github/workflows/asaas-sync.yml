@@ -2,7 +2,7 @@ name: Sincronizar Asaas
 
 on:
   schedule:
-    - cron: '0 * * * *'    # toda hora; o resumo no WhatsApp sai só na rodada das 08:00 (Brasília)
+    - cron: '17 * * * *'   # toda hora (minuto 17 evita a fila do GitHub); resumo às 08h, régua das 8h às 20h
   workflow_dispatch:        # permite rodar na hora, pelo botão
     inputs:
       resumo:
@@ -34,13 +34,22 @@ jobs:
           RESUMO_NUMERO: ${{ secrets.RESUMO_NUMERO }}
           ENVIAR_RESUMO: ${{ (github.event_name == 'workflow_dispatch' && inputs.resumo) && '1' || '0' }}
         run: node scripts/asaas-sync.mjs
+      - name: Régua de cobrança (WhatsApp)
+        env:
+          ASAAS_API_KEY: ${{ secrets.ASAAS_API_KEY }}
+          ASAAS_ENC_KEY: ${{ secrets.ASAAS_ENC_KEY }}
+          UAZAPI_TOKEN: ${{ secrets.UAZAPI_TOKEN }}
+          UAZAPI_URL: ${{ secrets.UAZAPI_URL }}
+          REGUA_ATIVA: ${{ vars.REGUA_ATIVA }}
+        run: node scripts/regua.mjs
       - name: Publicar se mudou
         run: |
-          if [ -n "$(git status --porcelain asaas.enc.json)" ]; then
+          if [ -n "$(git status --porcelain asaas.enc.json regua.enc.json)" ]; then
             git config user.name "Financeiro Lidera"
             git config user.email "contato@somoslidera.com.br"
-            git add asaas.enc.json
+            git add asaas.enc.json regua.enc.json 2>/dev/null || git add asaas.enc.json
             git commit -m "Asaas: atualiza cobranças ($(date +'%d/%m %H:%M'))"
+            git pull --rebase -q || true
             git push
           else
             echo "Nada mudou."
