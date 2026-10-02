@@ -1,7 +1,7 @@
 // Busca as cobranças no Asaas e publica um arquivo criptografado ao lado do app.
 // Segredos vêm do ambiente: ASAAS_API_KEY (chave do Asaas) e ASAAS_ENC_KEY (chave de criptografia, base64).
 import { writeFileSync, readFileSync, existsSync } from 'node:fs';
-import { webcrypto as crypto } from 'node:crypto';
+import { webcrypto as crypto, createHash } from 'node:crypto';
 
 const BASE = 'https://api.asaas.com/v3';
 const KEY = process.env.ASAAS_API_KEY;
@@ -128,11 +128,11 @@ if (existsSync(destino)) {
     const antigo = JSON.parse(readFileSync(destino, 'utf8'));
     if (antigo.total === saida.total) {
       const chaveAntiga = antigo.assinatura, nova = 'v2|' + cobrancas.map(c => `${c.id}:${c.status}:${c.valor}:${c.vencimento}:${c.link ? 1 : 0}`).join('|') + '|' + clientesOut.map(c => `${c.id}:${c.telefone || ''}`).join(',') + '|w:' + (whats ? whats.token.slice(-6) : '');
-      const hashNovo = Buffer.from(nova).toString('base64').slice(-64);
+      const hashNovo = createHash('sha256').update(nova).digest('base64');
       if (chaveAntiga === hashNovo) { console.log('Sem mudanças — nada a publicar.'); process.exit(0); }
     }
   } catch {}
 }
-saida.assinatura = Buffer.from('v2|' + cobrancas.map(c => `${c.id}:${c.status}:${c.valor}:${c.vencimento}:${c.link ? 1 : 0}`).join('|') + '|' + clientesOut.map(c => `${c.id}:${c.telefone || ''}`).join(',') + '|w:' + (whats ? whats.token.slice(-6) : '')).toString('base64').slice(-64);
+saida.assinatura = createHash('sha256').update('v2|' + cobrancas.map(c => `${c.id}:${c.status}:${c.valor}:${c.vencimento}:${c.link ? 1 : 0}`).join('|') + '|' + clientesOut.map(c => `${c.id}:${c.telefone || ''}`).join(',') + '|w:' + (whats ? whats.token.slice(-6) : '')).digest('base64');
 writeFileSync(destino, JSON.stringify(saida));
 console.log(`Publicado ${destino} (${saida.data.length} bytes cifrados)`);

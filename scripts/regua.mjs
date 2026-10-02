@@ -3,7 +3,7 @@
 // listando todas as parcelas em aberto. Consulta o Asaas ao vivo: quem pagou não recebe nada.
 // Só envia de verdade com REGUA_ATIVA=1; sem isso, só calcula a prévia. Envia de seg. a sáb., das 8h às 20h.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
-import { webcrypto as crypto } from 'node:crypto';
+import { webcrypto as crypto, createHash } from 'node:crypto';
 
 const BASE = 'https://api.asaas.com/v3', KEY = process.env.ASAAS_API_KEY, ENC = process.env.ASAAS_ENC_KEY;
 const ATIVA = process.env.REGUA_ATIVA === '1';
@@ -50,7 +50,7 @@ function montar(etapa, c, bs) {
   const links = um ? link(b) : bs.map(x => `• R$ ${brl(x.value)}, ${quando(x)}` + (link(x) ? `\n${link(x)}` : '')).join('\n\n');
   if (etapa === 'antes') return [
     `${s} Tudo bem?`,
-    um ? `Passando para te enviar ${item} que ${quando(b)}.` : `Passando para te enviar as ${item}.`,
+    um ? `Passando para te enviar o boleto ${prog} que ${quando(b)}.` : `Passando para te enviar os ${bs.length} boletos ${prog}, que somam R$ ${brl(tot)}.`,
     `${um ? 'Deixo o link' : 'Deixo os links'} pra facilitar, dá pra pagar no Pix ou no boleto:\n${links}`,
     'Se já tiver pago, pode desconsiderar 🙂'];
   if (etapa === 'd1') return [
@@ -127,7 +127,7 @@ estado.etapas = ['1 dia antes', '1 dia depois', '3 dias depois', '10 dias depois
 estado.previa = fila.filter(f => !estado.porDia[`${f.cid}:${HOJE}`]);
 estado.ultimaRodada = new Date().toISOString();
 
-const assinatura = Buffer.from(JSON.stringify([Object.keys(estado.enviados).length, estado.historico.length, estado.ativa, estado.previa.map(f => f.cid + f.etapa + f.valor + f.blocos.join('|'))])).toString('base64').slice(-48);
+const assinatura = createHash('sha256').update(JSON.stringify([estado.enviados, estado.historico.length, estado.ativa, estado.previa.map(f => [f.cid, f.etapa, f.valor, f.blocos])])).digest('base64');
 let antiga = null; try { antiga = JSON.parse(readFileSync(DESTINO, 'utf8')).assinatura; } catch {}
 if (antiga === assinatura && !enviados) { console.log('Régua: nada mudou.'); process.exit(0); }
 writeFileSync(DESTINO, JSON.stringify({ ...(await cifra(estado)), assinatura, geradoEm: estado.ultimaRodada }));
