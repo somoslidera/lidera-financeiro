@@ -1,0 +1,15 @@
+name: Diagnóstico Asaas (só leitura)
+on: { workflow_dispatch: {} }
+permissions: { contents: read }
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Ler configuração e taxas (saída cifrada)
+        env:
+          ASAAS_API_KEY: ${{ secrets.ASAAS_API_KEY }}
+          ASAAS_ENC_KEY: ${{ secrets.ASAAS_ENC_KEY }}
+        run: node scripts/asaas-diag.mjs
