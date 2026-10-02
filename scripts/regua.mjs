@@ -53,10 +53,11 @@ function montar(etapa, c, bs) {
     um ? `Passando para te enviar o boleto ${prog} que ${quando(b)}.` : `Passando para te enviar os ${bs.length} boletos ${prog}, que somam R$ ${brl(tot)}.`,
     `${um ? 'Deixo o link' : 'Deixo os links'} pra facilitar, dá pra pagar no Pix ou no boleto:\n${links}`];
   if (etapa === 'd1') return [
-    `${s} Tudo bem?`,
-    um ? `Vi aqui que ${item} ${quando(b)} e ainda está em aberto.` : `Vi aqui que ficaram em aberto ${item}.`,
-    `Na correria pode ter passado batido, então deixo ${um ? 'o link' : 'os links'} aqui:\n${links}`,
-    'Se já tiver pago, me avisa que eu dou baixa 🙏'];
+    `${s.replace(/^Oi/, 'Oii')} Tudo bem?`,
+    um ? `A parcela de R$ ${brl(b.value)} ${prog} ${quando(b)} e ainda está em aberto.` : `As ${bs.length} parcelas ${prog}, que somam R$ ${brl(tot)}, estão em aberto.`,
+    `Na correria pode ter passado batido, então deixo ${um ? 'o link' : 'os links'} aqui:`,
+    links,
+    'Se já foi pago, me avisa que eu dou baixa.'];
   const oii = `${s.replace(/^Oi/, 'Oii')}`;
   if (etapa === 'd3') return [
     `${oii} Tudo certo?`,
