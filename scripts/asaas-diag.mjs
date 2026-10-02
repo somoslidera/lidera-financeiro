@@ -18,4 +18,6 @@ const pays = await todos('/payments');
 R.pagamentos = Array.isArray(pays) ? pays.map(p => ({ id: p.id, cli: p.customer, valor: p.value, liquido: p.netValue, status: p.status, tipo: p.billingType, venc: p.dueDate, pago: p.paymentDate || p.clientPaymentDate || null, desc: (p.description || '').slice(0, 60) })) : pays;
 const raw = Buffer.from(ENC, 'base64'); const key = await crypto.subtle.importKey('raw', raw, { name: 'AES-GCM' }, false, ['encrypt']);
 const iv = crypto.getRandomValues(new Uint8Array(12)); const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, new TextEncoder().encode(JSON.stringify(R)));
-console.log('DIAG:' + Buffer.from(JSON.stringify({ iv: Buffer.from(iv).toString('base64'), data: Buffer.from(new Uint8Array(ct)).toString('base64') })).toString('base64'));
+const blob = Buffer.from(JSON.stringify({ iv: Buffer.from(iv).toString('base64'), data: Buffer.from(new Uint8Array(ct)).toString('base64') })).toString('base64');
+const N = Math.ceil(blob.length / 4000); console.log(`DIAGN:${N}`);
+for (let i = 0; i < N; i++) console.log(`DIAG${String(i).padStart(4, '0')}:` + blob.slice(i * 4000, (i + 1) * 4000));
