@@ -1,0 +1,6 @@
+{
+  "_leia": "Clientes do Asaas (id cus_...) que NÃO recebem a régua automática. Sem nomes aqui: o repositório é público.",
+  "excecoes": [
+    { "id": "cus_000204041486", "motivo": "programou todos os boletos com o financeiro", "desde": "2026-10-02" }
+  ]
+}

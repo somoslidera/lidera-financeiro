@@ -2363,6 +2363,7 @@ function renderCobranca(){
     else if(o.proxima)sub.push(`próxima ${fmtData(o.proxima)}`);
     sub.push(o.tel?`<span class="cb-tel">📱 ${cbTelFmt(o.tel)}</span>`:`<b style="color:var(--amber)">sem telefone</b>`);
     if(o.ultima&&o.ultima.ok)sub.push(`<span style="color:var(--navy)">cobrado ${cbTempoRel(o.ultima.data)}</span>`);
+    if(((S.reguaCache&&S.reguaCache.excecoes)||[]).some(e=>e.id===o.id))sub.push(`<span style="color:var(--soft)">fora da régua</span>`);
     const val=o.atras.length?o.totalAtras:(o.prox.length?o.totalProx:o.restante);
     const valCls=o.atras.length?'neg':(o.prox.length?'amb':'');
     const sevTxt={cron:'crônico',aten:'atenção',rec:'recente',ok:(o.prox.length?'a vencer':'em dia')}[o.sev];
@@ -2456,7 +2457,9 @@ function cbRenderRegua(){
       <br><span style="color:var(--soft)">Última rodada ${R.ultimaRodada?cbTempoRel(R.ultimaRodada):'—'}${hojeAuto?` · ${hojeAuto} enviada${hojeAuto>1?'s':''} hoje`:''}</span></div>
     <div style="font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">${R.ativa?'Próximos envios':'Sairia hoje'} (${prev.length})</div>
     ${prev.length?prev.map((f,i)=>`<details class="cb-rg"><summary><span class="sev ${f.etapa==='antes'?'rec':f.etapa==='d10'?'cron':'aten'}">${esc((REGUA_ETAPA[f.etapa]||{}).nome||f.etapa)}</span> <b>${esc(cbApelido(f.cliente))}</b> <span style="margin-left:auto;font-weight:700">${fmt(f.valor)}</span>${f.semTelefone?' <span class="sev mudo">sem telefone</span>':''}</summary><div class="cb-baloes">${(f.blocos||[f.texto||'']).map(t=>`<div class="wa-prev">${esc(t).replace(/(https?:\/\/\S+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')}</div>`).join('')}</div></details>`).join('')
-      :'<div style="font-size:12.5px;color:var(--soft)">Ninguém entra na régua hoje.</div>'}`;
+      :'<div style="font-size:12.5px;color:var(--soft)">Ninguém entra na régua hoje.</div>'}
+    ${(R.excecoes||[]).length?`<div style="font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:14px 0 6px">Fora da régua (${R.excecoes.length})</div>
+      ${R.excecoes.map(e=>`<div class="cb-rg" style="display:flex;gap:8px;align-items:center;font-size:12.5px"><span class="sev mudo">exceção</span><b style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">${esc(cbApelido(e.nome))}</b><span style="margin-left:auto;color:var(--soft);font-size:11.5px;text-align:right">${esc(e.motivo||'')}</span></div>`).join('')}`:''}`;
 }
 function cbRenderLog(){
   const el=$('#cbLog');if(!el)return;

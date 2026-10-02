@@ -30,6 +30,11 @@ const dias = venc => Math.round((Date.parse(HOJE + 'T00:00:00Z') - Date.parse(ve
 async function todos(p) { const out = []; let off = 0; for (let i = 0; i < 60; i++) { const s = p.includes('?') ? '&' : '?'; const r = await fetch(`${BASE}${p}${s}limit=100&offset=${off}`, { headers: { access_token: KEY, 'User-Agent': 'financeiro-lidera' } }); if (!r.ok) throw new Error(`Asaas ${p} ${r.status}`); const d = await r.json(); out.push(...(d.data || [])); if (!d.hasMore) break; off += 100; } return out; }
 const [pend, venc, clientes] = await Promise.all([todos('/payments?status=PENDING'), todos('/payments?status=OVERDUE'), todos('/customers')]);
 const CLI = {}; clientes.forEach(c => CLI[c.id] = c);
+// exceções: clientes que combinaram o pagamento direto e não recebem a régua
+let EXC = [];
+try { EXC = (JSON.parse(readFileSync('regua-config.json', 'utf8')).excecoes || []).filter(e => e && e.id); } catch {}
+const EXC_IDS = new Set(EXC.map(e => e.id));
+estado.excecoes = EXC.map(e => ({ id: e.id, nome: (CLI[e.id] || {}).name || e.id, motivo: e.motivo || '', desde: e.desde || '' }));
 const abertos = pend.concat(venc).filter(p => Number(p.value) > 0);
 
 // ── regras
@@ -77,6 +82,7 @@ function montar(etapa, c, bs) {
 // ── quem dispara hoje
 const porCli = {};
 for (const p of abertos) {
+  if (EXC_IDS.has(p.customer)) continue;
   const e = etapaDe(dias(p.dueDate)); if (!e) continue;
   if (estado.enviados[`${p.id}:${e.id}`]) continue;
   (porCli[p.customer] = porCli[p.customer] || []).push({ p, etapa: e.id });
@@ -92,7 +98,7 @@ for (const [cid, gat] of Object.entries(porCli)) {
   fila.push({ cid, cliente: c.name, tel, etapa, gatilhos: gat.map(g => `${g.p.id}:${g.etapa}`), ids: bs.map(b => b.id), valor: +bs.reduce((a, b) => a + Number(b.value), 0).toFixed(2), blocos: montar(etapa, c, bs), semTelefone: !tel });
 }
 fila.sort((a, b) => ORDEM[b.etapa] - ORDEM[a.etapa]);
-console.log(`Régua: ${fila.length} cliente(s) para hoje · ${ATIVA ? 'ATIVA' : 'modo teste'}${PAUSADO ? ' · PAUSADA até ' + estado.pausaAte : ''} · ${NO_HORARIO ? 'dentro do horário' : 'fora do horário (8h–20h, seg–sáb)'}`);
+console.log(`Régua: ${fila.length} cliente(s) para hoje · ${EXC_IDS.size} na lista de exceções · ${ATIVA ? 'ATIVA' : 'modo teste'}${PAUSADO ? ' · PAUSADA até ' + estado.pausaAte : ''} · ${NO_HORARIO ? 'dentro do horário' : 'fora do horário (8h–20h, seg–sáb)'}`);
 
 // ── envio
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -131,7 +137,7 @@ estado.etapas = ['1 dia antes', '1 dia depois', '3 dias depois', '10 dias depois
 estado.previa = fila.filter(f => !estado.porDia[`${f.cid}:${HOJE}`]);
 estado.ultimaRodada = new Date().toISOString();
 
-const assinatura = createHash('sha256').update(JSON.stringify([estado.enviados, estado.historico.length, estado.ativa, estado.previa.map(f => [f.cid, f.etapa, f.valor, f.blocos])])).digest('base64');
+const assinatura = createHash('sha256').update(JSON.stringify([estado.enviados, estado.historico.length, estado.ativa, estado.previa.map(f => [f.cid, f.etapa, f.valor, f.blocos]), estado.excecoes])).digest('base64');
 let antiga = null; try { antiga = JSON.parse(readFileSync(DESTINO, 'utf8')).assinatura; } catch {}
 if (antiga === assinatura && !enviados) { console.log('Régua: nada mudou.'); process.exit(0); }
 writeFileSync(DESTINO, JSON.stringify({ ...(await cifra(estado)), assinatura, geradoEm: estado.ultimaRodada }));
