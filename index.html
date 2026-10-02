@@ -416,6 +416,8 @@ body.dark .bn-item.on{color:var(--gold-soft)}
 .cb-rg{border-top:1px solid var(--line-2);padding:9px 0}.cb-rg:first-of-type{border-top:none}
 .cb-rg summary{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;list-style:none}
 .cb-rg summary::-webkit-details-marker{display:none}
+.cb-baloes{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.cb-baloes .wa-prev{padding:8px 12px}
 .cb-rg summary b{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .cb-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:20px;font-size:12px;font-weight:700;background:var(--card);border:1px solid var(--line);color:var(--muted);transition:.15s var(--ease)}
 .cb-chip:hover{border-color:var(--soft);color:var(--ink)}
@@ -2453,7 +2455,7 @@ function cbRenderRegua(){
       :`<b style="color:var(--amber)">Em teste:</b> a régua calcula quem receberia, mas ainda não envia. Abaixo estão as mensagens que sairiam hoje.`}
       <br><span style="color:var(--soft)">Última rodada ${R.ultimaRodada?cbTempoRel(R.ultimaRodada):'—'}${hojeAuto?` · ${hojeAuto} enviada${hojeAuto>1?'s':''} hoje`:''}</span></div>
     <div style="font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">${R.ativa?'Próximos envios':'Sairia hoje'} (${prev.length})</div>
-    ${prev.length?prev.map((f,i)=>`<details class="cb-rg"><summary><span class="sev ${f.etapa==='antes'?'rec':f.etapa==='d10'?'cron':'aten'}">${esc((REGUA_ETAPA[f.etapa]||{}).nome||f.etapa)}</span> <b>${esc(cbApelido(f.cliente))}</b> <span style="margin-left:auto;font-weight:700">${fmt(f.valor)}</span>${f.semTelefone?' <span class="sev mudo">sem telefone</span>':''}</summary><div class="wa-prev" style="margin-top:8px">${esc(f.texto).replace(/(https?:\/\/\S+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')}</div></details>`).join('')
+    ${prev.length?prev.map((f,i)=>`<details class="cb-rg"><summary><span class="sev ${f.etapa==='antes'?'rec':f.etapa==='d10'?'cron':'aten'}">${esc((REGUA_ETAPA[f.etapa]||{}).nome||f.etapa)}</span> <b>${esc(cbApelido(f.cliente))}</b> <span style="margin-left:auto;font-weight:700">${fmt(f.valor)}</span>${f.semTelefone?' <span class="sev mudo">sem telefone</span>':''}</summary><div class="cb-baloes">${(f.blocos||[f.texto||'']).map(t=>`<div class="wa-prev">${esc(t).replace(/(https?:\/\/\S+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')}</div>`).join('')}</div></details>`).join('')
       :'<div style="font-size:12.5px;color:var(--soft)">Ninguém entra na régua hoje.</div>'}`;
 }
 function cbRenderLog(){
