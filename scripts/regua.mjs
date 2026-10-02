@@ -57,16 +57,19 @@ function montar(etapa, c, bs) {
     um ? `Vi aqui que ${item} ${quando(b)} e ainda está em aberto.` : `Vi aqui que ficaram em aberto ${item}.`,
     `Na correria pode ter passado batido, então deixo ${um ? 'o link' : 'os links'} aqui:\n${links}`,
     'Se já tiver pago, me avisa que eu dou baixa 🙏'];
+  const oii = `${s.replace(/^Oi/, 'Oii')}`;
   if (etapa === 'd3') return [
-    `${s} Tudo certo?`,
-    `Ainda não identifiquei o pagamento ${itemDe}${um ? `, que ${quando(b)}` : ''}.`,
-    `Se ainda não pagou, ${um ? 'o link é este' : 'os links são estes'}:\n${links}`,
-    'Se já saiu, me manda o comprovante que eu dou baixa na hora. Obrigado!'];
+    `${oii} Tudo certo?`,
+    um ? `Está em aberto o pagamento ${itemDe}, que ${quando(b)}.` : `Estão em aberto as ${bs.length} parcelas ${prog}, que somam R$ ${brl(tot)}.`,
+    `Se ainda não pagou, ${um ? 'o link é este' : 'os links são estes'}:`,
+    links,
+    'Se já foi pago, me manda o comprovante que eu dou baixa na hora. Obrigada!'];
   return [
-    `${s} Tudo bem por aí?`,
-    `Já faz uns dias que ${item} ${um ? 'está' : 'estão'} em aberto, e queria entender se aconteceu alguma coisa.`,
-    'Se ficou apertado, me fala que a gente encontra um jeito de resolver junto, sem stress.',
-    `Se foi só esquecimento, ${um ? 'o link está aqui' : 'os links estão aqui'}:\n${links}`];
+    `${oii} Tudo bem por aí?`,
+    um ? `A parcela de R$ ${brl(b.value)} ${prog} está em aberto, quero ver contigo, posso programar para hoje?`
+       : `As ${bs.length} parcelas ${prog}, que somam R$ ${brl(tot)}, estão em aberto, quero ver contigo, posso programar para hoje?`,
+    `Se foi só esquecimento, ${um ? 'o link está aqui' : 'os links estão aqui'}:`,
+    links];
 }
 
 // ── quem dispara hoje
