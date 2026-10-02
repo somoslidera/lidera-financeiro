@@ -50,7 +50,7 @@ function montar(etapa, c, bs) {
   const links = um ? link(b) : bs.map(x => `• R$ ${brl(x.value)}, ${quando(x)}` + (link(x) ? `\n${link(x)}` : '')).join('\n\n');
   if (etapa === 'antes') return [
     `${s} Tudo bem?`,
-    um ? `Passando pra lembrar que ${item} ${quando(b)}.` : `Passando pra lembrar das ${item}.`,
+    um ? `Passando para te enviar ${item} que ${quando(b)}.` : `Passando para te enviar as ${item}.`,
     `${um ? 'Deixo o link' : 'Deixo os links'} pra facilitar, dá pra pagar no Pix ou no boleto:\n${links}`,
     'Se já tiver pago, pode desconsiderar 🙂'];
   if (etapa === 'd1') return [
