@@ -23,6 +23,7 @@ const brt = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao
 const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const HOJE = iso(brt), HORA = brt.getHours(), DOW = brt.getDay();
 const NO_HORARIO = HORA >= 8 && HORA < 20 && DOW !== 0;
+const PAUSADO = !!(estado.pausaAte && HOJE <= estado.pausaAte);   // dia em que o dono já cobrou à mão
 const dias = venc => Math.round((Date.parse(HOJE + 'T00:00:00Z') - Date.parse(venc + 'T00:00:00Z')) / 86400000); // >0 = atrasado
 
 // ── Asaas
@@ -91,12 +92,12 @@ for (const [cid, gat] of Object.entries(porCli)) {
   fila.push({ cid, cliente: c.name, tel, etapa, gatilhos: gat.map(g => `${g.p.id}:${g.etapa}`), ids: bs.map(b => b.id), valor: +bs.reduce((a, b) => a + Number(b.value), 0).toFixed(2), blocos: montar(etapa, c, bs), semTelefone: !tel });
 }
 fila.sort((a, b) => ORDEM[b.etapa] - ORDEM[a.etapa]);
-console.log(`Régua: ${fila.length} cliente(s) para hoje · ${ATIVA ? 'ATIVA' : 'modo teste'} · ${NO_HORARIO ? 'dentro do horário' : 'fora do horário (8h–20h, seg–sáb)'}`);
+console.log(`Régua: ${fila.length} cliente(s) para hoje · ${ATIVA ? 'ATIVA' : 'modo teste'}${PAUSADO ? ' · PAUSADA até ' + estado.pausaAte : ''} · ${NO_HORARIO ? 'dentro do horário' : 'fora do horário (8h–20h, seg–sáb)'}`);
 
 // ── envio
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 let enviados = 0;
-if (ATIVA && NO_HORARIO && TOK) {
+if (ATIVA && NO_HORARIO && TOK && !PAUSADO) {
   for (const f of fila) {
     if (enviados >= MAX_POR_RODADA || f.semTelefone) continue;
     if (enviados > 0) await sleep((8 + Math.floor(Math.random() * 13)) * 1000);
