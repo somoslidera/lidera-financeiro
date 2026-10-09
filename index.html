@@ -2440,7 +2440,7 @@ window.cbSalvarComoModelo=()=>{
 };
 const REGUA_ETAPA={antes:{nome:'1 dia antes',tpl:'vence'},d1:{nome:'1 dia depois',tpl:'leve'},d3:{nome:'3 dias depois',tpl:'comprovante'},d10:{nome:'10 dias depois',tpl:'conversa'}};
 function cbLogTodos(){
-  const auto=((S.reguaCache&&S.reguaCache.historico)||[]).map(h=>({id:'a'+h.cid+h.data,cid:h.cid,cliente:h.cliente,tel:h.tel,data:h.data,valor:h.valor,canal:'auto',ok:h.ok,erro:h.erro||null,tpl:(REGUA_ETAPA[h.etapa]||{}).tpl,tplNome:'Régua · '+((REGUA_ETAPA[h.etapa]||{}).nome||h.etapa)}));
+  const auto=((S.reguaCache&&S.reguaCache.historico)||[]).map(h=>({id:'a'+h.cid+h.data,cid:h.cid,cliente:h.cliente,tel:h.tel,data:h.data,valor:h.valor,canal:h.auto===false?'whats':'auto',ok:h.ok,erro:h.erro||null,tpl:(REGUA_ETAPA[h.etapa]||{}).tpl,tplNome:h.auto===false?'Mensagem avulsa':'Régua · '+((REGUA_ETAPA[h.etapa]||{}).nome||h.etapa)}));
   return (S.cobrancas||[]).concat(auto).sort((a,b)=>a.data<b.data?1:-1);
 }
 function cbRenderRegua(){
