@@ -1,0 +1,19 @@
+name: Corrigir contato de cliente no Asaas
+on:
+  workflow_dispatch:
+    inputs:
+      pedido: { description: 'Pedido cifrado', required: true }
+permissions: { contents: read }
+jobs:
+  corrigir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Atualizar cadastro
+        env:
+          ASAAS_API_KEY: ${{ secrets.ASAAS_API_KEY }}
+          ASAAS_ENC_KEY: ${{ secrets.ASAAS_ENC_KEY }}
+          PEDIDO: ${{ inputs.pedido }}
+        run: node scripts/asaas-cliente.mjs
