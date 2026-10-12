@@ -457,7 +457,7 @@ body.dark .wa-prev .hora{color:rgba(255,255,255,.42)}
 .cb-log .lg .c{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:6px;background:var(--bg-2);color:var(--muted)}
 .cb-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;align-items:start}
 .cb-col{display:flex;flex-direction:column;gap:16px;min-width:0}
-.kpi.clicavel{cursor:pointer}
+.kpi.clicavel,.h-tile.clicavel{cursor:pointer}.h-tile.clicavel:hover{background:rgba(255,255,255,.2)}
 #topbar.sem-periodo .period-wrap{display:none}
 .kpi.clicavel:hover .k-lab{color:var(--navy)}
 .wa-status{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700}
@@ -588,16 +588,127 @@ body.dark .wa-prev .hora{color:rgba(255,255,255,.42)}
   .cb-msg textarea{min-height:170px}
   .cb-det .dg{grid-template-columns:1fr 1fr}
 }
-/* ── Projeção ── */
-.pj-hero .h-val{font-size:clamp(30px,5vw,44px)}
+/* ── Fluxo de caixa ── */
+.fx-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.fx-chips{display:flex;gap:6px;flex-wrap:wrap}
+.fx-chip{padding:8px 13px;border-radius:20px;font-size:12.5px;font-weight:700;color:var(--muted);background:var(--card);border:1px solid var(--line);box-shadow:var(--sh-xs);transition:.18s var(--ease);white-space:nowrap}
+.fx-chip.on{background:var(--grad-brand);color:#fff;border-color:transparent;box-shadow:var(--sh-brand)}
+.fx-filt button{padding:8px 14px}
+.fx-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start}
+@media(max-width:1180px){.fx-grid{grid-template-columns:1fr}.fx-side{position:static}}
+.fx-main{min-width:0}
+.fx-side{display:flex;flex-direction:column;gap:12px;position:sticky;top:0}
+.fx-sum{padding:20px 22px 16px;margin-bottom:16px}
+.fx-sum-top{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center}
+.fx-s{min-width:0}
+.fx-lab{font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.fx-big{font-size:clamp(19px,2.2vw,30px);font-weight:800;letter-spacing:-.045em;margin-top:5px;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.05}
+.fx-big.amb{color:var(--amber)}
+.fx-sublab{font-size:11.5px;color:var(--soft);margin-top:5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fx-arrow{width:34px;height:34px;border-radius:12px;background:var(--bg-2);display:flex;align-items:center;justify-content:center;color:var(--soft)}
+.fx-arrow svg{width:17px;height:17px}
+.fx-spark{margin:14px 0 10px}
+.fx-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fx-tile{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:11px 13px;border-radius:13px;background:var(--bg-2);border:1px solid transparent;text-align:left;transition:.18s var(--ease);min-width:0}
+button.fx-tile{cursor:pointer}
+button.fx-tile:hover{border-color:var(--line);background:var(--card)}
+.fx-tile.on{border-color:var(--navy);background:var(--card);box-shadow:0 0 0 3px rgba(29,53,115,.08)}
+.fx-tile span{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+.fx-tile b{font-size:17px;font-weight:800;letter-spacing:-.035em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fx-tile i{font-style:normal;font-size:10.5px;color:var(--soft);font-weight:500}
+.fx-prem{display:flex;align-items:center;gap:8px;width:100%;margin-top:12px;padding:10px 13px;border-radius:12px;border:1px dashed var(--line);background:transparent;color:var(--muted);font-size:12px;font-weight:600;text-align:left;transition:.18s var(--ease)}
+.fx-prem:hover{background:var(--bg-2);border-color:var(--soft)}
+.fx-prem span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fx-prem b{color:var(--navy);font-weight:800}
+body.dark .fx-prem b{color:var(--gold-soft)}
+.fx-chev{width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);display:inline-block;flex:0 0 auto;opacity:.6;transition:transform .2s var(--ease)}
+.fx-ver{margin-top:12px;font-size:12.5px;line-height:1.55;font-weight:500;color:var(--muted);padding:10px 13px;border-radius:12px;border:1px solid var(--line)}
+.fx-ver b{font-weight:800;letter-spacing:-.01em}
+.fx-ver em{font-style:normal;display:block;margin-top:3px;font-size:11.5px;color:var(--soft)}
+.fx-ver.bom{background:var(--green-bg);border-color:rgba(18,153,106,.25)}.fx-ver.bom b{color:var(--green)}
+.fx-ver.atencao{background:var(--amber-bg);border-color:rgba(192,133,31,.3)}.fx-ver.atencao b{color:var(--amber)}
+.fx-ver.ruim{background:var(--red-bg);border-color:rgba(216,69,59,.28)}.fx-ver.ruim b{color:var(--red)}
+.fx-alerts{padding:16px 0 4px;margin-bottom:16px}
+.fx-alerts h3{padding:0 22px;margin-bottom:8px;font-size:15px;font-weight:700;letter-spacing:-.025em;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.fx-alerts h3 .hint{font-size:11.5px;font-weight:600;color:var(--soft)}
+.fx-al{border-top:1px solid var(--line-2)}
+.fx-al-h{display:flex;align-items:center;gap:12px;width:100%;padding:13px 22px;text-align:left;transition:background .18s var(--ease)}
+.fx-al-h:hover{background:var(--bg-2)}
+.fx-al-h>span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.fx-al-h>span b{font-size:13.5px;font-weight:700;letter-spacing:-.02em}
+.fx-al-h>span small{font-size:11px;color:var(--soft);font-weight:500}
+.fx-al-v{font-weight:800;font-size:14px;letter-spacing:-.03em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fx-al.rec .fx-al-v{color:var(--red)}.fx-al.des .fx-al-v{color:var(--red)}.fx-al.fixa .fx-al-v{color:var(--amber)}
+.fx-al.open .fx-chev{transform:rotate(45deg)}
+.fx-al .fx-itens{padding:0 8px 8px}
+.fx-card{padding:0 0 6px;margin-bottom:16px}
+.fx-tabs{display:flex;gap:4px;padding:10px 12px 0;border-bottom:1px solid var(--line-2)}
+.fx-tabs button{padding:11px 14px;font-size:13px;font-weight:700;color:var(--muted);border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:.18s var(--ease);letter-spacing:-.01em}
+.fx-tabs button.on{color:var(--navy);border-bottom-color:var(--navy)}
+body.dark .fx-tabs button.on{color:var(--gold-soft);border-bottom-color:var(--gold-soft)}
+.fx-tabs button b{font-weight:800;margin-left:5px;opacity:.7}
+.fx-agenda{padding:4px 0 0}
+.fx-grupo{border-bottom:1px solid var(--line-2)}
+.fx-grupo:last-child{border-bottom:none}
+.fx-ghead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 22px 6px;position:sticky;top:0;background:var(--card);z-index:2}
+.fx-ghead[onclick]{cursor:pointer}
+.fx-gdata{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;min-width:0}
+.fx-gdata b{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink)}
+.fx-gdata small{font-size:11px;color:var(--soft);font-weight:600}
+.fx-gtot{display:flex;align-items:center;gap:9px;font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fx-gtot b{font-weight:800}
+.fx-gsaldo{font-weight:700;color:var(--muted);padding:3px 9px;border-radius:14px;background:var(--bg-2)}
+.fx-gsaldo.amb{color:var(--amber);background:var(--amber-bg)}.fx-gsaldo.neg{color:var(--red);background:var(--red-bg)}
+.fx-grupo.open .fx-ghead .fx-chev{transform:rotate(45deg)}
+.fx-itens{display:flex;flex-direction:column}
+.fx-row{display:flex;align-items:center;gap:12px;padding:10px 22px;cursor:pointer;transition:background .15s var(--ease);position:relative}
+.fx-row:hover{background:linear-gradient(90deg,var(--bg-2),transparent 80%)}
+.fx-ico{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;color:#fff}
+.fx-ico svg{width:15px;height:15px}
+.fx-row.rec .fx-ico{background:var(--grad-green)}.fx-row.des .fx-ico{background:var(--grad-red)}
+.fx-row.virtual .fx-ico,.fx-row.premissa .fx-ico{background:var(--bg-2);color:var(--soft);border:1.5px dashed var(--line)}
+.fx-row.premissa .fx-ico{border-style:dotted}
+.fx-info{flex:1;min-width:0}
+.fx-desc{font-weight:700;font-size:13.5px;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fx-sub{font-size:11.5px;color:var(--muted);margin-top:2px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fx-dt{color:var(--soft)}
+.fx-row.atras .fx-sub{color:var(--red);font-weight:600}
+.fx-row.atras.des .fx-sub,.fx-row.virtual.atras .fx-sub{color:var(--amber)}
+.fx-row.fora .fx-desc,.fx-row.velho .fx-desc{color:var(--soft);text-decoration:line-through}
+.fx-row.fora .fx-val,.fx-row.velho .fx-val{color:var(--soft);text-decoration:line-through}
+.fx-row.virtual .fx-desc{font-weight:600}
+.fx-val{font-weight:800;font-size:13.5px;letter-spacing:-.035em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fx-ok{width:34px;height:34px;border-radius:11px;border:1.5px solid var(--line);color:var(--soft);display:flex;align-items:center;justify-content:center;flex:0 0 auto;transition:.18s var(--ease);background:var(--card)}
+.fx-ok svg{width:15px;height:15px}
+.fx-ok:hover{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.fx-cli-hint{padding:10px 22px 4px;font-size:11.5px;color:var(--soft);font-weight:500}
+.pj-cli{cursor:pointer}
+.fx-det{padding:0}
+.fx-det summary{display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;list-style:none;font-size:13.5px;font-weight:700;letter-spacing:-.02em}
+.fx-det summary::-webkit-details-marker{display:none}
+.fx-det summary span{flex:1}
+.fx-det summary b{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+.fx-det[open] summary .fx-chev{transform:rotate(45deg)}
+.fx-det-b{padding:0 18px 16px}
+.fx-links{display:flex;gap:8px;flex-wrap:wrap}
+.fx-links .btn{flex:1;justify-content:center}
+/* cenário (folha) */
+.cen-sec{padding:14px 0;border-top:1px solid var(--line-2);display:flex;flex-direction:column;gap:11px}
+.cen-sec:first-child{border-top:none;padding-top:4px}
+.cen-sec h4{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.cen-kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cen-kpis>div{background:var(--bg-2);border-radius:12px;padding:11px 13px;display:flex;flex-direction:column;gap:3px}
+.cen-kpis span{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.cen-kpis b{font-size:17px;font-weight:800;letter-spacing:-.035em;color:var(--green);font-variant-numeric:tabular-nums}
 .pj-veredito{display:flex;flex-direction:column;gap:6px;align-items:flex-start;border-radius:13px;padding:13px 15px;font-size:12.5px;line-height:1.55;font-weight:500;border:1px solid var(--line)}
 .pj-veredito b{font-size:14px;letter-spacing:-.02em}
-.pj-veredito.bom{background:var(--green-bg,rgba(30,158,106,.08));border-color:rgba(30,158,106,.25)}.pj-veredito.bom b{color:var(--green)}
+.pj-veredito.bom{background:var(--green-bg);border-color:rgba(30,158,106,.25)}.pj-veredito.bom b{color:var(--green)}
 .pj-veredito.atencao{background:var(--amber-bg);border-color:rgba(201,137,42,.3)}.pj-veredito.atencao b{color:var(--amber)}
-.pj-veredito.ruim{background:var(--red-bg,rgba(210,72,63,.08));border-color:rgba(210,72,63,.3)}.pj-veredito.ruim b{color:var(--red)}
-.pj-chk{display:flex;gap:9px;align-items:center;font-size:12.5px;font-weight:600;color:var(--muted);margin:4px 0 10px;cursor:pointer}
+.pj-veredito.ruim{background:var(--red-bg);border-color:rgba(210,72,63,.3)}.pj-veredito.ruim b{color:var(--red)}
+.pj-chk{display:flex;gap:9px;align-items:center;font-size:12.5px;font-weight:600;color:var(--muted);margin:2px 0;cursor:pointer}
 .pj-chk input{width:18px;height:18px;accent-color:var(--navy)}
 .pj-nota{font-size:11.5px;color:var(--soft);line-height:1.6;font-weight:500}
+/* mês a mês */
 .pj-tab{font-variant-numeric:tabular-nums}
 .pj-tr{display:grid;grid-template-columns:1.1fr 1fr 1fr 1.3fr;gap:8px;align-items:center;padding:11px 22px;border-bottom:1px solid var(--line-2);font-size:13px;font-weight:700;cursor:pointer;transition:background .15s var(--ease)}
 .pj-tr:hover{background:var(--bg-2)}
@@ -610,17 +721,16 @@ body.dark .wa-prev .hora{color:rgba(255,255,255,.42)}
 .pj-det{display:none;grid-column:1/-1;grid-template-columns:1fr 1fr;gap:6px 22px;padding:8px 0 4px;font-size:12px;font-weight:500;color:var(--muted)}
 .pj-tr.open .pj-det{display:grid}
 .pj-det b{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--soft);margin-bottom:3px}
-.pj-det p{display:flex;justify-content:space-between;gap:10px;margin:2px 0}.pj-det em{font-style:normal;font-weight:700;color:var(--ink,inherit)}
+.pj-det p{display:flex;justify-content:space-between;gap:10px;margin:2px 0}.pj-det em{font-style:normal;font-weight:700;color:var(--ink)}
 .pj-det p.fora{color:var(--soft);font-style:italic}
 .pj-cmp{grid-column:1/-1;font-size:11.5px;color:var(--soft)}
+.pj-cli.off .l-desc{color:var(--soft);text-decoration:line-through}
+/* custos e marketing */
 .pj-custos{display:flex;flex-direction:column;gap:12px}
 .pj-cu-t{display:flex;justify-content:space-between;gap:10px;font-size:13px;font-weight:700}
 .pj-cu-t b{font-variant-numeric:tabular-nums}
 .pj-cu-b{height:7px;border-radius:5px;background:var(--bg-2);margin:5px 0 4px;overflow:hidden}.pj-cu-b i{display:block;height:100%;border-radius:5px;background:var(--grad-gold)}
 .pj-cu-s{font-size:11px;color:var(--soft);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pj-hero .t-val{font-size:clamp(14px,1.55vw,19.5px);white-space:nowrap}
-.pj-hero .h-val small{font-size:.45em;font-weight:700;opacity:.75;margin-left:4px}
-.pj-cli.off .l-desc{color:var(--soft);text-decoration:line-through}
 .pj-mkt{font-size:12px;font-variant-numeric:tabular-nums}
 .pj-mr{display:grid;grid-template-columns:1.9fr repeat(4,1fr);gap:6px;padding:7px 0;border-bottom:1px dashed var(--line);font-weight:600;align-items:center}
 .pj-mr>span:not(:first-child){text-align:right}
@@ -628,11 +738,98 @@ body.dark .wa-prev .hora{color:rgba(255,255,255,.42)}
 .pj-mh{font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--soft)}
 .pj-tot{font-weight:800;border-bottom:1px solid var(--line)}
 .pj-alerta{margin-top:10px;font-size:12px;line-height:1.55;font-weight:600;color:var(--amber);background:var(--amber-bg);border-radius:10px;padding:9px 12px}
+/* folha de ações */
+.modal-acoes{max-width:420px;padding-bottom:8px}
+.ac-head{display:flex;align-items:flex-start;gap:10px;padding:18px 20px 10px}
+.ac-txt{flex:1;min-width:0}
+.ac-t{font-size:15px;font-weight:800;letter-spacing:-.03em;word-break:break-word;line-height:1.3}
+.ac-s{font-size:12px;color:var(--muted);font-weight:500;margin-top:4px}
+.ac-list{display:flex;flex-direction:column;padding:4px 10px 10px}
+.ac-it{display:grid;grid-template-columns:20px 1fr;grid-template-rows:auto auto;column-gap:12px;align-items:center;text-align:left;padding:13px 12px;border-radius:13px;font-size:14px;font-weight:700;color:var(--ink);transition:background .15s var(--ease);letter-spacing:-.015em}
+.ac-it svg{width:18px;height:18px;grid-row:1/3;color:var(--muted)}
+.ac-it small{grid-column:2;font-size:11.5px;color:var(--soft);font-weight:500}
+.ac-it:hover{background:var(--bg-2)}
+.ac-it.primary{color:var(--green)}.ac-it.primary svg{color:var(--green)}
+.ac-it.danger{color:var(--red)}.ac-it.danger svg{color:var(--red)}
+/* novo lançamento */
+.lv-wrap{display:flex;align-items:baseline;gap:8px;padding:6px 2px 2px;border-bottom:2px solid var(--line);transition:border-color .18s}
+.lv-wrap:focus-within{border-color:var(--navy)}
+.lv-cur{font-size:18px;font-weight:800;color:var(--soft);letter-spacing:-.02em}
+.lv-wrap input{flex:1;min-width:0;border:none;background:transparent;font-size:34px;font-weight:800;letter-spacing:-.05em;padding:0;outline:none;color:var(--ink);font-variant-numeric:tabular-nums;width:100%}
+.lv-wrap input::placeholder{color:var(--line);font-weight:800}
+.lv-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.lv-chips button{padding:6px 11px;border-radius:16px;font-size:11.5px;font-weight:700;color:var(--muted);background:var(--card);border:1px solid var(--line);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;transition:.15s var(--ease)}
+.lv-chips button:hover,.lv-chips button.on{background:var(--blue-bg);color:var(--navy);border-color:transparent}
+body.dark .lv-chips button.on{color:var(--gold-soft);background:rgba(220,199,154,.14)}
+.lv-data{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.lv-data input{flex:1 1 150px}
+.lv-data .lv-chips{margin-top:0}
+.lv-switch{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:13px;background:var(--bg-2);cursor:pointer;user-select:none}
+.lv-switch>span{flex:1;display:flex;flex-direction:column;gap:2px}
+.lv-switch b{font-size:13.5px;font-weight:700;letter-spacing:-.02em}
+.lv-switch small{font-size:11px;color:var(--soft);font-weight:500}
+.lv-switch input{display:none}
+.lv-switch i{width:46px;height:27px;border-radius:14px;background:var(--line);position:relative;flex:0 0 auto;transition:.2s var(--ease)}
+.lv-switch i::after{content:'';position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.2s var(--ease)}
+.lv-switch input:checked+i{background:var(--green)}
+.lv-switch input:checked+i::after{transform:translateX(19px)}
+.lv-det{border:1px solid var(--line);border-radius:13px;padding:0 13px}
+.lv-det summary{display:flex;align-items:center;gap:10px;padding:12px 0;cursor:pointer;list-style:none;font-size:13px;font-weight:700}
+.lv-det summary::-webkit-details-marker{display:none}
+.lv-det summary small{flex:1;min-width:0;font-size:11.5px;color:var(--soft);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right}
+.lv-det summary small.falta{color:var(--amber);font-weight:700}
+.lv-det summary::after{content:'';width:7px;height:7px;border-right:2px solid var(--soft);border-bottom:2px solid var(--soft);transform:rotate(45deg);flex:0 0 auto;margin-left:2px;transition:transform .2s}
+.lv-det[open] summary::after{transform:rotate(-135deg)}
+.lv-det>.frow,.lv-det>.fld{margin-bottom:12px}
+.lv-foot{gap:10px}
+.lv-foot #lSalvarMais{display:none}
+.lv-foot.novo #lSalvarMais{display:inline-flex}
 @media(max-width:820px){
-  .pj-tr{padding:11px 16px;font-size:12px;grid-template-columns:.9fr 1fr 1fr 1.35fr}
+  .fx-top{margin-bottom:10px;gap:8px}
+  .fx-chips{width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px;scrollbar-width:none}
+  .fx-chips::-webkit-scrollbar{display:none}
+  .fx-chip{padding:8px 12px;font-size:12px}
+  .fx-filt{display:flex;width:100%}.fx-filt button{flex:1;padding:10px 6px}
+  .fx-grid{grid-template-columns:1fr;gap:12px}
+  .fx-side{position:static;gap:10px}
+  .fx-sum{padding:16px 14px 14px;margin-bottom:12px}
+  .fx-sum-top{grid-template-columns:1fr auto 1fr;gap:8px}
+  .fx-big{font-size:20px}
+  .fx-sublab{font-size:10.5px;white-space:normal;line-height:1.3}
+  .fx-arrow{width:28px;height:28px;border-radius:9px}
+  .fx-spark{margin:10px 0 8px}
+  .fx-tiles{gap:6px}
+  .fx-tile{padding:9px 10px;border-radius:11px}
+  .fx-tile b{font-size:14.5px}
+  .fx-tile span{font-size:9.5px}
+  .fx-prem{padding:9px 11px;font-size:11.5px}
+  .fx-ver{font-size:12px;padding:9px 11px}
+  .fx-alerts{margin-bottom:12px;padding-top:12px}
+  .fx-alerts h3{padding:0 14px;flex-wrap:wrap;gap:2px}.fx-alerts h3 .hint{flex-basis:100%;margin:0}
+  .fx-al-h{padding:12px 14px}
+  .fx-card{margin-bottom:12px}
+  .fx-tabs{padding:6px 6px 0}.fx-tabs button{flex:1;padding:11px 4px;font-size:12.5px}
+  .fx-ghead{padding:11px 14px 5px;top:0}
+  .fx-gdata b{font-size:11.5px}
+  .fx-gtot{font-size:11.5px;gap:6px}
+  .fx-gsaldo{padding:3px 7px}
+  .fx-row{padding:9px 10px 9px 14px;gap:10px}
+  .fx-ico{width:32px;height:32px;border-radius:10px}
+  .fx-desc{font-size:13px}
+  .fx-sub{font-size:11px}
+  .fx-val{font-size:13px}
+  .fx-ok{width:38px;height:38px}
+  .pj-tr{padding:11px 14px;font-size:12px;grid-template-columns:.9fr 1fr 1fr 1.35fr}
   .pj-det{grid-template-columns:1fr}
   .pj-dk{display:none}.pj-mb{display:inline!important}
   .pj-mr{grid-template-columns:1.5fr repeat(4,1fr);font-size:11px}
+  .l-act{display:none}
+  .lrow{padding-right:12px}
+  .lv-wrap input{font-size:36px}
+  .lv-foot{flex-direction:column-reverse}
+  .lv-foot .btn{width:100%;padding:13px}
+  .modal-acoes{padding-bottom:calc(env(safe-area-inset-bottom) + 8px)}
+  .ac-it{padding:15px 12px;font-size:15px}
 }
 @media(min-width:821px){
   .card:hover{box-shadow:var(--sh-md);transform:translateY(-1px)}
@@ -652,7 +849,7 @@ body.dark .wa-prev .hora{color:rgba(255,255,255,.42)}
     <span>Dashboard</span></button>
   <button class="nav-item" data-v="proj">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><path d="M15 6h4v4"/></svg>
-    <span>Projeção</span></button>
+    <span>Fluxo de caixa</span></button>
   <button class="nav-item" data-v="lanc">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1.2" fill="currentColor"/><circle cx="4" cy="12" r="1.2" fill="currentColor"/><circle cx="4" cy="18" r="1.2" fill="currentColor"/></svg>
     <span>Lançamentos</span></button>
@@ -912,7 +1109,7 @@ body.dark .wa-prev .hora{color:rgba(255,255,255,.42)}
     Extrato</button>
   <button class="bn-item" data-v="proj">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><path d="M15 6h4v4"/></svg>
-    Projeção</button>
+    Fluxo</button>
   <button class="bn-item" data-v="cobranca">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 10.5h6M9 13.5h3.5"/></svg>
     Cobrança</button>
@@ -932,42 +1129,53 @@ body.dark .wa-prev .hora{color:rgba(255,255,255,.42)}
 <div class="overlay" id="ovLanc">
   <div class="modal">
     <div class="sheet-handle"></div>
-    <div class="modal-head"><h3 id="lancTitle">Novo lançamento</h3><button class="icon-btn" data-close="ovLanc">✕</button></div>
+    <div class="modal-head"><h3 id="lancTitle">Novo lançamento</h3><button class="icon-btn" data-close="ovLanc" aria-label="Fechar">✕</button></div>
     <div class="modal-body">
       <div class="tipo-seg">
         <button class="rec on" id="segRec">↑ Receita</button>
         <button class="des" id="segDes">↓ Despesa</button>
       </div>
-      <div class="fld"><label>Descrição</label><input id="lDesc" placeholder="Ex.: Mensalidade cliente X"></div>
-      <div class="frow">
-        <div class="fld"><label>Valor (R$)</label><input id="lValor" type="number" inputmode="decimal" step="0.01" min="0" placeholder="0,00"></div>
-        <div class="fld"><label>Vencimento</label><input id="lData" type="date"></div>
-      </div>
-      <div class="frow">
-        <div class="fld"><label>Categoria</label><select id="lCat"></select></div>
-        <div class="fld"><label>Centro de custo</label><select id="lCC"></select></div>
-      </div>
-      <div class="frow">
-        <div class="fld"><label>Produto (opcional)</label><select id="lProd"></select></div>
-        <div class="fld"><label>Meio de pagamento</label><select id="lMeio"></select></div>
-      </div>
-      <div class="frow" id="lRepRow">
-        <div class="fld"><label>Repetição</label>
-          <select id="lRep">
-            <option value="unica">Única</option>
-            <option value="parcelado">Parcelado (divide o valor)</option>
-            <option value="mensal">Repete mensal (mesmo valor)</option>
-          </select></div>
-        <div class="fld" id="lRepNWrap" style="display:none"><label>Nº de vezes</label><input id="lRepN" type="number" inputmode="numeric" min="2" max="120" value="2"></div>
-      </div>
-      <div class="fld"><label>Status</label>
-        <select id="lStatus"><option value="P">Previsto (a receber / a pagar)</option><option value="R">Realizado (já pago / recebido)</option></select>
-      </div>
+      <div class="lv-wrap"><span class="lv-cur">R$</span><input id="lValor" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off" aria-label="Valor"></div>
+      <div class="fld"><label>Descrição</label><input id="lDesc" list="lDescList" placeholder="Ex.: Mensalidade cliente X" autocomplete="off"><datalist id="lDescList"></datalist>
+        <div class="lv-chips" id="lRecentes"></div></div>
+      <div class="fld"><label>Data</label>
+        <div class="lv-data"><input id="lData" type="date">
+          <div class="lv-chips" id="lDataChips"><button type="button" data-d="0">Hoje</button><button type="button" data-d="1">Amanhã</button><button type="button" data-d="7">+7 dias</button><button type="button" data-d="30">+30 dias</button></div></div></div>
+      <label class="lv-switch"><span><b id="lPagoLab">Ainda vou receber</b><small id="lPagoSub"></small></span><input type="checkbox" id="lPago"><i></i></label>
+      <details class="lv-det" id="lDet"><summary><span>Detalhes</span><small id="lDetResumo"></small></summary>
+        <div class="frow">
+          <div class="fld"><label>Categoria</label><select id="lCat"></select></div>
+          <div class="fld"><label>Centro de custo</label><select id="lCC"></select></div>
+        </div>
+        <div class="frow">
+          <div class="fld"><label>Produto (opcional)</label><select id="lProd"></select></div>
+          <div class="fld"><label>Meio de pagamento</label><select id="lMeio"></select></div>
+        </div>
+        <div class="frow" id="lRepRow">
+          <div class="fld"><label>Repetição</label>
+            <select id="lRep">
+              <option value="unica">Única</option>
+              <option value="parcelado">Parcelado (divide o valor)</option>
+              <option value="mensal">Repete mensal (mesmo valor)</option>
+            </select></div>
+          <div class="fld" id="lRepNWrap" style="display:none"><label>Nº de vezes</label><input id="lRepN" type="number" inputmode="numeric" min="2" max="120" value="2"></div>
+        </div>
+      </details>
     </div>
-    <div class="modal-foot">
-      <button class="btn btn-ghost" data-close="ovLanc">Cancelar</button>
+    <div class="modal-foot lv-foot" id="lFoot">
+      <button class="btn btn-ghost" id="lSalvarMais">Salvar e lançar outro</button>
       <button class="btn btn-primary" id="lSalvar">Salvar</button>
     </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL CENÁRIO (fluxo de caixa) ══════════ -->
+<div class="overlay" id="ovCenario">
+  <div class="modal" style="max-width:560px">
+    <div class="sheet-handle"></div>
+    <div class="modal-head"><h3>Cenário e premissas</h3><button class="icon-btn" data-close="ovCenario" aria-label="Fechar">✕</button></div>
+    <div class="modal-body" id="cenBox" style="gap:0"></div>
+    <div class="modal-foot"><button class="btn btn-primary" data-close="ovCenario">Pronto</button></div>
   </div>
 </div>
 
@@ -1266,8 +1474,8 @@ function periodoAnterior(){
 const labelPeriodo=()=>$('#periodSel').selectedOptions[0].textContent.replace('…','');
 
 /* ═══════════════ NAVEGAÇÃO ═══════════════ */
-const TITULOS={dash:'Dashboard',proj:'Projeção de caixa',lanc:'Lançamentos',cobranca:'Cobrança',fixas:'Despesas fixas',vendas:'Vendas',cartoes:'Cartões de crédito',cad:'Cadastros'};
-const TITULOS_MOB={dash:'Início',proj:'Projeção',lanc:'Extrato',cobranca:'Cobrança',fixas:'Fixas',vendas:'Vendas',cartoes:'Cartões',cad:'Ajustes'};
+const TITULOS={dash:'Dashboard',proj:'Fluxo de caixa',lanc:'Lançamentos',cobranca:'Cobrança',fixas:'Despesas fixas',vendas:'Vendas',cartoes:'Cartões de crédito',cad:'Cadastros'};
+const TITULOS_MOB={dash:'Início',proj:'Fluxo',lanc:'Extrato',cobranca:'Cobrança',fixas:'Fixas',vendas:'Vendas',cartoes:'Cartões',cad:'Ajustes'};
 const ehMobile=()=>window.matchMedia('(max-width:820px)').matches;
 let viewAtual='dash';
 function goView(v){
@@ -1373,9 +1581,9 @@ function renderDash(){
     </div>
     <div class="hero-grid">
       <div class="h-tile"><div class="t-lab"><i style="background:#7FE0B4"></i>Recebido</div><div class="t-val cup" data-v="${recR}">${fmt(recR)}</div><div class="t-sub">${futuro&&!recR?'período ainda não começou':'receitas realizadas'}</div></div>
-      <div class="h-tile"><div class="t-lab"><i style="background:#E9D5A8"></i>A receber</div><div class="t-val cup" data-v="${recP}">${fmt(recP)}</div><div class="t-sub">${atrasRv>0?fmtK(atrasRv)+' em atraso':'entradas previstas'}</div></div>
+      <div class="h-tile clicavel" onclick="fxIr('R')" title="Ver no fluxo de caixa"><div class="t-lab"><i style="background:#E9D5A8"></i>A receber</div><div class="t-val cup" data-v="${recP}">${fmt(recP)}</div><div class="t-sub">${atrasRv>0?fmtK(atrasRv)+' em atraso':'entradas previstas'}</div></div>
       <div class="h-tile"><div class="t-lab"><i style="background:#FFA69C"></i>Pago</div><div class="t-val cup" data-v="${desR}">${fmt(desR)}</div><div class="t-sub">${futuro&&!desR?'período ainda não começou':'despesas realizadas'}</div></div>
-      <div class="h-tile"><div class="t-lab"><i style="background:#F3C77B"></i>A pagar</div><div class="t-val cup" data-v="${desP}">${fmt(desP)}</div><div class="t-sub">${atrasDv>0?fmtK(atrasDv)+' em atraso':'saídas previstas'}</div></div>
+      <div class="h-tile clicavel" onclick="fxIr('D')" title="Ver no fluxo de caixa"><div class="t-lab"><i style="background:#F3C77B"></i>A pagar</div><div class="t-val cup" data-v="${desP}">${fmt(desP)}</div><div class="t-sub">${atrasDv>0?fmtK(atrasDv)+' em atraso':'saídas previstas'}</div></div>
     </div>
   </div>`;
 
@@ -1579,7 +1787,7 @@ function renderLanc(){
     const meio=S.meios.find(m=>m.id===l.meioId), cart=S.cartoes.find(c=>c.id===l.cartaoId);
     const st=statusDe(l);
     const origem=l.vendaId?'Venda':(l.cartaoId?(cart?cart.nome:'Cartão'):(meio?meio.nome:''));
-    return `<div class="lrow">
+    return `<div class="lrow" onclick="lancRowTap(event,'${l.id}','${l.virtual?l.fixaId:''}','${l.venc}')">
       <div class="l-ico ${l.tipo==='R'?'rec':'des'}">${l.tipo==='R'?icoUp:icoDown}</div>
       <div class="l-info">
         <div class="l-desc">${esc(l.desc)}${l.parcela?`<span class="parc-tag">${l.parcela}</span>`:''}${l.revisar?`<span class="parc-tag" style="background:var(--amber-bg);color:var(--amber);border-color:transparent">⚠ revisar</span>`:''}${l.virtual?`<span class="parc-tag tag-fixa" style="background:var(--blue-bg);color:var(--navy);border-color:transparent">previsão fixa</span>`:''}</div>
@@ -1635,85 +1843,148 @@ window.delLanc=id=>{
 
 /* ═══════════════ MODAL LANÇAMENTO ═══════════════ */
 let lancTipo='R',lancEditId=null;
-window.abrirLanc=function(edit){
+/* aceita "1.234,56", "1234,56" e "1234.56" */
+const parseValor=s=>{s=String(s==null?'':s).trim().replace(/[R$\s]/g,'');if(!s)return NaN;
+  if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');else if((s.match(/\./g)||[]).length>1)s=s.replace(/\./g,'');
+  return parseFloat(s)};
+const fmtValorInput=v=>(v===''||v==null||isNaN(v))?'':Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+/* descrições mais usadas nos últimos 120 dias (lançadas à mão) */
+function lancRecentes(){
+  const corte=addDias(hoje(),-120), cnt={};
+  S.lancs.filter(l=>!l.origemAsaas&&!l.cartaoId&&!l.vendaId&&!l.virtual&&(l.dataReal||l.venc)>=corte).forEach(l=>{
+    const k=norm(l.desc);const c=cnt[k]||(cnt[k]={n:0,desc:l.desc});c.n++});
+  return Object.values(cnt).sort((a,b)=>b.n-a.n).slice(0,6);
+}
+function lancSugestao(desc){
+  const k=norm(desc);if(!k)return null;
+  const cands=S.lancs.filter(l=>norm(l.desc)===k&&!l.virtual);
+  if(!cands.length)return null;
+  return cands.sort((a,b)=>(b.dataReal||b.venc).localeCompare(a.dataReal||a.venc))[0];
+}
+/* preenche categoria, centro, produto, meio (e valor, se vazio) como da última vez */
+function lancAplicarSugestao(l,soVazios){
+  if(!l)return;
+  if(l.tipo!==lancTipo){lancTipo=l.tipo;atualizaSegTipo()}
+  if(l.catId&&!(soVazios&&$('#lCat').value))atualizaCatSel(l.catId);
+  const set=(id,v)=>{const el=$('#'+id);if(!el||!v)return;if(soVazios&&el.value)return;el.value=v};
+  set('lCC',l.ccId);set('lProd',l.prodId);set('lMeio',l.meioId);
+  if(!$('#lValor').value)$('#lValor').value=fmtValorInput(l.valor);
+  lancResumoDet();
+}
+function lancResumoDet(){
+  const el=$('#lDetResumo');if(!el)return;
+  const cat=S.categorias.find(c=>c.id===$('#lCat').value), cc=S.centros.find(c=>c.id===$('#lCC').value), meio=S.meios.find(m=>m.id===$('#lMeio').value);
+  if(!cat){el.textContent='sem categoria';el.classList.add('falta');return}
+  el.textContent=[cat.nome,cc&&cc.nome,meio&&meio.nome].filter(Boolean).join(' · ');el.classList.remove('falta');
+}
+function lancAtualizaPago(){
+  const on=$('#lPago').checked;
+  $('#lPagoLab').textContent=lancTipo==='R'?(on?'Já recebi':'Ainda vou receber'):(on?'Já paguei':'Ainda vou pagar');
+  $('#lPagoSub').textContent=on?'entra como realizado na data acima':(lancTipo==='R'?'fica previsto, aparece no fluxo como entrada':'fica previsto, aparece no fluxo como saída');
+}
+function lancMarcaChipData(){
+  const v=$('#lData').value;
+  $$('#lDataChips button').forEach(b=>b.classList.toggle('on',addDias(hoje(),+b.dataset.d)===v));
+}
+window.abrirLanc=function(edit,opts){
+  opts=opts||{};
   lancEditId=edit||null;
   const l=edit?S.lancs.find(x=>x.id===edit):null;
-  lancTipo=l?l.tipo:'R';
+  lancTipo=l?l.tipo:(opts.tipo||'R');
   $('#lancTitle').textContent=l?'Editar lançamento':'Novo lançamento';
-  atualizaSegTipo();
   fillSel($('#lCC'),S.centros,{vazio:'Sem centro de custo'});
   fillSel($('#lProd'),S.produtos,{vazio:'Sem produto'});
   fillSel($('#lMeio'),S.meios,{vazio:'Não informado'});
   $('#lDesc').value=l?l.desc:'';
-  $('#lValor').value=l?l.valor:'';
-  $('#lData').value=l?l.venc:hoje();
+  $('#lValor').value=l?fmtValorInput(l.valor):'';
+  $('#lData').value=l?l.venc:(opts.data||hoje());
   $('#lCC').value=l?.ccId||'';
   $('#lProd').value=l?.prodId||'';
   $('#lMeio').value=l?.meioId||'';
-  $('#lStatus').value=l?l.status:'P';
+  $('#lPago').checked=l?l.status==='R':!!opts.pago;
   $('#lRep').value='unica';$('#lRepNWrap').style.display='none';
   $('#lRepRow').style.display=l?'none':'';
-  atualizaCatSel(l?.catId);
+  atualizaSegTipo();atualizaCatSel(l?.catId);
+  $('#lDet').open=!!(l&&!l.catId);
+  const rec=l?[]:lancRecentes();
+  $('#lRecentes').innerHTML=rec.map(r=>`<button type="button" data-desc="${esc(r.desc)}">${esc(r.desc.length>28?r.desc.slice(0,27)+'…':r.desc)}</button>`).join('');
+  $$('#lRecentes button').forEach(b=>b.onclick=()=>{$('#lDesc').value=b.dataset.desc;lancAplicarSugestao(lancSugestao(b.dataset.desc));$$('#lRecentes button').forEach(x=>x.classList.toggle('on',x===b));$('#lValor').focus()});
+  const vistos=new Set(), ds=[];
+  S.lancs.slice().sort((a,b)=>b.venc.localeCompare(a.venc)).forEach(x=>{const k=norm(x.desc);if(vistos.has(k)||x.origemAsaas||x.virtual)return;vistos.add(k);ds.push(x.desc)});
+  $('#lDescList').innerHTML=ds.slice(0,80).map(d=>`<option value="${esc(d)}">`).join('');
+  lancAtualizaPago();lancResumoDet();lancMarcaChipData();
+  $('#lFoot').classList.toggle('novo',!l);
   abrir('ovLanc');
-  if(window.innerWidth>820)$('#lDesc').focus();
+  if(window.innerWidth>820)$('#lValor').focus();
 };
 function atualizaSegTipo(){
   $('#segRec').classList.toggle('on',lancTipo==='R');
   $('#segDes').classList.toggle('on',lancTipo==='D');
   atualizaCatSel();
+  if($('#lPagoLab'))lancAtualizaPago();
 }
 function atualizaCatSel(sel){
   fillSel($('#lCat'),catsTipo(lancTipo),{vazio:'Sem categoria'});
   if(sel)$('#lCat').value=sel;
+  lancResumoDet();
 }
 $('#segRec').onclick=()=>{lancTipo='R';atualizaSegTipo()};
 $('#segDes').onclick=()=>{lancTipo='D';atualizaSegTipo()};
 $('#lRep').onchange=()=>{$('#lRepNWrap').style.display=$('#lRep').value==='unica'?'none':''};
+$('#lPago').onchange=lancAtualizaPago;
+['lCat','lCC','lMeio'].forEach(id=>$('#'+id).addEventListener('change',lancResumoDet));
+$('#lData').addEventListener('change',lancMarcaChipData);
+$$('#lDataChips button').forEach(b=>b.onclick=()=>{$('#lData').value=addDias(hoje(),+b.dataset.d);lancMarcaChipData()});
+$('#lValor').addEventListener('blur',()=>{const v=parseValor($('#lValor').value);$('#lValor').value=isNaN(v)?'':fmtValorInput(v)});
+$('#lDesc').addEventListener('change',()=>{if(lancEditId)return;lancAplicarSugestao(lancSugestao($('#lDesc').value),true)});
 $('#btnNovoLanc').onclick=()=>abrirLanc();
 $('#fab').onclick=()=>abrirLanc();
 window.editLanc=id=>abrirLanc(id);
-$('#lSalvar').onclick=()=>{
-  const desc=$('#lDesc').value.trim(), valor=parseFloat($('#lValor').value), venc=$('#lData').value;
-  if(!desc||!valor||valor<=0||!venc){toast('Preencha descrição, valor e data');return}
+function lancSalvar(mais){
+  const desc=$('#lDesc').value.trim(), valor=parseValor($('#lValor').value), venc=$('#lData').value;
+  if(!valor||valor<=0){toast('Informe o valor');$('#lValor').focus();return}
+  if(!desc){toast('Informe a descrição');$('#lDesc').focus();return}
+  if(!venc){toast('Informe a data');return}
+  const status=$('#lPago').checked?'R':'P';
   const base={tipo:lancTipo,desc,catId:$('#lCat').value||null,ccId:$('#lCC').value||null,
-    prodId:$('#lProd').value||null,meioId:$('#lMeio').value||null,status:$('#lStatus').value};
+    prodId:$('#lProd').value||null,meioId:$('#lMeio').value||null,status};
+  const depois=msg=>{save();render();if(mais){abrirLanc(null,{tipo:lancTipo,data:venc});toast(msg+' · pode lançar o próximo')}else{fechar('ovLanc');toast(msg)}};
   if(lancEditId){
     const l=S.lancs.find(x=>x.id===lancEditId);
-    const fim=msg=>{save();fechar('ovLanc');render();toast(msg)};
     const aplicarEsta=()=>{
-      Object.assign(l,base,{valor,venc,dataReal:base.status==='R'?(l.dataReal||hoje()):null});
-      fim('Lançamento atualizado');
+      Object.assign(l,base,{valor,venc,dataReal:base.status==='R'?(l.dataReal||venc):null});
+      depois('Lançamento atualizado');
     };
     if(l.fixaId&&S.fixas?.some(f=>f.id===l.fixaId)){
       escolherEscopo('Este lançamento vem de uma despesa fixa. Onde aplicar a alteração?',aplicarEsta,()=>{
         const fid=l.fixaId, vAnt=l.venc;
-        Object.assign(l,base,{valor,venc,dataReal:base.status==='R'?(l.dataReal||hoje()):null});
+        Object.assign(l,base,{valor,venc,dataReal:base.status==='R'?(l.dataReal||venc):null});
         S.lancs.filter(x=>x.fixaId===fid&&x.id!==l.id&&x.venc>vAnt&&x.status==='P')
           .forEach(x=>Object.assign(x,{desc,valor,catId:base.catId,ccId:base.ccId,meioId:base.meioId}));
         const fx=S.fixas.find(f=>f.id===fid);
         if(fx)Object.assign(fx,{desc,valor,catId:base.catId,ccId:base.ccId,meioId:base.meioId});
-        fim('Aplicado nesta e nas próximas');
+        depois('Aplicado nesta e nas próximas');
       });
       return;
     }
     aplicarEsta();
     return;
-  }else{
-    const rep=$('#lRep').value, n=Math.max(1,parseInt($('#lRepN').value)||1);
-    if(rep==='unica'){
-      S.lancs.push({id:uid(),...base,valor,venc,dataReal:base.status==='R'?hoje():null});
-    }else{
-      const vParc=rep==='parcelado'?Math.round(valor/n*100)/100:valor;
-      for(let i=0;i<n;i++){
-        S.lancs.push({id:uid(),...base,status:i===0?base.status:'P',
-          valor:vParc,venc:addMeses(venc,i),parcela:`${i+1}/${n}`,
-          dataReal:i===0&&base.status==='R'?hoje():null});
-      }
-    }
-    toast('Lançamento salvo');
   }
-  save();fechar('ovLanc');render();
-};
+  const rep=$('#lRep').value, n=Math.max(1,parseInt($('#lRepN').value)||1);
+  if(rep==='unica'){
+    S.lancs.push({id:uid(),...base,valor,venc,dataReal:base.status==='R'?venc:null});
+  }else{
+    const vParc=rep==='parcelado'?Math.round(valor/n*100)/100:valor;
+    for(let i=0;i<n;i++){
+      S.lancs.push({id:uid(),...base,status:i===0?base.status:'P',
+        valor:vParc,venc:addMeses(venc,i),parcela:`${i+1}/${n}`,
+        dataReal:i===0&&base.status==='R'?venc:null});
+    }
+  }
+  depois(base.status==='R'?(lancTipo==='R'?'Recebimento registrado':'Pagamento registrado'):(lancTipo==='R'?'Entrada prevista salva':'Saída prevista salva'));
+}
+$('#lSalvar').onclick=()=>lancSalvar(false);
+$('#lSalvarMais').onclick=()=>lancSalvar(true);
 
 /* ═══════════════ VENDAS ═══════════════ */
 function renderVendas(){
@@ -3299,13 +3570,14 @@ function escolherEscopo(msg,uma,todas){
 $('#escUma').onclick=()=>{fechar('ovEscopo');escUmaCb&&escUmaCb();escUmaCb=escTodasCb=null};
 $('#escTodas').onclick=()=>{fechar('ovEscopo');escTodasCb&&escTodasCb();escUmaCb=escTodasCb=null};
 
-/* ═══════════════ PROJEÇÃO DE CAIXA ═══════════════ */
+/* ═══════════════ FLUXO DE CAIXA · agenda + projeção ═══════════════ */
 const PJ_FORA_PADRAO=['cus_000194702314','cus_000176597756'];  /* Santa Rita e Conveniência Vitória: não contar */
 function pjCfg(){
   if(!S.cfg.proj)S.cfg.proj={fora:PJ_FORA_PADRAO.slice(),meses:12,reserva:null,metaDia:null,kiwify:0,atrasados:false,
     unico:0,unicoMes:'',mensal:0,mensalDe:'',mensalN:6};
   const c=S.cfg.proj;
   if(!c.foraV2){c.fora=(c.fora||[]).concat(['l:mpi informatica']);c.foraV2=true}  /* MPI fora da projeção (pedido 12/10) */
+  if(!c.per)c.per='30';if(!c.aba)c.aba='agenda';if(!c.filtro)c.filtro='tudo';
   return c;
 }
 /* chave do cliente: id do Asaas ou, p/ recebimento lançado à mão, o nome antes do "·" */
@@ -3313,68 +3585,94 @@ const pjChaveLanc=(l,cli)=>l.origemAsaas&&l.asaasId&&cli[l.asaasId]?cli[l.asaasI
 const pjMetaFixa=()=>(S.fixas||[]).find(f=>f.ativa&&/meta ads|facebook/.test(norm(f.desc)));
 const pjMes=k=>mesLabel(k).replace('.','').replace(' de ','/');
 const pjDiasMes=k=>new Date(+k.slice(0,4),+k.slice(5,7),0).getDate();
+const addDias=(s,n)=>{const d=pDate(s);d.setDate(d.getDate()+n);return iso(d)};
+const fx={cache:{},aberto:new Set(),alerta:null};
+
+/* ── todos os eventos futuros (e atrasados) que mexem no caixa ── */
+function fxEventos(cfg,fim,comInvest){
+  const hj=hoje(), k0=mesKey(hj), ev=[];
+  const cli={};((S.asaasCache&&S.asaasCache.cobrancas)||[]).forEach(c=>cli[c.id]=c.clienteId);
+  const fora=new Set(cfg.fora||[]);
+  S.lancs.forEach(l=>{
+    if(l.status!=='P')return;
+    const atras=l.venc<hj;if(!atras&&l.venc>fim)return;
+    const chave=pjChaveLanc(l,cli);
+    const e={k:'l:'+l.id,id:l.id,data:atras?hj:l.venc,venc:l.venc,tipo:l.tipo,valor:l.valor,desc:l.desc,lanc:l,atras,fora:false,conta:true,
+      origem:l.origemAsaas?'asaas':l.cartaoId?'cartao':l.fixaId?'fixa':l.vendaId?'venda':'manual',
+      clienteId:(l.origemAsaas&&cli[l.asaasId])||null,chave,catId:l.catId};
+    if(l.tipo==='R'){
+      if(fora.has(chave)){e.fora=true;e.conta=false}
+      else if(atras&&!(cfg.atrasados||diasAte(l.venc)>=-15)){e.conta=false;e.velho=true}
+    }
+    ev.push(e);
+  });
+  /* despesas fixas ainda não confirmadas (as vencidas entram hoje, por segurança) */
+  const meta=pjMetaFixa(), diaHj=+hj.slice(8,10);
+  let y=+hj.slice(0,4), m=+hj.slice(5,7);const fy=+fim.slice(0,4), fm=+fim.slice(5,7);let g=0;
+  while((y<fy||(y===fy&&m<=fm))&&g++<30){
+    const mk=y+'-'+String(m).padStart(2,'0'), ult=pjDiasMes(mk);
+    (S.fixas||[]).filter(f=>f.ativa).forEach(f=>{
+      if(S.lancs.some(l=>l.fixaId===f.id&&mesKey(l.venc)===mk))return;
+      const venc=mk+'-'+String(Math.min(f.dia,ult)).padStart(2,'0');
+      if(venc>fim)return;
+      const ehMeta=!!(meta&&f.id===meta.id);
+      const valor=ehMeta&&cfg.metaDia!=null&&cfg.metaDia!==''?(+cfg.metaDia)*30:f.valor;
+      const pend=venc<hj;
+      ev.push({k:'f:'+f.id+':'+mk,data:pend?hj:venc,venc,tipo:'D',valor,desc:f.desc,fixa:f,fixaId:f.id,virtual:true,pendente:pend,conta:true,origem:'fixa',meta:ehMeta,catId:f.catId,cartaoId:f.cartaoId||null});
+    });
+    /* premissas do cenário: entram no último dia do mês */
+    const fimMes=mk+'-'+String(ult).padStart(2,'0'), dataP=fimMes>fim?fim:fimMes;
+    const iMes=(y-(+k0.slice(0,4)))*12+(m-(+k0.slice(5,7)));
+    const kw=+cfg.kiwify||0;
+    if(kw>0)ev.push({k:'p:kw:'+mk,data:dataP,venc:dataP,tipo:'R',valor:mk===k0?kw*(ult-diaHj+1)/ult:kw,desc:'Kiwify (estimativa)',premissa:true,conta:true,origem:'premissa'});
+    const qv=+cfg.vendasMes||0, pv=qv>0?(+cfg.vendaParc||pjParcelaTipica()):0, nv=+cfg.vendaN||12;
+    if(qv>0&&pv>0&&iMes>=1)ev.push({k:'p:nv:'+mk,data:dataP,venc:dataP,tipo:'R',valor:qv*pv*Math.min(iMes,nv),desc:'Novas vendas (premissa)',premissa:true,conta:true,origem:'premissa'});
+    if(comInvest){
+      let inv=0;
+      if(+cfg.unico>0&&mk===(cfg.unicoMes||k0))inv+=+cfg.unico;
+      const de=cfg.mensalDe||k0, iDe=(+de.slice(0,4)-(+k0.slice(0,4)))*12+(+de.slice(5,7)-(+k0.slice(5,7)));
+      if(+cfg.mensal>0&&iMes>=iDe&&iMes<iDe+(+cfg.mensalN||1))inv+=+cfg.mensal;
+      if(inv>0){const d0=mk===k0?hj:mk+'-01';ev.push({k:'p:inv:'+mk,data:d0,venc:d0,tipo:'D',valor:inv,desc:'Investimento simulado',premissa:true,simul:true,conta:true,origem:'premissa'})}
+    }
+    m++;if(m>12){m=1;y++}
+  }
+  ev.sort((a,b)=>a.data.localeCompare(b.data)||(a.tipo===b.tipo?0:a.tipo==='R'?-1:1)||a.venc.localeCompare(b.venc)||b.valor-a.valor);
+  return ev;
+}
+/* ── visão mês a mês (mesmos eventos, somados) ── */
 function pjCalcular(cfg,comInvest){
   const hj=hoje(), k0=mesKey(hj), N=Math.max(3,Math.min(24,cfg.meses||12));
   const ks=[...Array(N)].map((_,i)=>mesKey(addMeses(k0+'-01',i)));
+  const kf=ks[N-1], fim=kf+'-'+String(pjDiasMes(kf)).padStart(2,'0');
   const idx={};
-  const rows=ks.map(k=>idx[k]={k,novas:0,recAsaas:0,recOutros:0,recAtras:0,kiwify:0,fixas:0,fixasPend:0,meta:0,desLanc:0,desAtras:0,invest:0,fora:0});
-  const cli={};((S.asaasCache&&S.asaasCache.cobrancas)||[]).forEach(c=>cli[c.id]=c.clienteId);
-  const fora=new Set(cfg.fora||[]);
-  const ehFora=l=>fora.has(pjChaveLanc(l,cli));
-  let atrasFora=0,atrasNaoContado=0,depois=0;
-  S.lancs.forEach(l=>{
-    if(l.status!=='P')return;
-    const atras=l.venc<hj, r=idx[atras?k0:mesKey(l.venc)];
-    if(l.tipo==='R'){
-      if(ehFora(l)){if(atras)atrasFora+=l.valor;else if(r)r.fora+=l.valor;return}
-      if(!r){if(!atras)depois+=l.valor;return}
-      /* atraso de até 15 dias costuma entrar; mais antigo só se marcar "contar atrasados" */
-      if(atras){if(cfg.atrasados||diasAte(l.venc)>=-15)r.recAtras+=l.valor;else atrasNaoContado+=l.valor;return}
-      if(l.origemAsaas)r.recAsaas+=l.valor;else r.recOutros+=l.valor;
+  const rows=ks.map(k=>idx[k]={k,recAsaas:0,recOutros:0,recAtras:0,kiwify:0,novas:0,fixas:0,fixasPend:0,meta:0,desLanc:0,desAtras:0,invest:0,fora:0});
+  const ev=fxEventos(cfg,fim,comInvest);
+  let atrasFora=0,atrasNaoContado=0;
+  ev.forEach(e=>{
+    const r=idx[mesKey(e.data)];if(!r)return;
+    if(e.fora){if(e.atras)atrasFora+=e.valor;else r.fora+=e.valor;return}
+    if(!e.conta){atrasNaoContado+=e.valor;return}
+    if(e.tipo==='R'){
+      if(e.premissa){if(e.k.startsWith('p:kw'))r.kiwify+=e.valor;else r.novas+=e.valor}
+      else if(e.atras)r.recAtras+=e.valor;
+      else if(e.origem==='asaas')r.recAsaas+=e.valor;else r.recOutros+=e.valor;
     }else{
-      if(!r)return;
-      if(atras)r.desAtras+=l.valor;else r.desLanc+=l.valor;
-    }
-  });
-  /* despesas fixas: mês atual inteiro (as já vencidas e não confirmadas entram por segurança) */
-  const meta=pjMetaFixa(), diaHj=+hj.slice(8,10);
-  rows.forEach(r=>{
-    (S.fixas||[]).filter(f=>f.ativa).forEach(f=>{
-      if(S.lancs.some(l=>l.fixaId===f.id&&mesKey(l.venc)===r.k))return;
-      if(meta&&f.id===meta.id){r.meta+=cfg.metaDia!=null&&cfg.metaDia!==''?(+cfg.metaDia)*30:f.valor;return}
-      r.fixas+=f.valor;
-      if(r.k===k0&&Math.min(f.dia,pjDiasMes(r.k))<diaHj)r.fixasPend+=f.valor;
-    });
-    /* novas vendas (premissa): cada venda do mês começa a pagar no mês seguinte */
-    const iMes=ks.indexOf(r.k), qv=+cfg.vendasMes||0, pv=qv>0?(+cfg.vendaParc||pjParcelaTipica()):0, nv=+cfg.vendaN||12;
-    if(qv>0&&pv>0&&iMes>=1)r.novas=qv*pv*Math.min(iMes,nv);
-    const kw=+cfg.kiwify||0;
-    r.kiwify=r.k===k0?kw*(pjDiasMes(r.k)-diaHj+1)/pjDiasMes(r.k):kw;
-    if(comInvest){
-      if(+cfg.unico>0&&r.k===(cfg.unicoMes||k0))r.invest+=+cfg.unico;
-      const de=cfg.mensalDe||k0, iDe=ks.indexOf(de), i=ks.indexOf(r.k);
-      if(+cfg.mensal>0&&iDe>=0&&i>=iDe&&i<iDe+(+cfg.mensalN||1))r.invest+=+cfg.mensal;
+      if(e.simul)r.invest+=e.valor;
+      else if(e.virtual){if(e.meta)r.meta+=e.valor;else{r.fixas+=e.valor;if(e.pendente)r.fixasPend+=e.valor}}
+      else if(e.atras)r.desAtras+=e.valor;else r.desLanc+=e.valor;
     }
   });
   const saldo0=saldoConta();let s=saldo0;
-  rows.forEach(r=>{
-    r.ent=r.recAsaas+r.recOutros+r.recAtras+r.kiwify+r.novas;
-    r.sai=r.fixas+r.meta+r.desLanc+r.desAtras;
-    r.res=r.ent-r.sai-r.invest;
-    r.saldoIni=s;s+=r.res;r.saldo=s;
-  });
-  const foraTot=rows.reduce((a,r)=>a+r.fora,0);
-  return {rows,ks,saldo0,atrasFora,atrasNaoContado,depois,foraTot,k0};
+  rows.forEach(r=>{r.ent=r.recAsaas+r.recOutros+r.recAtras+r.kiwify+r.novas;r.sai=r.fixas+r.meta+r.desLanc+r.desAtras;r.res=r.ent-r.sai-r.invest;r.saldoIni=s;s+=r.res;r.saldo=s});
+  return {rows,ks,saldo0,atrasFora,atrasNaoContado,foraTot:rows.reduce((a,r)=>a+r.fora,0),k0,ev};
 }
-function pjReservaPadrao(base){
-  const r=base.rows[1]||base.rows[0];
-  return Math.round((r.fixas+r.meta)/100)*100;
-}
+function pjReservaPadrao(base){const r=base.rows[1]||base.rows[0];return Math.round((r.fixas+r.meta)/100)*100}
+function pjReserva(cfg,base){return cfg.reserva!=null&&cfg.reserva!==''?+cfg.reserva:pjReservaPadrao(base)}
+function pjMinimo(rows){let m=rows[0];rows.forEach(r=>{if(r.saldo<m.saldo)m=r});return m}
 function pjParcelaTipica(){
   const v=((S.asaasCache&&S.asaasCache.cobrancas)||[]).filter(c=>c.status==='PENDING').map(c=>c.valor).sort((a,b)=>a-b);
   return v.length?Math.round(v[Math.floor(v.length/2)]):1580;
 }
-function pjMinimo(rows){let m=rows[0];rows.forEach(r=>{if(r.saldo<m.saldo)m=r});return m}
 function pjClientes(){
   const cob=(S.asaasCache&&S.asaasCache.cobrancas)||[], cls=(S.asaasCache&&S.asaasCache.clientes)||[];
   const hj=hoje(), PG=['RECEIVED','CONFIRMED','RECEIVED_IN_CASH'], ign=new Set(S.cfg.asaasIgnorar||[]);
@@ -3396,111 +3694,201 @@ function pjClientes(){
   return Object.values(m).filter(x=>x.aVencer+x.atras>0).sort((a,b)=>(b.aVencer+b.atras)-(a.aVencer+a.atras));
 }
 const pjNomeCurto=n=>{const p=String(n||'').match(/\(([^)]+)\)/);return p?p[1]:String(n||'').replace(/\b(ltda|me|eireli|comercio|restaurante e|epp)\b\.?/gi,'').replace(/\s+/g,' ').trim()};
+
+/* ── período da agenda ── */
+function fxPeriodo(cfg){
+  const p=String(cfg.per||'30'), hj=hoje();
+  if(p==='90')return {ini:hj,fim:addDias(addMeses(hj,3),-1),grupo:'semana',p,label:'3 meses'};
+  if(p==='365')return {ini:hj,fim:addDias(addMeses(hj,12),-1),grupo:'mes',p,label:'12 meses'};
+  return {ini:hj,fim:addDias(hj,+p-1),grupo:'dia',p,label:p+' dias'};
+}
+const fxDiaSem=s=>pDate(s).toLocaleDateString('pt-BR',{weekday:'short'}).replace('.','');
+const fxDiaMes=s=>{const d=pDate(s);return d.getDate()+' '+d.toLocaleDateString('pt-BR',{month:'short'}).replace('.','')};
+function fxGrupoDe(data,grupo){
+  if(grupo==='dia')return data;
+  if(grupo==='mes')return mesKey(data);
+  const d=pDate(data);const dow=(d.getDay()+6)%7;d.setDate(d.getDate()-dow);return iso(d);  /* segunda da semana */
+}
+function fxGrupoLabel(k,grupo){
+  if(grupo==='dia'){const n=diasAte(k);const pre=n===0?'Hoje':n===1?'Amanhã':'';return {t:pre||(fxDiaSem(k)+' '+fxDiaMes(k)),s:pre?fxDiaSem(k)+' '+fxDiaMes(k):''}}
+  if(grupo==='mes')return {t:mesLabelLong(k).replace(/^./,c=>c.toUpperCase()),s:''};
+  const a=pDate(k), b=new Date(a);b.setDate(b.getDate()+6);
+  const ma=a.toLocaleDateString('pt-BR',{month:'short'}).replace('.',''), mb=b.toLocaleDateString('pt-BR',{month:'short'}).replace('.','');
+  return {t:ma===mb?`${a.getDate()} a ${b.getDate()} ${ma}`:`${a.getDate()} ${ma} a ${b.getDate()} ${mb}`,s:diasAte(k)<=0?'esta semana':''};
+}
+function fxSubtexto(e){
+  const cat=S.categorias.find(c=>c.id===e.catId);
+  const partes=[];
+  if(e.fora)partes.push('fora da conta');
+  else if(e.velho)partes.push(`venceu há ${-diasAte(e.venc)} dias · não conta`);
+  else if(e.atras)partes.push(`venceu há ${-diasAte(e.venc)} dia${-diasAte(e.venc)===1?'':'s'}`);
+  else if(e.pendente)partes.push(`venceu dia ${e.venc.slice(8,10)} · confirmar`);
+  if(e.origem==='asaas'){partes.push('boleto Asaas');if(e.lanc&&e.lanc.parcela)partes.push(e.lanc.parcela)}
+  else if(e.virtual)partes.push(e.meta?'estimativa do mês':'despesa fixa');
+  else if(e.origem==='cartao'){const c=S.cartoes.find(x=>x.id===e.lanc.cartaoId);partes.push(c?'fatura '+c.nome:'cartão')}
+  else if(e.premissa)partes.push(e.simul?'simulação':'premissa do cenário');
+  else if(e.lanc&&e.lanc.parcela)partes.push('parcela '+e.lanc.parcela);
+  if(cat&&!e.virtual)partes.push(cat.nome);
+  if(e.lanc&&e.lanc.revisar)partes.push('⚠ revisar');
+  return partes.join(' · ');
+}
+const fxTitulo=t=>String(t||'').replace(/\b([A-ZÀ-Ú])([A-ZÀ-Ú]+)\b/g,(m,a,b)=>a+b.toLowerCase()).replace(/\b(De|Da|Do|Das|Dos|E)\b/g,m=>m.toLowerCase());
+const fxNome=e=>{if(e.origem!=='asaas')return e.desc;const n=pjNomeCurto(e.desc);return n===n.toUpperCase()?fxTitulo(n):n};
+function fxRowHtml(e,opts){
+  opts=opts||{};
+  const cls=['fx-row',e.tipo==='R'?'rec':'des',e.fora?'fora':'',e.velho?'velho':'',e.virtual?'virtual':'',e.premissa?'premissa':'',(e.atras||e.pendente)&&!e.fora&&!e.velho?'atras':''].filter(Boolean).join(' ');
+  const ok=e.premissa?'':`<button class="fx-ok" title="${e.tipo==='R'?'Confirmar recebimento':'Confirmar pagamento'}" aria-label="Confirmar" onclick="event.stopPropagation();fxConfirmar('${e.k}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button>`;
+  return `<div class="${cls}" onclick="fxAcoes('${e.k}')" role="button">
+    <div class="fx-ico">${e.tipo==='R'?icoUp:icoDown}</div>
+    <div class="fx-info"><div class="fx-desc">${esc(fxNome(e))}</div><div class="fx-sub">${esc(fxSubtexto(e))}${opts.data?` <span class="fx-dt">· ${esc(fxDiaMes(e.venc))}</span>`:''}</div></div>
+    <div class="fx-val ${e.tipo==='R'?'pos':'neg'}">${e.tipo==='R'?'+':'−'}${fmtK(e.valor)}</div>
+    ${ok}
+  </div>`;
+}
+/* saldo corrido por evento (só os que contam) */
+function fxSaldos(ev,saldo0){
+  let s=saldo0;const porDia={};
+  ev.forEach(e=>{
+    if(e.conta)s+=e.tipo==='R'?e.valor:-e.valor;
+    e.saldo=s;
+    const d=porDia[e.data]||(porDia[e.data]={ent:0,sai:0,saldo:s});
+    if(e.conta){if(e.tipo==='R')d.ent+=e.valor;else d.sai+=e.valor}
+    d.saldo=s;
+  });
+  return porDia;
+}
+function fxAgendaHtml(ev,per,cfg,reserva,porDia){
+  const filtro=cfg.filtro||'tudo', hj=hoje();
+  const atencao=ev.some(e=>(e.atras&&!e.fora)||e.pendente);
+  const vis=ev.filter(e=>(filtro==='tudo'||e.tipo===filtro)&&!e.pendente&&!e.velho&&!(e.atras&&!e.fora)&&e.venc>=hj);
+  const saldoG={};Object.keys(porDia).sort().forEach(d=>{if(d>=hj&&d<=per.fim)saldoG[fxGrupoDe(d,per.grupo)]=porDia[d].saldo});
+  if(!vis.length)return `<div class="empty"><b>Nada ${filtro==='R'?'a receber':filtro==='D'?'a pagar':'previsto'} em ${per.label}</b>Mude o período ou registre um lançamento.<br><button class="btn btn-primary btn-sm" onclick="abrirLanc()">+ Novo lançamento</button></div>`;
+  const grupos=[];const idx={};
+  vis.forEach(e=>{const gk=fxGrupoDe(e.venc,per.grupo);let g=idx[gk];if(!g){g=idx[gk]={k:gk,itens:[],ent:0,sai:0,saldo:saldoG[gk]!=null?saldoG[gk]:e.saldo,n:0};grupos.push(g)}
+    g.itens.push(e);if(e.conta){if(e.tipo==='R')g.ent+=e.valor;else g.sai+=e.valor}g.n++});
+  const colapsa=per.grupo==='mes';
+  return (atencao&&filtro==='tudo'?`<div class="fx-cli-hint">Atrasados e fixas vencidas estão em "Precisa de atenção" e já entram no saldo de hoje.</div>`:'')+grupos.map(g=>{
+    const lab=fxGrupoLabel(g.k,per.grupo), aberto=!colapsa||fx.aberto.has(g.k)||g.k===fxGrupoDe(hoje(),per.grupo);
+    const net=g.ent-g.sai;
+    const tot=filtro==='tudo'?`${g.ent?`<b class="pos">+${fmtK(g.ent)}</b>`:''}${g.sai?`<b class="neg">−${fmtK(g.sai)}</b>`:''}`:(filtro==='R'?`<b class="pos">+${fmtK(g.ent)}</b>`:`<b class="neg">−${fmtK(g.sai)}</b>`);
+    const saldo=filtro==='tudo'?`<span class="fx-gsaldo ${g.saldo<0?'neg':g.saldo<reserva?'amb':''}">saldo ${fmtK(g.saldo)}</span>`:'';
+    return `<section class="fx-grupo ${aberto?'open':''}">
+      <header class="fx-ghead" ${colapsa?`onclick="fxToggleGrupo('${g.k}')"`:''}>
+        <div class="fx-gdata"><b>${esc(lab.t)}</b>${lab.s?`<small>${esc(lab.s)}</small>`:''}${colapsa?`<small>${g.n} ${g.n===1?'item':'itens'}${filtro==='tudo'?` · ${net>=0?'+':'−'}${fmtK(Math.abs(net))}`:''}</small>`:''}</div>
+        <div class="fx-gtot">${tot}${saldo}${colapsa?'<i class="fx-chev"></i>':''}</div>
+      </header>
+      ${aberto?`<div class="fx-itens">${g.itens.map(e=>fxRowHtml(e,{data:per.grupo!=='dia'})).join('')}</div>`:''}
+    </section>`;
+  }).join('');
+}
+function fxSpark(ev,saldo0,per,reserva,H){
+  const el=$('#fxSpark');if(!el)return;
+  const porDia=fxSaldos(ev,saldo0);
+  const pts=[[per.ini,saldo0]];
+  Object.keys(porDia).sort().forEach(d=>{if(d>=per.ini&&d<=per.fim)pts.push([d,porDia[d].saldo])});
+  if(pts[pts.length-1][0]!==per.fim)pts.push([per.fim,pts[pts.length-1][1]]);
+  const W=Math.max(240,el.clientWidth||600), padL=4,padR=4,padT=10,padB=18;
+  const t0=pDate(per.ini).getTime(), t1=Math.max(t0+86400000,pDate(per.fim).getTime());
+  const vals=pts.map(p=>p[1]).concat([reserva,0]);
+  const max=Math.max(...vals), min=Math.min(...vals), range=(max-min)||1;
+  const px=d=>padL+(pDate(d).getTime()-t0)/(t1-t0)*(W-padL-padR);
+  const py=v=>padT+(max-v)/range*(H-padT-padB);
+  const line=pts.map((p,i)=>(i?'L':'M')+px(p[0]).toFixed(1)+' '+py(p[1]).toFixed(1)).join(' ');
+  const area=line+` L ${px(per.fim).toFixed(1)} ${py(min).toFixed(1)} L ${px(per.ini).toFixed(1)} ${py(min).toFixed(1)} Z`;
+  let mn=pts[0];pts.forEach(p=>{if(p[1]<mn[1])mn=p});
+  const fimV=pts[pts.length-1][1], cor=fimV<0?'var(--red)':fimV<reserva?'var(--amber)':'var(--green)';
+  const marcas=per.grupo==='dia'?[per.ini,per.fim]:[per.ini,addMeses(per.ini,per.grupo==='mes'?6:1),per.fim];
+  el.innerHTML=`<svg width="100%" height="${H}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="overflow:visible;display:block">
+    <defs><linearGradient id="gFx" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${cor}" stop-opacity=".22"/><stop offset="100%" stop-color="${cor}" stop-opacity="0"/></linearGradient></defs>
+    ${min<0?`<line x1="${padL}" y1="${py(0)}" x2="${W-padR}" y2="${py(0)}" stroke="var(--red)" stroke-opacity=".5" stroke-width="1"/>`:''}
+    <line x1="${padL}" y1="${py(reserva)}" x2="${W-padR}" y2="${py(reserva)}" stroke="var(--gold)" stroke-dasharray="4 4" stroke-width="1.3"><title>Reserva ${fmt(reserva)}</title></line>
+    <path d="${area}" fill="url(#gFx)"/>
+    <path d="${line}" fill="none" stroke="${cor}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${px(mn[0])}" cy="${py(mn[1])}" r="4" fill="var(--card)" stroke="${mn[1]<0?'var(--red)':mn[1]<reserva?'var(--amber)':'var(--navy)'}" stroke-width="2.2"><title>Menor saldo ${fmt(mn[1])} em ${fmtData(mn[0])}</title></circle>
+    ${marcas.map((d,i)=>`<text x="${px(d)}" y="${H-4}" text-anchor="${i===0?'start':i===marcas.length-1?'end':'middle'}" font-size="9.5" fill="var(--soft)" font-family="Montserrat" font-weight="600">${esc(fxDiaMes(d))}</text>`).join('')}
+    <text x="${W-padR}" y="${py(reserva)-4}" text-anchor="end" font-size="9" fill="var(--gold)" font-family="Montserrat" font-weight="700">reserva</text>
+  </svg>`;
+}
 function renderProj(){
   const el=$('#projBox');if(!el)return;
-  const cfg=pjCfg();
+  const cfg=pjCfg(), per=fxPeriodo(cfg);
   const base=pjCalcular(cfg,false), sim=pjCalcular(cfg,true);
-  const reserva=cfg.reserva!=null&&cfg.reserva!==''?+cfg.reserva:pjReservaPadrao(base);
-  const minB=pjMinimo(base.rows), minS=pjMinimo(sim.rows);
-  const podeHoje=Math.max(0,minB.saldo-reserva);
-  let mensalMax=Infinity;base.rows.forEach((r,i)=>{mensalMax=Math.min(mensalMax,(r.saldo-reserva)/(i+1))});
-  mensalMax=Math.max(0,mensalMax);
+  const reserva=pjReserva(cfg,base);
   const temSim=(+cfg.unico>0)||(+cfg.mensal>0);
-  const abaixo=base.rows.find(r=>r.saldo<reserva), zero=base.rows.find(r=>r.saldo<0);
-  const custoMes=(base.rows[1]||base.rows[0]).fixas+(base.rows[1]||base.rows[0]).meta;
-  const r6=base.rows.slice(0,6);
-  const deficit=Math.max(0,-r6.reduce((a,r)=>a+r.res,0)/r6.length);
-  const ent=base.rows.reduce((a,r)=>a+r.ent,0), sai=base.rows.reduce((a,r)=>a+r.sai,0);
-  const fim=base.rows[base.rows.length-1];
-  const r0=base.rows[0];
-  const opMes=(sel)=>base.ks.map(k=>`<option value="${k}" ${k===sel?'selected':''}>${mesLabelLong(k)}</option>`).join('');
-  const meta=pjMetaFixa(), mk=S.mktCache;
-  const ritmoMeta=mk&&mk.meta?mk.meta.reduce((a,c)=>a+(+c.dia7||0),0):null;
+  const evAll=temSim?sim.ev:base.ev;
+  const ev=evAll.filter(e=>e.data<=per.fim);
+  const porDia=fxSaldos(evAll,base.saldo0);
+  fx.cache={};ev.forEach(e=>fx.cache[e.k]=e);
+  const cont=ev.filter(e=>e.conta);
+  const ent=cont.filter(e=>e.tipo==='R').reduce((a,e)=>a+e.valor,0), nEnt=cont.filter(e=>e.tipo==='R').length;
+  const sai=cont.filter(e=>e.tipo==='D').reduce((a,e)=>a+e.valor,0), nSai=cont.filter(e=>e.tipo==='D').length;
+  const fimV=base.saldo0+ent-sai;
+  let mn={d:per.ini,v:base.saldo0};Object.keys(porDia).forEach(d=>{if(d<=per.fim&&porDia[d].saldo<mn.v)mn={d,v:porDia[d].saldo}});
+  const atrasR=ev.filter(e=>e.tipo==='R'&&e.atras&&!e.fora), atrasD=ev.filter(e=>e.tipo==='D'&&e.atras&&!e.virtual), pend=ev.filter(e=>e.pendente);
+  const somaV=a=>a.reduce((x,e)=>x+e.valor,0);
+  const minB=pjMinimo(base.rows), podeHoje=Math.max(0,minB.saldo-reserva);
+  const r6=base.rows.slice(0,6), deficit=Math.max(0,-r6.reduce((a,r)=>a+r.res,0)/r6.length);
   const semAsaas=!(S.asaasCache&&S.asaasCache.cobrancas&&S.asaasCache.cobrancas.length);
+  const meta=pjMetaFixa(), metaDia=cfg.metaDia!=null&&cfg.metaDia!==''?+cfg.metaDia:(meta?Math.round(meta.valor/30):0);
+  const premLine=[`reserva ${fmtK(reserva)}`,`Meta R$ ${metaDia.toLocaleString('pt-BR')}/dia`,+cfg.vendasMes>0?`${cfg.vendasMes} venda(s)/mês`:'sem vendas novas',+cfg.kiwify>0?`Kiwify ${fmtK(cfg.kiwify)}/mês`:null].filter(Boolean).join(' · ');
+  const chip=(v,t)=>`<button class="fx-chip ${String(cfg.per)===v?'on':''}" onclick="fxPer('${v}')">${t}</button>`;
+  const abaBtn=(v,t,n)=>`<button class="${cfg.aba===v?'on':''}" onclick="fxAba('${v}')">${t}${n!=null?`<b>${n}</b>`:''}</button>`;
+  const alerta=(id,titulo,itens,cls)=>{if(!itens.length)return'';const ab=fx.alerta===id;return `<div class="fx-al ${cls} ${ab?'open':''}">
+      <button class="fx-al-h" onclick="fxAlerta('${id}')"><span><b>${titulo}</b><small>${itens.length} ${itens.length===1?'item':'itens'}</small></span><b class="fx-al-v">${fmt(somaV(itens))}</b><i class="fx-chev"></i></button>
+      ${ab?`<div class="fx-itens">${itens.map(e=>fxRowHtml(e,{data:true})).join('')}</div>`:''}</div>`};
 
   el.innerHTML=`
-  ${semAsaas?`<div class="resumo-box" style="margin-bottom:14px">⏳ Aguardando a primeira leitura do Asaas neste aparelho para separar os clientes. <button class="btn btn-ghost btn-sm" onclick="sincronizarAsaas().then(()=>renderProj())">Sincronizar agora</button></div>`:''}
-  <div class="hero pj-hero">
-    <div class="hero-main">${podeHoje>0?`
-      <div class="h-lab">Dá para investir agora</div>
-      <div class="h-val cup" data-v="${podeHoje}">${fmt(podeHoje)}</div>
-      <div class="h-sub">sem o caixa ficar abaixo da reserva de ${fmt(reserva)} em nenhum mês até ${esc(mesLabelLong(fim.k))}</div>
-      <div class="h-delta">
-        <span class="delta up">↓ mês mais apertado: ${esc(mesLabel(minB.k))} com ${fmtK(minB.saldo)}</span>
-        <span class="delta flat">ou até ${fmt(mensalMax)} por mês, todo mês</span>
-      </div>`:`
-      <div class="h-lab">Hoje não sobra para investir</div>
-      <div class="h-val ${deficit>0?'':'cup'}" ${deficit>0?'':`data-v="0"`}>${deficit>0?'−'+fmt(deficit)+'<small>/mês</small>':fmt(0)}</div>
-      <div class="h-sub">${deficit>0?`é quanto falta, em média, para as entradas cobrirem as saídas nos próximos 6 meses`:`o caixa encosta na reserva de ${fmt(reserva)}`}</div>
-      <div class="h-delta">
-        ${abaixo?`<span class="delta down">⚠ abaixo da reserva em ${esc(mesLabel(abaixo.k))}</span>`:''}
-        ${zero?`<span class="delta down">⚠ caixa negativo em ${esc(mesLabel(zero.k))}</span>`:''}
-        <span class="delta flat">reserva mínima ${fmtK(reserva)}</span>
-      </div>`}
-    </div>
-    <div class="hero-grid">
-      <div class="h-tile"><div class="t-lab"><i style="background:#9DB4E8"></i>Saldo hoje</div><div class="t-val cup" data-v="${base.saldo0}">${fmt(base.saldo0)}</div><div class="t-sub">Nubank + recebido no Asaas</div></div>
-      <div class="h-tile"><div class="t-lab"><i style="background:#7FE0B4"></i>Entradas ${base.rows.length}m</div><div class="t-val cup" data-v="${ent}">${fmt(ent)}</div><div class="t-sub">só clientes que contam</div></div>
-      <div class="h-tile"><div class="t-lab"><i style="background:#FFA69C"></i>Saídas ${base.rows.length}m</div><div class="t-val cup" data-v="${sai}">${fmt(sai)}</div><div class="t-sub">fixas, Meta, cartão e contas</div></div>
-      <div class="h-tile"><div class="t-lab"><i style="background:#F3C77B"></i>Saldo em ${esc(mesLabel(fim.k))}</div><div class="t-val cup" data-v="${fim.saldo}">${fmt(fim.saldo)}</div><div class="t-sub">se tudo se confirmar</div></div>
-    </div>
+  ${semAsaas?`<div class="resumo-box" style="margin-bottom:12px">⏳ Aguardando a primeira leitura do Asaas neste aparelho. <button class="btn btn-ghost btn-sm" onclick="sincronizarAsaas().then(()=>renderProj())">Sincronizar agora</button></div>`:''}
+  <div class="fx-top">
+    <div class="fx-chips">${chip('7','7 dias')}${chip('15','15 dias')}${chip('30','30 dias')}${chip('90','3 meses')}${chip('365','12 meses')}</div>
+    <div class="seg fx-filt"><button class="${cfg.filtro==='tudo'?'on':''}" onclick="fxFiltro('tudo')">Tudo</button><button class="${cfg.filtro==='R'?'on':''}" onclick="fxFiltro('R')">Entradas</button><button class="${cfg.filtro==='D'?'on':''}" onclick="fxFiltro('D')">Saídas</button></div>
   </div>
-
-  <div class="card panel">
-    <h3>Saldo mês a mês <span class="hint">entradas × saídas · linha = saldo no fim do mês</span></h3>
-    <div id="pjChart" class="chart-wrap"></div>
-    <div class="chart-legend">
-      <span><i style="background:var(--green)"></i>Entradas</span>
-      <span><i style="background:var(--red)"></i>Saídas</span>
-      <span><i style="background:var(--navy)"></i>Saldo${temSim?' com o investimento':''}</span>
-      ${temSim?`<span><i style="background:var(--soft)"></i>Saldo sem investir</span>`:''}
-      <span><i style="background:var(--gold)"></i>Reserva</span>
+  <div class="fx-grid">
+  <div class="fx-main">
+  <div class="card fx-sum">
+    <div class="fx-sum-top">
+      <div class="fx-s"><div class="fx-lab">Saldo hoje</div><div class="fx-big cup" data-v="${base.saldo0}">${fmt(base.saldo0)}</div><div class="fx-sublab">Nubank + recebido no Asaas</div></div>
+      <div class="fx-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="fx-s"><div class="fx-lab">em ${esc(per.label)}</div><div class="fx-big cup ${fimV<0?'neg':fimV<reserva?'amb':'pos'}" data-v="${fimV}">${fmt(fimV)}</div><div class="fx-sublab">${mn.v<base.saldo0?`menor saldo ${fmtK(mn.v)} em ${esc(fxDiaMes(mn.d))}`:'não cai abaixo de hoje'}</div></div>
     </div>
+    <div class="fx-spark" id="fxSpark"></div>
+    <div class="fx-tiles">
+      <button class="fx-tile ${cfg.filtro==='R'?'on':''}" onclick="fxFiltro('R')"><span>Entra</span><b class="pos">+${fmtK(ent)}</b><i>${nEnt} ${nEnt===1?'item':'itens'}</i></button>
+      <button class="fx-tile ${cfg.filtro==='D'?'on':''}" onclick="fxFiltro('D')"><span>Sai</span><b class="neg">−${fmtK(sai)}</b><i>${nSai} ${nSai===1?'item':'itens'}</i></button>
+      <div class="fx-tile"><span>Resultado</span><b class="${ent-sai>=0?'pos':'neg'}">${ent-sai>=0?'+':'−'}${fmtK(Math.abs(ent-sai))}</b><i>em ${esc(per.label)}</i></div>
+    </div>
+    <button class="fx-prem" onclick="fxCenario()"><span>${esc(premLine)}</span><b>Cenário</b><i class="fx-chev"></i></button>
+    <div class="fx-ver ${podeHoje>0?'bom':deficit>0?'ruim':'atencao'}">${podeHoje>0
+      ?`<b>Dá para investir até ${fmt(podeHoje)}</b> sem furar a reserva nos próximos ${base.rows.length} meses.`
+      :deficit>0?`<b>Faltam ${fmt(deficit)} por mês</b> para as entradas cobrirem as saídas nos próximos 6 meses${minB.saldo<0?`; o caixa fica negativo em ${esc(pjMes(minB.k))}`:''}.`
+      :`<b>O caixa encosta na reserva</b> em ${esc(pjMes(minB.k))}.`}${temSim?` <em>Com a simulação: ${fmt(pjMinimo(sim.rows).saldo)} no pior mês.</em>`:''}</div>
   </div>
-
-  <div class="grid-2">
-    <div class="card panel">
-      <h3>Simular investimento <span class="hint">o efeito aparece no gráfico e na tabela</span></h3>
-      <div class="frow">
-        <div class="fld"><label>Valor único (R$)</label><input id="pjUnico" type="number" inputmode="decimal" min="0" step="100" value="${+cfg.unico||''}" placeholder="0"></div>
-        <div class="fld"><label>Em</label><select id="pjUnicoMes">${opMes(cfg.unicoMes||base.k0)}</select></div>
-      </div>
-      <div class="frow">
-        <div class="fld"><label>Valor mensal (R$)</label><input id="pjMensal" type="number" inputmode="decimal" min="0" step="100" value="${+cfg.mensal||''}" placeholder="0"></div>
-        <div class="fld"><label>A partir de</label><select id="pjMensalDe">${opMes(cfg.mensalDe||base.k0)}</select></div>
-        <div class="fld" style="max-width:110px"><label>Por (meses)</label><input id="pjMensalN" type="number" inputmode="numeric" min="1" max="24" value="${+cfg.mensalN||6}"></div>
-      </div>
-      ${temSim?(()=>{
-        const fura=minS.saldo<reserva, neg=minS.saldo<0;
-        return `<div class="pj-veredito ${neg?'ruim':fura?'atencao':'bom'}">
-          <b>${neg?'Não cabe: o caixa fica negativo':fura?'Cabe, mas fura a reserva':'Cabe com folga'}</b>
-          <span>Com esse investimento o mês mais apertado é ${esc(mesLabelLong(minS.k))}, com ${fmt(minS.saldo)} em conta${fura&&!neg?` (${fmt(reserva-minS.saldo)} abaixo da reserva)`:''}.</span>
-          <button class="btn btn-ghost btn-sm" onclick="pjLimparSim()">Limpar simulação</button></div>`})()
-        :`<div class="resumo-box">Digite um valor para ver se cabe no caixa. Exemplo: contratar alguém por R$ 3.000/mês a partir de novembro.</div>`}
-    </div>
-    <div class="card panel">
-      <h3>Premissas <span class="hint">ajuste e a projeção recalcula</span></h3>
-      <div class="frow">
-        <div class="fld"><label>Reserva mínima (R$)</label><input id="pjReserva" type="number" inputmode="decimal" min="0" step="500" value="${cfg.reserva!=null&&cfg.reserva!==''?+cfg.reserva:''}" placeholder="${pjReservaPadrao(base)}"></div>
-        <div class="fld"><label>Horizonte</label><select id="pjMeses">${[6,12,18,24].map(n=>`<option value="${n}" ${n===(cfg.meses||12)?'selected':''}>${n} meses</option>`).join('')}</select></div>
-      </div>
-      <div class="frow">
-        <div class="fld"><label>Meta Ads por dia (R$)</label><input id="pjMeta" type="number" inputmode="decimal" min="0" step="10" value="${cfg.metaDia!=null&&cfg.metaDia!==''?+cfg.metaDia:''}" placeholder="${meta?Math.round(meta.valor/30):0}"></div>
-        <div class="fld"><label>Kiwify líquido por mês (R$)</label><input id="pjKiwify" type="number" inputmode="decimal" min="0" step="100" value="${+cfg.kiwify||''}" placeholder="0"></div>
-      </div>
-      <div class="frow">
-        <div class="fld"><label>Novas vendas por mês</label><input id="pjVendas" type="number" inputmode="numeric" min="0" step="1" value="${+cfg.vendasMes||''}" placeholder="0"></div>
-        <div class="fld"><label>Parcela (R$)</label><input id="pjVParc" type="number" inputmode="decimal" min="0" step="10" value="${+cfg.vendaParc||''}" placeholder="${pjParcelaTipica()}"></div>
-        <div class="fld" style="max-width:100px"><label>Parcelas</label><input id="pjVN" type="number" inputmode="numeric" min="1" max="24" value="${+cfg.vendaN||12}"></div>
-      </div>
-      <label class="pj-chk"><input type="checkbox" id="pjAtras" ${cfg.atrasados?'checked':''}> Contar também os atrasados há mais de 15 dias${base.atrasNaoContado?` (${fmt(base.atrasNaoContado)})`:''}</label>
-      <div class="pj-nota">${meta?`Meta: ${cfg.metaDia!=null&&cfg.metaDia!==''?'usando R$ '+(+cfg.metaDia).toLocaleString('pt-BR')+'/dia':'usando a fixa "'+esc(meta.desc)+'" de '+fmt(meta.valor)+'/mês'}${ritmoMeta?` · ritmo real dos últimos 7 dias: R$ ${Math.round(ritmoMeta).toLocaleString('pt-BR')}/dia`:''}.`:''}
-        Reserva vazia = 1 mês de despesas fixas. Novas vendas e Kiwify ficam em zero por padrão: a projeção mostra só o que já está contratado.</div>
-    </div>
+  ${(atrasR.length||atrasD.length||pend.length)?`<div class="card fx-alerts">
+    <h3>Precisa de atenção <span class="hint">entram no saldo de hoje</span></h3>
+    ${alerta('ar','A receber em atraso',atrasR,'rec')}
+    ${alerta('ad','A pagar em atraso',atrasD,'des')}
+    ${alerta('fp','Fixas vencidas sem confirmação',pend,'fixa')}
+  </div>`:''}
+  <div class="card fx-card">
+    <div class="fx-tabs">${abaBtn('agenda','Agenda')}${abaBtn('mes','Mês a mês')}${abaBtn('cli','Clientes')}</div>
+    ${cfg.aba==='agenda'?`<div class="fx-agenda">${fxAgendaHtml(ev,per,cfg,reserva,porDia)}</div>`
+     :cfg.aba==='mes'?fxMesHtml(base,sim,reserva)
+     :fxClientesHtml(cfg,base)}
   </div>
-
-  <div class="card panel" style="padding-left:0;padding-right:0">
-    <h3 style="padding:0 22px">Mês a mês <span class="hint">toque para ver o detalhe</span></h3>
+  </div>
+  <aside class="fx-side">
+    <details class="card fx-det" ${ehMobile()?'':'open'}><summary><span>Custo fixo por mês</span><b>${fmt((base.rows[1]||base.rows[0]).fixas+(base.rows[1]||base.rows[0]).meta)}</b><i class="fx-chev"></i></summary><div class="fx-det-b">${pjCustosHtml()}</div></details>
+    <details class="card fx-det" ${ehMobile()?'':'open'}><summary><span>Meta e Kiwify</span><b>${S.mktCache&&S.mktCache.em?'leitura '+fmtData(S.mktCache.em):'aguardando'}</b><i class="fx-chev"></i></summary><div class="fx-det-b">${pjMktHtml(S.mktCache)}</div></details>
+    <div class="fx-links"><button class="btn btn-ghost btn-sm" onclick="goView('fixas')">Editar despesas fixas</button><button class="btn btn-ghost btn-sm" onclick="ajustarSaldo()">Ajustar saldo com o banco</button></div>
+  </aside>
+  </div>`;
+  countUps(el);
+  fxSpark(evAll,base.saldo0,per,reserva,ehMobile()?96:150);
+  if(cfg.aba==='mes')pjChart(base,sim,reserva,temSim);
+}
+function fxMesHtml(base,sim,reserva){
+  return `<div id="pjChart" class="chart-wrap" style="margin:4px 0 2px"></div>
+    <div class="chart-legend" style="margin-bottom:6px"><span><i style="background:var(--green)"></i>Entradas</span><span><i style="background:var(--red)"></i>Saídas</span><span><i style="background:var(--navy)"></i>Saldo</span><span><i style="background:var(--gold)"></i>Reserva</span></div>
     <div class="pj-tab">
       <div class="pj-tr pj-th"><span>Mês</span><span>Entradas</span><span>Saídas</span><span>Saldo fim</span></div>
       ${sim.rows.map((r,i)=>{const b=base.rows[i];return `
@@ -3527,51 +3915,67 @@ function renderProj(){
           ${r.invest?`<div class="pj-cmp">Sem o investimento: ${fmt(b.saldo)}</div>`:''}
         </div>
       </div>`}).join('')}
-    </div>
-  </div>
-
-  <div class="grid-2">
-    <div class="card panel">
-      <h3>Custo fixo por mês <span class="hint">${fmt(custoMes)}</span></h3>
-      ${pjCustosHtml(custoMes)}
-    </div>
-    <div class="card panel" style="padding-left:0;padding-right:0">
-      <h3 style="padding:0 22px">Clientes na projeção <span class="hint">${fmt(base.foraTot+base.atrasFora)} fora da conta</span></h3>
-      <div class="list" id="pjClientes">${(()=>{
-        const cs=pjClientes();if(!cs.length)return`<div class="empty">Sem boletos em aberto no Asaas.</div>`;
-        const fora=new Set(cfg.fora||[]);
-        return cs.map(c=>{const off=fora.has(c.id);return `<div class="lrow pj-cli ${off?'off':''}">
-          <div class="l-info"><div class="l-desc">${esc(pjNomeCurto(c.nome))}</div>
-            <div class="l-sub">${fmt(c.aVencer)} a vencer${c.ultimo?' até '+esc(mesLabel(mesKey(c.ultimo))):''}${c.atras?` <span class="sep">·</span><b class="neg">${fmt(c.atras)} em atraso</b>`:''} <span class="sep">·</span>${c.manual?'fora do Asaas':c.pagas+' paga(s)'}</div></div>
-          <div class="l-right"><button class="pill ${off?'atras':'real'}" onclick="pjToggleCliente('${esc(c.id)}')">${off?'Não conta':'Conta'}</button></div>
-        </div>`}).join('')})()}</div>
-    </div>
-  </div>
-  <div class="card panel">
-    <h3>Meta e Kiwify <span class="hint">${mk&&mk.em?'leitura de '+fmtData(mk.em):'aguardando leitura'}</span></h3>
-    ${pjMktHtml(mk)}
-  </div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 18px">
-    <button class="btn btn-ghost btn-sm" onclick="goView('fixas')">Editar despesas fixas</button>
-    <button class="btn btn-ghost btn-sm" onclick="ajustarSaldo()">Ajustar saldo com o banco</button>
-  </div>`;
-
-  countUps(el);
-  pjChart(base,sim,reserva,temSim);
-  const bind=(id,campo,num)=>{const i=$('#'+id);if(i)i.onchange=()=>{const v=i.value;cfg[campo]=num?(v===''?(campo==='reserva'||campo==='metaDia'?null:0):+v):v;save();renderProj()}};
-  bind('pjUnico','unico',1);bind('pjUnicoMes','unicoMes');bind('pjMensal','mensal',1);bind('pjMensalDe','mensalDe');bind('pjMensalN','mensalN',1);
-  bind('pjVendas','vendasMes',1);bind('pjVN','vendaN',1);
-  bind('pjVParc','vendaParc',1);
-  bind('pjReserva','reserva',1);bind('pjMeta','metaDia',1);bind('pjKiwify','kiwify',1);
-  const sm=$('#pjMeses');if(sm)sm.onchange=()=>{cfg.meses=+sm.value;save();renderProj()};
-  const ca=$('#pjAtras');if(ca)ca.onchange=()=>{cfg.atrasados=ca.checked;save();renderProj()};
+    </div>`;
 }
+function fxClientesHtml(cfg,base){
+  const cs=pjClientes();if(!cs.length)return`<div class="empty">Sem recebimentos previstos.</div>`;
+  const fora=new Set(cfg.fora||[]);
+  return `<div class="fx-cli-hint">${fmt(base.foraTot+base.atrasFora)} fora da conta · toque para ligar ou desligar um cliente</div><div class="list">${cs.map(c=>{const off=fora.has(c.id);return `<div class="lrow pj-cli ${off?'off':''}" onclick="pjToggleCliente('${esc(c.id)}')">
+      <div class="l-info"><div class="l-desc">${esc(pjNomeCurto(c.nome))}</div>
+        <div class="l-sub">${fmt(c.aVencer)} a vencer${c.ultimo?' até '+esc(pjMes(mesKey(c.ultimo))):''}${c.atras?` <span class="sep">·</span><b class="neg">${fmt(c.atras)} em atraso</b>`:''} <span class="sep">·</span>${c.manual?'fora do Asaas':c.pagas+' paga(s)'}</div></div>
+      <div class="l-right"><span class="pill ${off?'atras':'real'}">${off?'Não conta':'Conta'}</span></div>
+    </div>`}).join('')}</div>`;
+}
+window.fxPer=v=>{pjCfg().per=v;save();renderProj()};
+window.fxAba=v=>{pjCfg().aba=v;save();renderProj()};
+window.fxFiltro=v=>{const c=pjCfg();c.filtro=c.filtro===v&&v!=='tudo'?'tudo':v;save();renderProj()};
+window.fxIr=(filtro)=>{const c=pjCfg();c.filtro=filtro||'tudo';c.aba='agenda';save();goView('proj')};
+window.fxToggleGrupo=k=>{fx.aberto.has(k)?fx.aberto.delete(k):fx.aberto.add(k);renderProj()};
+window.fxAlerta=id=>{fx.alerta=fx.alerta===id?null:id;renderProj()};
+window.fxConfirmar=k=>{const e=fx.cache[k];if(!e)return;
+  if(e.virtual){confirmarVirtual(e.fixaId,e.venc);return}
+  if(e.lanc){toggleStatus(e.id)}};
+window.fxAcoes=k=>{const e=fx.cache[k];if(!e)return;
+  if(e.virtual){fixaAcoes(e.fixaId,e.venc);return}
+  if(e.premissa){acoesSheet({titulo:e.desc,sub:'Número do cenário, não é um lançamento',itens:[{t:'Ajustar cenário',fn:fxCenario}]});return}
+  lancAcoes(e.id)};
 window.pjToggleCliente=id=>{
   const cfg=pjCfg();const s=new Set(cfg.fora||[]);
   if(s.has(id))s.delete(id);else s.add(id);
   cfg.fora=[...s];save();renderProj();
 };
-window.pjLimparSim=()=>{const cfg=pjCfg();cfg.unico=0;cfg.mensal=0;save();renderProj()};
+window.pjLimparSim=()=>{const cfg=pjCfg();cfg.unico=0;cfg.mensal=0;save();renderProj();fxCenario(true)};
+/* ── cenário: simulação + premissas, em folha ── */
+window.fxCenario=function(soAtualiza){
+  const cfg=pjCfg(), base=pjCalcular(cfg,false), sim=pjCalcular(cfg,true), reserva=pjReserva(cfg,base);
+  const temSim=(+cfg.unico>0)||(+cfg.mensal>0), minS=pjMinimo(sim.rows), minB=pjMinimo(base.rows);
+  const meta=pjMetaFixa(), ritmo=S.mktCache&&S.mktCache.meta?S.mktCache.meta.reduce((a,c)=>a+(+c.dia7||0),0):null;
+  const opMes=sel=>base.ks.map(k=>`<option value="${k}" ${k===sel?'selected':''}>${pjMes(k)}</option>`).join('');
+  let mensalMax=Infinity;base.rows.forEach((r,i)=>{mensalMax=Math.min(mensalMax,(r.saldo-reserva)/(i+1))});mensalMax=Math.max(0,mensalMax);
+  const podeHoje=Math.max(0,minB.saldo-reserva);
+  $('#cenBox').innerHTML=`
+    <div class="cen-sec"><h4>Quanto cabe hoje</h4>
+      <div class="cen-kpis"><div><span>De uma vez</span><b>${fmt(podeHoje)}</b></div><div><span>Por mês, todo mês</span><b>${fmt(mensalMax)}</b></div></div>
+      <div class="pj-nota">Sem o caixa cair abaixo da reserva de ${fmt(reserva)} em nenhum mês até ${esc(mesLabelLong(base.ks[base.ks.length-1]))}.</div></div>
+    <div class="cen-sec"><h4>Simular um investimento</h4>
+      <div class="frow"><div class="fld"><label>Único (R$)</label><input id="pjUnico" type="text" inputmode="decimal" value="${+cfg.unico||''}" placeholder="0"></div><div class="fld"><label>Em</label><select id="pjUnicoMes">${opMes(cfg.unicoMes||base.k0)}</select></div></div>
+      <div class="frow"><div class="fld"><label>Mensal (R$)</label><input id="pjMensal" type="text" inputmode="decimal" value="${+cfg.mensal||''}" placeholder="0"></div><div class="fld"><label>A partir de</label><select id="pjMensalDe">${opMes(cfg.mensalDe||base.k0)}</select></div><div class="fld" style="max-width:96px"><label>Meses</label><input id="pjMensalN" type="number" inputmode="numeric" min="1" max="24" value="${+cfg.mensalN||6}"></div></div>
+      ${temSim?(()=>{const fura=minS.saldo<reserva,neg=minS.saldo<0;return `<div class="pj-veredito ${neg?'ruim':fura?'atencao':'bom'}"><b>${neg?'Não cabe: o caixa fica negativo':fura?'Cabe, mas fura a reserva':'Cabe com folga'}</b><span>Pior mês: ${esc(mesLabelLong(minS.k))}, com ${fmt(minS.saldo)} em conta${fura&&!neg?` (${fmt(reserva-minS.saldo)} abaixo da reserva)`:''}.</span><button class="btn btn-ghost btn-sm" onclick="pjLimparSim()">Limpar simulação</button></div>`})()
+        :`<div class="pj-nota">Exemplo: contratar alguém por R$ 3.000/mês a partir de novembro. O efeito aparece na agenda e no mês a mês.</div>`}</div>
+    <div class="cen-sec"><h4>Premissas</h4>
+      <div class="frow"><div class="fld"><label>Reserva mínima (R$)</label><input id="pjReserva" type="text" inputmode="decimal" value="${cfg.reserva!=null&&cfg.reserva!==''?+cfg.reserva:''}" placeholder="${pjReservaPadrao(base)}"></div><div class="fld"><label>Horizonte</label><select id="pjMeses">${[6,12,18,24].map(n=>`<option value="${n}" ${n===(cfg.meses||12)?'selected':''}>${n} meses</option>`).join('')}</select></div></div>
+      <div class="frow"><div class="fld"><label>Meta Ads por dia (R$)</label><input id="pjMeta" type="text" inputmode="decimal" value="${cfg.metaDia!=null&&cfg.metaDia!==''?+cfg.metaDia:''}" placeholder="${meta?Math.round(meta.valor/30):0}"></div><div class="fld"><label>Kiwify/mês (R$)</label><input id="pjKiwify" type="text" inputmode="decimal" value="${+cfg.kiwify||''}" placeholder="0"></div></div>
+      <div class="frow"><div class="fld"><label>Vendas/mês</label><input id="pjVendas" type="number" inputmode="numeric" min="0" value="${+cfg.vendasMes||''}" placeholder="0"></div><div class="fld"><label>Parcela (R$)</label><input id="pjVParc" type="text" inputmode="decimal" value="${+cfg.vendaParc||''}" placeholder="${pjParcelaTipica()}"></div><div class="fld" style="max-width:96px"><label>Parcelas</label><input id="pjVN" type="number" inputmode="numeric" min="1" max="24" value="${+cfg.vendaN||12}"></div></div>
+      <label class="pj-chk"><input type="checkbox" id="pjAtras" ${cfg.atrasados?'checked':''}> Contar também os atrasados há mais de 15 dias${base.atrasNaoContado?` (${fmt(base.atrasNaoContado)})`:''}</label>
+      <div class="pj-nota">${meta?`Meta: ${cfg.metaDia!=null&&cfg.metaDia!==''?'usando R$ '+(+cfg.metaDia).toLocaleString('pt-BR')+'/dia':'usando a fixa "'+esc(meta.desc)+'" de '+fmt(meta.valor)+'/mês'}${ritmo?` · ritmo real dos últimos 7 dias: R$ ${Math.round(ritmo).toLocaleString('pt-BR')}/dia`:''}.`:''} Reserva vazia = 1 mês de despesas fixas. Vendas novas e Kiwify ficam em zero por padrão: a projeção mostra só o que já está contratado.</div></div>`;
+  const bind=(id,campo,num)=>{const i=$('#'+id);if(i)i.onchange=()=>{const v=i.value;cfg[campo]=num?(v===''?(campo==='reserva'||campo==='metaDia'?null:0):parseValor(v)):v;save();renderProj();fxCenario(true)}};
+  bind('pjUnico','unico',1);bind('pjUnicoMes','unicoMes');bind('pjMensal','mensal',1);bind('pjMensalDe','mensalDe');bind('pjMensalN','mensalN',1);
+  bind('pjVendas','vendasMes',1);bind('pjVParc','vendaParc',1);bind('pjVN','vendaN',1);
+  bind('pjReserva','reserva',1);bind('pjMeta','metaDia',1);bind('pjKiwify','kiwify',1);
+  const sm=$('#pjMeses');if(sm)sm.onchange=()=>{cfg.meses=+sm.value;save();renderProj();fxCenario(true)};
+  const ca=$('#pjAtras');if(ca)ca.onchange=()=>{cfg.atrasados=ca.checked;save();renderProj();fxCenario(true)};
+  if(soAtualiza!==true)abrir('ovCenario');
+};
 function pjGrupoFixa(f){
   const d=norm(f.desc), cat=norm((S.categorias.find(c=>c.id===f.catId)||{}).nome||'');
   if(/retirada|pro-labore|pro labore/.test(d+' '+cat))return 'Retiradas dos sócios';
@@ -3582,7 +3986,7 @@ function pjGrupoFixa(f){
   if(/das|simples|imposto|contador|contab/.test(d+' '+cat))return 'Impostos e contador';
   return 'Outros';
 }
-function pjCustosHtml(total){
+function pjCustosHtml(){
   const cfg=pjCfg(), meta=pjMetaFixa(), g={};
   (S.fixas||[]).filter(f=>f.ativa).forEach(f=>{
     const v=meta&&f.id===meta.id&&cfg.metaDia!=null&&cfg.metaDia!==''?(+cfg.metaDia)*30:f.valor;
@@ -3596,7 +4000,7 @@ function pjCustosHtml(total){
     <div class="pj-cu-s">${(x.v/tot*100).toFixed(0)}% · ${esc(x.itens.slice(0,4).join(', '))}${x.itens.length>4?'…':''}</div></div>`).join('')}</div>`;
 }
 function pjMktHtml(mk){
-  if(!mk)return `<div class="empty" style="padding:28px 10px">Os números do Meta e da Kiwify chegam junto com a sincronização do Asaas.</div>`;
+  if(!mk)return `<div class="empty" style="padding:22px 10px">Os números do Meta e da Kiwify chegam junto com a sincronização do Asaas.</div>`;
   const meses=[...new Set((mk.meta||[]).flatMap(c=>Object.keys(c.meses||{})).concat(Object.keys((mk.kiwify&&mk.kiwify.meses)||{})))].sort().slice(-4);
   const kw=mk.kiwify||{}, liq=kw.liq||{};
   const kwLiq=k=>{const x=(kw.meses||{})[k];return x?(x.marmita||0)*(liq.marmita||0)+(x.segredos||0)*(liq.segredos||0):null};
@@ -3615,7 +4019,7 @@ function pjMktHtml(mk){
 function pjChart(base,sim,reserva,temSim){
   const el=$('#pjChart');if(!el)return;
   const rows=sim.rows, n=rows.length;
-  const W=Math.max(300,el.clientWidth||600), H=230, padL=6, padR=6, padT=16, padB=28;
+  const W=Math.max(300,el.clientWidth||600), H=ehMobile()?190:230, padL=6, padR=6, padT=16, padB=28;
   const vals=rows.flatMap(r=>[r.ent,r.sai+r.invest,r.saldo]).concat(base.rows.map(r=>r.saldo),[reserva,0]);
   const max=Math.max(...vals), min=Math.min(0,...vals), range=(max-min)||1;
   const py=v=>padT+(max-v)/range*(H-padT-padB);
@@ -3626,16 +4030,54 @@ function pjChart(base,sim,reserva,temSim){
   svg+=`<line x1="${padL}" y1="${py(reserva)}" x2="${W-padR}" y2="${py(reserva)}" stroke="var(--gold)" stroke-dasharray="5 5" stroke-width="1.5"><title>Reserva ${fmt(reserva)}</title></line>`;
   rows.forEach((r,i)=>{
     const x=cx(i);
-    svg+=`<rect x="${x-bw-1}" y="${py(r.ent)}" width="${bw}" height="${Math.max(1.5,py(0)-py(r.ent))}" rx="3" fill="var(--green)" opacity=".85"><title>${mesLabel(r.k)} · entradas ${fmt(r.ent)}</title></rect>`;
+    svg+=`<rect x="${x-bw-1}" y="${py(r.ent)}" width="${bw}" height="${Math.max(1.5,py(0)-py(r.ent))}" rx="3" fill="var(--green)" opacity=".85"><title>${pjMes(r.k)} · entradas ${fmt(r.ent)}</title></rect>`;
     const s=r.sai+r.invest;
-    svg+=`<rect x="${x+1}" y="${py(s)}" width="${bw}" height="${Math.max(1.5,py(0)-py(s))}" rx="3" fill="var(--red)" opacity=".8"><title>${mesLabel(r.k)} · saídas ${fmt(s)}</title></rect>`;
-    if(n<=12||i%2===0)svg+=`<text x="${x}" y="${H-8}" text-anchor="middle" font-size="9.5" fill="var(--soft)" font-family="Montserrat">${mesLabel(r.k)}</text>`;
+    svg+=`<rect x="${x+1}" y="${py(s)}" width="${bw}" height="${Math.max(1.5,py(0)-py(s))}" rx="3" fill="var(--red)" opacity=".8"><title>${pjMes(r.k)} · saídas ${fmt(s)}</title></rect>`;
+    if(n<=12||i%2===0)svg+=`<text x="${x}" y="${H-8}" text-anchor="middle" font-size="9.5" fill="var(--soft)" font-family="Montserrat">${pjMes(r.k)}</text>`;
   });
   if(temSim)svg+=`<path d="${linha(base.rows)}" fill="none" stroke="var(--soft)" stroke-width="1.8" stroke-dasharray="4 4"/>`;
   svg+=`<path d="${linha(rows)}" fill="none" stroke="var(--navy)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>`;
-  rows.forEach((r,i)=>{svg+=`<circle cx="${cx(i)}" cy="${py(r.saldo)}" r="3.6" fill="var(--card)" stroke="${r.saldo<0?'var(--red)':r.saldo<reserva?'var(--amber)':'var(--navy)'}" stroke-width="2.2"><title>${mesLabel(r.k)} · saldo ${fmt(r.saldo)}</title></circle>`});
+  rows.forEach((r,i)=>{svg+=`<circle cx="${cx(i)}" cy="${py(r.saldo)}" r="3.6" fill="var(--card)" stroke="${r.saldo<0?'var(--red)':r.saldo<reserva?'var(--amber)':'var(--navy)'}" stroke-width="2.2"><title>${pjMes(r.k)} · saldo ${fmt(r.saldo)}</title></circle>`});
   el.innerHTML=`<svg width="100%" height="${H}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="overflow:visible">${svg}</svg>`;
 }
+
+/* ═══════════════ FOLHA DE AÇÕES (toque no lançamento) ═══════════════ */
+function acoesSheet(o){
+  let ov=$('#ovAcoes');
+  if(!ov){ov=document.createElement('div');ov.className='overlay';ov.id='ovAcoes';document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov)fechar('ovAcoes')})}
+  ov.innerHTML=`<div class="modal modal-acoes"><div class="sheet-handle"></div>
+    <div class="ac-head"><div class="ac-txt"><div class="ac-t">${esc(o.titulo||'')}</div>${o.sub?`<div class="ac-s">${esc(o.sub)}</div>`:''}</div><button class="icon-btn" onclick="fechar('ovAcoes')" aria-label="Fechar">✕</button></div>
+    <div class="ac-list">${o.itens.map((it,i)=>`<button class="ac-it ${it.danger?'danger':''} ${it.primary?'primary':''}" data-i="${i}">${it.ico||''}<span>${esc(it.t)}</span>${it.sub?`<small>${esc(it.sub)}</small>`:''}</button>`).join('')}</div></div>`;
+  ov.querySelectorAll('.ac-it').forEach(b=>b.onclick=()=>{fechar('ovAcoes');const it=o.itens[+b.dataset.i];it&&it.fn&&it.fn()});
+  abrir('ovAcoes');
+}
+const icoCheck='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+const icoUndo='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14l-4-4 4-4"/><path d="M5 10h9a5 5 0 0 1 0 10h-3"/></svg>';
+const icoWa='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>';
+const icoEye='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+window.lancAcoes=function(id){
+  const l=S.lancs.find(x=>x.id===id);if(!l)return;
+  const cfg=pjCfg(), cli={};((S.asaasCache&&S.asaasCache.cobrancas)||[]).forEach(c=>cli[c.id]=c.clienteId);
+  const chave=l.tipo==='R'?pjChaveLanc(l,cli):null, fora=chave&&(cfg.fora||[]).includes(chave);
+  const itens=[];
+  if(l.status==='P')itens.push({t:l.tipo==='R'?'Confirmar recebimento':'Confirmar pagamento',sub:'marca como realizado hoje',ico:icoCheck,primary:true,fn:()=>toggleStatus(id)});
+  else itens.push({t:'Voltar para previsto',sub:'desfaz a confirmação',ico:icoUndo,fn:()=>toggleStatus(id)});
+  itens.push({t:'Editar',ico:icoEdit,fn:()=>abrirLanc(id)});
+  if(l.tipo==='R'&&l.origemAsaas&&cli[l.asaasId])itens.push({t:'Cobrar pelo WhatsApp',sub:'abre o cliente na Cobrança',ico:icoWa,fn:()=>{cb.filtro='todos';cb.aberto=cli[l.asaasId];goView('cobranca')}});
+  if(chave&&l.status==='P')itens.push({t:fora?'Voltar a contar na projeção':'Não contar na projeção',sub:fora?'este cliente volta ao fluxo':'tira este cliente do fluxo de caixa',ico:icoEye,fn:()=>pjToggleCliente(chave)});
+  itens.push({t:'Excluir',ico:icoTrash,danger:true,fn:()=>delLanc(id)});
+  acoesSheet({titulo:l.desc,sub:`${l.tipo==='R'?'+':'−'} ${fmt(l.valor)} · ${l.status==='R'?'realizado':'vence'} ${fmtData(l.status==='R'?(l.dataReal||l.venc):l.venc)}`,itens});
+};
+window.fixaAcoes=function(fixaId,venc){
+  const f=(S.fixas||[]).find(x=>x.id===fixaId);if(!f)return;
+  acoesSheet({titulo:f.desc,sub:`− ${fmt(f.valor)} · previsão de despesa fixa · dia ${f.dia}`,itens:[
+    {t:'Confirmar como paga',sub:'vira lançamento realizado hoje',ico:icoCheck,primary:true,fn:()=>confirmarVirtual(fixaId,venc)},
+    {t:'Editar despesas fixas',ico:icoRepeat,fn:()=>goView('fixas')}]});
+};
+window.lancRowTap=function(ev,id,fixaId,venc){
+  if(!ehMobile()||ev.target.closest('button,a,input,select'))return;
+  if(fixaId)fixaAcoes(fixaId,venc);else lancAcoes(id);
+};
 
 /* ═══════════════ RENDER GERAL ═══════════════ */
 function render(){
