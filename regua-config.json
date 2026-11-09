@@ -1,6 +1,16 @@
 {
   "_leia": "Clientes do Asaas (id cus_...) que NÃO recebem a régua automática. Sem nomes aqui: o repositório é público.",
   "excecoes": [
-    { "id": "cus_000204041486", "motivo": "programou todos os boletos com o financeiro", "desde": "2026-10-02" }
+    {
+      "id": "cus_000204041486",
+      "motivo": "programou todos os boletos com o financeiro",
+      "desde": "2026-10-02"
+    },
+    {
+      "id": "cus_000204423697",
+      "motivo": "combinou pagar as parcelas em aberto no dia 11/11",
+      "desde": "2026-11-09",
+      "ate": "2026-11-11"
+    }
   ]
 }

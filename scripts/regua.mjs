@@ -32,9 +32,9 @@ const [pend, venc, clientes] = await Promise.all([todos('/payments?status=PENDIN
 const CLI = {}; clientes.forEach(c => CLI[c.id] = c);
 // exceções: clientes que combinaram o pagamento direto e não recebem a régua
 let EXC = [];
-try { EXC = (JSON.parse(readFileSync('regua-config.json', 'utf8')).excecoes || []).filter(e => e && e.id); } catch {}
+try { EXC = (JSON.parse(readFileSync('regua-config.json', 'utf8')).excecoes || []).filter(e => e && e.id && (!e.ate || HOJE <= e.ate)); } catch {}   // 'ate' = exceção temporária (inclusive)
 const EXC_IDS = new Set(EXC.map(e => e.id));
-estado.excecoes = EXC.map(e => ({ id: e.id, nome: (CLI[e.id] || {}).name || e.id, motivo: e.motivo || '', desde: e.desde || '' }));
+estado.excecoes = EXC.map(e => ({ id: e.id, nome: (CLI[e.id] || {}).name || e.id, motivo: e.motivo || '', desde: e.desde || '', ate: e.ate || '' }));
 const abertos = pend.concat(venc).filter(p => Number(p.value) > 0);
 
 // ── regras
