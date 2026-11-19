@@ -3583,12 +3583,13 @@ $('#escUma').onclick=()=>{fechar('ovEscopo');escUmaCb&&escUmaCb();escUmaCb=escTo
 $('#escTodas').onclick=()=>{fechar('ovEscopo');escTodasCb&&escTodasCb();escUmaCb=escTodasCb=null};
 
 /* ═══════════════ FLUXO DE CAIXA · agenda + projeção ═══════════════ */
-const PJ_FORA_PADRAO=['cus_000194702314','cus_000176597756'];  /* Santa Rita e Conveniência Vitória: não contar */
+const PJ_FORA_PADRAO=['cus_000194702314'];  /* Santa Rita: não contar (Vitória voltou à projeção em 19/11) */
 function pjCfg(){
   if(!S.cfg.proj)S.cfg.proj={fora:PJ_FORA_PADRAO.slice(),meses:12,reserva:null,metaDia:null,kiwify:0,atrasados:false,
     unico:0,unicoMes:'',mensal:0,mensalDe:'',mensalN:6};
   const c=S.cfg.proj;
   if(!c.foraV2){c.fora=(c.fora||[]).concat(['l:mpi informatica']);c.foraV2=true}  /* MPI fora da projeção (pedido 12/10) */
+  if(!c.foraV3){c.fora=(c.fora||[]).filter(k=>k!=='cus_000176597756');c.foraV3=true}  /* Vitória volta à projeção (pedido 19/11: 2 boletos novos) */
   if(!c.per)c.per='30';if(!c.aba)c.aba='agenda';if(!c.filtro)c.filtro='tudo';
   return c;
 }
